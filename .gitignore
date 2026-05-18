@@ -1,0 +1,6 @@
+.idea/
+.vscode/
+node_modules/
+.env
+moodledata/
+__pycache__/

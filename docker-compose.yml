@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: moodle-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: moodle
+      POSTGRES_USER: moodle
+      POSTGRES_PASSWORD: moodlepass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  moodle:
+    image: moodlehq/moodle-php-apache:8.1
+    container_name: moodle-app
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    volumes:
+      - ./moodle:/var/www/html
+      - ./moodledata:/moodledata
+
+volumes:
+  postgres_data:
+  moodledata_data:

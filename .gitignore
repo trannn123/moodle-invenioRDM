@@ -4,3 +4,5 @@ node_modules/
 .env
 moodledata/
 __pycache__/
+db/
+postgres_data/

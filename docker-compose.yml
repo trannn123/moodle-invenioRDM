@@ -20,10 +20,16 @@ services:
       - postgres
     ports:
       - "8080:80"
+    environment:
+      MOODLE_DATABASE_TYPE: pgsql
+      MOODLE_DATABASE_HOST: postgres
+      MOODLE_DATABASE_PORT_NUMBER: 5432
+      MOODLE_DATABASE_NAME: moodle
+      MOODLE_DATABASE_USER: moodle
+      MOODLE_DATABASE_PASSWORD: moodlepass
     volumes:
       - ./moodle:/var/www/html
       - ./moodledata:/moodledata
-
 volumes:
   postgres_data:
   moodledata_data:

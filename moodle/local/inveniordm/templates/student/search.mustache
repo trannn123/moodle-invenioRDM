@@ -1,0 +1,51 @@
+<h2>Search Results</h2>
+
+<form method="get">
+
+    <input
+        type="text"
+        name="q"
+        value="{{query}}"
+        placeholder="Search records"
+    >
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<br>
+
+{{#records}}
+
+<div style="
+border:1px solid #ccc;
+padding:15px;
+margin-bottom:15px;
+border-radius:8px;
+">
+
+    <h3>{{title}}</h3>
+
+    <p>
+        <strong>Author:</strong>
+        {{author}}
+    </p>
+
+    <p>
+        <strong>ID:</strong>
+        {{id}}
+    </p>
+
+    <a href="view.php?id={{id}}">
+        View Detail
+    </a>
+
+</div>
+
+{{/records}}
+
+{{^records}}
+<p>No records found.</p>
+{{/records}}

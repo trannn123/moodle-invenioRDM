@@ -1,0 +1,40 @@
+<h2>InvenioRDM Dashboard</h2>
+
+<p><strong>Role:</strong> {{role}}</p>
+
+<div class="dashboard-box">
+
+    {{#is_student}}
+    <div class="card">
+        <h3>Student Area</h3>
+        <a href="{{wwwroot}}/local/inveniordm/student/search.php">
+            Search Resources
+        </a>
+    </div>
+    {{/is_student}}
+
+    {{#is_lecturer}}
+    <div class="card">
+        <h3>Lecturer Area</h3>
+        <a href="{{wwwroot}}/local/inveniordm/lecturer/upload.php">
+            Upload Resources
+        </a>
+    </div>
+    {{/is_lecturer}}
+
+    {{#is_admin}}
+    <div class="card">
+        <h3>Admin Area</h3>
+        <a href="{{wwwroot}}/local/inveniordm/admin/dashboard.php">
+            System Management
+        </a>
+        <hr>
+
+        <a href="{{wwwroot}}/local/inveniordm/student/search.php">
+            Open Student Search
+        </a>
+    </div>
+
+    {{/is_admin}}
+
+</div>

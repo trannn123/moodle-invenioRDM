@@ -1,23 +1,43 @@
 <?php
 
+namespace local_inveniordm\form;
+
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/formslib.php');
+require_once(
+    $GLOBALS['CFG']->libdir . '/formslib.php'
+);
 
-class upload_form extends moodleform {
+class upload_form extends \moodleform {
 
     public function definition() {
 
         $mform = $this->_form;
 
-        // title
+        /*
+         * Basic Information
+         */
+
+        $mform->addElement(
+            'header',
+            'basicinfo',
+            'Basic Information'
+        );
+
+        /*
+         * Title
+         */
+
         $mform->addElement(
             'text',
             'title',
             'Resource Title'
         );
 
-        $mform->setType('title', PARAM_TEXT);
+        $mform->setType(
+            'title',
+            PARAM_TEXT
+        );
 
         $mform->addRule(
             'title',
@@ -27,18 +47,42 @@ class upload_form extends moodleform {
             'client'
         );
 
-        // file upload
+        /*
+         * Description
+         */
+
+        $mform->addElement(
+            'textarea',
+            'description',
+            'Description',
+            [
+                'rows' => 6,
+                'cols' => 60
+            ]
+        );
+
+        $mform->setType(
+            'description',
+            PARAM_TEXT
+        );
+
+        /*
+         * File Upload
+         */
+
         $mform->addElement(
             'filepicker',
             'resourcefile',
-            'Upload PDF'
+            'Upload File'
         );
 
-        // submit
-        $mform->addElement(
-            'submit',
-            'submitbutton',
-            'Upload'
+        /*
+         * Submit Button
+         */
+
+        $this->add_action_buttons(
+            true,
+            'Upload Resource'
         );
     }
 }

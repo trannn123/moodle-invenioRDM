@@ -1,0 +1,20 @@
+.invenio-upload-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.invenio-upload-title {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.invenio-form-section {
+    margin-bottom: 24px;
+}
+
+.invenio-section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}

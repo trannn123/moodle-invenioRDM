@@ -1,0 +1,43 @@
+.invenio-search-section {
+    max-width: 900px;
+    margin: auto;
+}
+
+.invenio-search-box {
+    display: flex;
+    gap: 12px;
+}
+
+.invenio-search-box input {
+    border-radius: 12px !important;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.invenio-search-box button {
+    border-radius: 12px !important;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.invenio-card {
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transition: 0.2s;
+}
+
+.invenio-card:hover {
+    transform: translateY(-2px);
+}
+
+.invenio-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.invenio-meta {
+    color: #6c757d;
+    font-size: 15px;
+}

@@ -68,13 +68,21 @@ class student_controller {
         }
 
         $metadata = $record['metadata'] ?? [];
-
-        $title = $metadata['title'] ?? 'No title';
+        $title =
+            $metadata['title']
+            ?? 'No title';
 
         $author = 'Unknown';
 
-        if (isset($metadata['creators'][0]['person_or_org']['name'])) {
-            $author = $metadata['creators'][0]['person_or_org']['name'];
+        if (
+            !empty($metadata['creators']) &&
+            isset(
+                $metadata['creators'][0]['person_or_org']['name']
+            )
+        ) {
+
+            $author =
+                $metadata['creators'][0]['person_or_org']['name'];
         }
 
         $publicationdate =
@@ -98,67 +106,51 @@ class student_controller {
             $metadata['publisher']
             ?? 'Not specified';
 
-        $html = '';
+        $description =
+            $metadata['description']
+            ?? 'No description';
 
-        $html .= $OUTPUT->heading($title, 2);
+        $keywords = [];
 
-        $html .= \html_writer::start_div(
-            'card',
-            ['style' => 'margin-bottom:20px;']
-        );
+        if (!empty($metadata['subjects'])) {
 
-        $html .= \html_writer::start_div('card-body');
+            foreach ($metadata['subjects'] as $subject) {
 
-        $html .= \html_writer::tag(
-            'h5',
-            'Details',
-            ['class' => 'card-title']
-        );
+                if (isset($subject['subject'])) {
 
-        $details = [
-            'Author' => $author,
-            'Publication Date' => $publicationdate,
-            'Resource Type' => $resourcetype,
-            'Publisher' => $publisher,
-            'ID' => $id
-        ];
-
-        $html .= \html_writer::start_tag(
-            'dl',
-            ['class' => 'row']
-        );
-
-        foreach ($details as $label => $value) {
-
-            $html .= \html_writer::tag(
-                'dt',
-                s($label),
-                ['class' => 'col-sm-3']
-            );
-
-            $html .= \html_writer::tag(
-                'dd',
-                \html_writer::tag('strong', s($value)),
-                ['class' => 'col-sm-9']
-            );
+                    $keywords[] = [
+                        'name' => $subject['subject']
+                    ];
+                }
+            }
         }
 
-        $html .= \html_writer::end_tag('dl');
+        $context = [
 
-        $html .= \html_writer::end_div();
+            'title' => $title,
 
-        $html .= \html_writer::end_div();
+            'author' => $author,
 
-        $backurl = new \moodle_url(
-            '/local/inveniordm/student/search.php'
+            'publicationdate' => $publicationdate,
+
+            'resourcetype' => $resourcetype,
+
+            'publisher' => $publisher,
+
+            'description' => strip_tags($description),
+
+            'keywords' => $keywords,
+
+            'backurl' => (
+            new \moodle_url(
+                '/local/inveniordm/student/search.php'
+            )
+            )->out()
+        ];
+
+        return $OUTPUT->render_from_template(
+            'local_inveniordm/student/view',
+            $context
         );
-
-        $html .= \html_writer::link(
-            $backurl,
-            '← Back to Search',
-            ['class' => 'btn btn-primary']
-        );
-
-        return $html;
     }
 }

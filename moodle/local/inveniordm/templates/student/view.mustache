@@ -1,0 +1,108 @@
+<div class="container mt-4">
+
+    <div class="card invenio-detail-card">
+
+        <div class="card-body p-4">
+
+            <h1 class="invenio-detail-title">
+                {{title}}
+            </h1>
+
+            <div class="row mb-3">
+
+                <div class="col-md-3 invenio-detail-label">
+                    Author
+                </div>
+
+                <div class="col-md-9 invenio-detail-value">
+                    {{author}}
+                </div>
+
+            </div>
+
+            <div class="row mb-3">
+
+                <div class="col-md-3 invenio-detail-label">
+                    Publication Date
+                </div>
+
+                <div class="col-md-9 invenio-detail-value">
+                    {{publicationdate}}
+                </div>
+
+            </div>
+
+            <div class="row mb-3">
+
+                <div class="col-md-3 invenio-detail-label">
+                    Resource Type
+                </div>
+
+                <div class="col-md-9 invenio-detail-value">
+                    {{resourcetype}}
+                </div>
+
+            </div>
+
+            <div class="row mb-4">
+
+                <div class="col-md-3 invenio-detail-label">
+                    Publisher
+                </div>
+
+                <div class="col-md-9 invenio-detail-value">
+                    {{publisher}}
+                </div>
+
+            </div>
+
+            <div class="mb-4">
+
+                <div class="invenio-detail-label mb-2">
+                    Keywords
+                </div>
+
+                {{#keywords}}
+
+                <span class="badge bg-primary invenio-keyword me-2 mb-2">
+                    {{name}}
+                </span>
+
+                {{/keywords}}
+
+                {{^keywords}}
+
+                <span class="text-muted">
+                    No keywords
+                </span>
+
+                {{/keywords}}
+
+            </div>
+
+            <div class="mb-4">
+
+                <div class="invenio-detail-label mb-2">
+                    Description
+                </div>
+
+                <div class="invenio-detail-value">
+
+                    {{description}}
+
+                </div>
+
+            </div>
+
+            <a
+                href="{{backurl}}"
+                class="btn btn-outline-secondary"
+            >
+                Back
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

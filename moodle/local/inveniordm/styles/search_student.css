@@ -41,3 +41,72 @@
     color: #6c757d;
     font-size: 15px;
 }
+
+/* FILTER SECTION */
+
+.invenio-filter-section {
+
+    margin-top: 18px;
+}
+
+.invenio-filter-section .form-select {
+
+    height: 56px !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    background-color: #ffffff !important;
+
+    box-shadow:
+            0 2px 10px rgba(0,0,0,0.08) !important;
+
+    padding-left: 16px !important;
+
+    padding-right: 42px !important;
+
+    font-size: 15px !important;
+
+    color: #212529 !important;
+
+    transition: all 0.2s ease !important;
+
+    appearance: none;
+
+    -webkit-appearance: none;
+
+    -moz-appearance: none;
+
+    background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%236c757d' viewBox='0 0 16 16'%3E%3Cpath d='M1.5 5.5l6 6 6-6'/%3E%3C/svg%3E");
+
+    background-repeat: no-repeat;
+
+    background-position:
+            right 16px center;
+
+    background-size: 14px;
+}
+
+.invenio-filter-section .form-select:hover {
+
+    box-shadow:
+            0 4px 14px rgba(0,0,0,0.12) !important;
+}
+
+.invenio-filter-section .form-select:focus {
+
+    outline: none !important;
+
+    border: none !important;
+
+    box-shadow:
+            0 0 0 0.2rem rgba(13,110,253,0.18) !important;
+}
+/* FILTER LABEL STYLE */
+
+.form-select option {
+
+    padding: 10px;
+}

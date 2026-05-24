@@ -35,6 +35,104 @@
 
             </div>
 
+            <div class="row mt-3 invenio-filter-section">
+
+                <div class="col-md-4">
+
+                    <select
+                        name="format"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            All Formats
+                        </option>
+
+                        <option
+                            value="pdf"
+                            {{#selected_pdf}}selected{{/selected_pdf}}
+                        >
+                            PDF
+                        </option>
+
+                        <option
+                            value="video"
+                            {{#selected_video}}selected{{/selected_video}}
+                        >
+                            Video
+                        </option>
+
+                        <option
+                            value="doc"
+                            {{#selected_doc}}selected{{/selected_doc}}
+                        >
+                            DOC
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <select
+                        name="discipline"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            All Disciplines
+                        </option>
+
+                        <option
+                            value="Artificial Intelligence"
+                            {{#selected_ai}}selected{{/selected_ai}}
+                        >
+                            Artificial Intelligence
+                        </option>
+
+                        <option
+                            value="Computer Networking"
+                            {{#selected_networking}}selected{{/selected_networking}}
+                        >
+                            Networking
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <select
+                        name="level"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            All Levels
+                        </option>
+
+                        <option
+                            value="bachelor"
+                            {{#selected_bachelor}}selected{{/selected_bachelor}}
+                        >
+                            Bachelor
+                        </option>
+
+                        <option
+                            value="master"
+                            {{#selected_master}}selected{{/selected_master}}
+                        >
+                            Master
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
         </form>
 
     </div>
@@ -146,6 +244,34 @@
 
                 <strong>Record ID:</strong>
                 {{id}}
+
+            </div>
+
+            <div class="invenio-meta mb-2">
+
+                <strong>Format:</strong>
+                {{format}}
+
+            </div>
+
+            <div class="invenio-meta mb-2">
+
+                <strong>Discipline:</strong>
+                {{discipline}}
+
+            </div>
+
+            <div class="invenio-meta mb-2">
+
+                <strong>Educational Level:</strong>
+                {{educationallevel}}
+
+            </div>
+
+            <div class="invenio-meta mb-3">
+
+                <strong>Learning Resource Type:</strong>
+                {{learningresourcetype}}
 
             </div>
 

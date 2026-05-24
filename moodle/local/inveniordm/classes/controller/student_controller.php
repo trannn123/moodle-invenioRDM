@@ -18,31 +18,134 @@ class student_controller {
 
         $query = optional_param('q', '', PARAM_TEXT);
 
-        if (trim($query) === '') {
+        $format =
+            optional_param(
+                'format',
+                '',
+                PARAM_TEXT
+            );
 
-            $records = [];
+        $discipline =
+            optional_param(
+                'discipline',
+                '',
+                PARAM_TEXT
+            );
 
-        } else {
+        $level =
+            optional_param(
+                'level',
+                '',
+                PARAM_TEXT
+            );
 
-            $response = $client->get_records($query);
+        $response = $client->get_records($query);
 
-            $records = [];
+        $records = [];
 
-            $hits = $response['hits']['hits'] ?? [];
+        $hits = $response['hits']['hits'] ?? [];
 
-            foreach ($hits as $record) {
+        foreach ($hits as $record) {
+
+            $title =
+                $record['metadata']['title'] ?? '';
+
+            $description =
+                $record['metadata']['description'] ?? '';
+
+            $subject =
+                $record['metadata']['taxon_entry'] ?? '';
+
+            // FILTER SEARCH
+            $matchquery =
+                $query === '' ||
+                stripos($title, $query) !== false ||
+                stripos($description, $query) !== false ||
+                stripos($subject, $query) !== false;
+
+            $matchformat =
+                $format === '' ||
+                (
+                    ($record['metadata']['format'] ?? '')
+                    === $format
+                );
+
+            $matchdiscipline =
+                $discipline === '' ||
+                (
+                    ($record['metadata']['taxon_entry'] ?? '')
+                    === $discipline
+                );
+
+            $matchlevel =
+                $level === '' ||
+                (
+                    ($record['metadata']['educational_level'] ?? '')
+                    === $level
+                );
+
+            if (
+                $matchquery &&
+                $matchformat &&
+                $matchdiscipline &&
+                $matchlevel
+            ){
 
                 $records[] = [
+
                     'id' => $record['id'] ?? '',
-                    'title' => $record['metadata']['title'] ?? 'No title',
-                    'author' => $record['metadata']['creators'][0]['person_or_org']['name'] ?? 'Unknown'
+
+                    'title' => $title,
+
+                    'author' =>
+                        $record['metadata']['creators'][0]['person_or_org']['name']
+                        ?? 'Unknown',
+
+                    'format' =>
+                        $record['metadata']['format']
+                        ?? 'Unknown',
+
+                    'discipline' =>
+                        $record['metadata']['taxon_entry']
+                        ?? 'Unknown',
+
+                    'educationallevel' =>
+                        $record['metadata']['educational_level']
+                        ?? 'Unknown',
+
+                    'learningresourcetype' =>
+                        $record['metadata']['learning_resource_type']
+                        ?? 'Unknown'
                 ];
             }
         }
 
         $context = [
+
             'query' => $query,
-            'records' => $records
+
+            'records' => $records,
+
+            'selected_pdf' =>
+                $format === 'pdf',
+
+            'selected_video' =>
+                $format === 'video',
+
+            'selected_doc' =>
+                $format === 'doc',
+
+            'selected_ai' =>
+                $discipline === 'Artificial Intelligence',
+
+            'selected_networking' =>
+                $discipline === 'Computer Networking',
+
+            'selected_bachelor' =>
+                $level === 'bachelor',
+
+            'selected_master' =>
+                $level === 'master'
         ];
 
         return $OUTPUT->render_from_template(
@@ -110,6 +213,42 @@ class student_controller {
             $metadata['description']
             ?? 'No description';
 
+        $format =
+            $metadata['format']
+            ?? 'Unknown';
+
+        $documenttype =
+            $metadata['documentary_type']
+            ?? 'Unknown';
+
+        $educationallevel =
+            $metadata['educational_level']
+            ?? 'Unknown';
+
+        $targetaudience =
+            $metadata['target_audience']
+            ?? 'Unknown';
+
+        $discipline =
+            $metadata['taxon_entry']
+            ?? 'Unknown';
+
+        $location =
+            $metadata['location']
+            ?? '#';
+
+        $copyright =
+            $metadata['copyright']
+            ?? 'Unknown';
+
+        $learningresourcetype =
+            $metadata['learning_resource_type']
+            ?? 'Unknown';
+
+        $language =
+            $metadata['language']
+            ?? 'Unknown';
+
         $keywords = [];
 
         if (!empty($metadata['subjects'])) {
@@ -136,6 +275,24 @@ class student_controller {
             'resourcetype' => $resourcetype,
 
             'publisher' => $publisher,
+
+            'format' => $format,
+
+            'documenttype' => $documenttype,
+
+            'educationallevel' => $educationallevel,
+
+            'targetaudience' => $targetaudience,
+
+            'discipline' => $discipline,
+
+            'location' => $location,
+
+            'copyright' => $copyright,
+
+            'learningresourcetype' => $learningresourcetype,
+
+            'language' => $language,
 
             'description' => strip_tags($description),
 

@@ -67,6 +67,144 @@ class upload_form extends \moodleform {
         );
 
         /*
+         * Language
+         */
+
+        $mform->addElement(
+            'select',
+            'language',
+            'Language',
+            [
+                'en' => 'English',
+                'vi' => 'Vietnamese'
+            ]
+        );
+
+        /*
+         * Format
+         */
+
+        $mform->addElement(
+            'select',
+            'format',
+            'Format',
+            [
+                'pdf' => 'PDF',
+                'video' => 'Video',
+                'doc' => 'DOC'
+            ]
+        );
+
+        /*
+         * Document Type
+         */
+
+        $mform->addElement(
+            'select',
+            'documenttype',
+            'Document Type',
+            [
+                'text' => 'Text',
+                'dataset' => 'Dataset',
+                'image' => 'Image',
+                'video' => 'Video'
+            ]
+        );
+
+        /*
+         * Discipline
+         */
+
+        $mform->addElement(
+            'select',
+            'discipline',
+            'Discipline',
+            [
+                'Artificial Intelligence' =>
+                    'Artificial Intelligence',
+
+                'Computer Networking' =>
+                    'Computer Networking',
+
+                'Cyber Security' =>
+                    'Cyber Security'
+            ]
+        );
+
+        /*
+         * Educational Level
+         */
+
+        $mform->addElement(
+            'select',
+            'educationallevel',
+            'Educational Level',
+            [
+                'bachelor' => 'Bachelor',
+                'master' => 'Master'
+            ]
+        );
+
+        /*
+         * Target Audience
+         */
+
+        $mform->addElement(
+            'select',
+            'targetaudience',
+            'Target Audience',
+            [
+                'learner' => 'Learner',
+                'teacher' => 'Teacher'
+            ]
+        );
+
+        /*
+         * Learning Resource Type
+         */
+
+        $mform->addElement(
+            'select',
+            'learningresourcetype',
+            'Learning Resource Type',
+            [
+                'lesson' => 'Lesson',
+                'tutorial' => 'Tutorial',
+                'lab' => 'Lab',
+                'exercise' => 'Exercise'
+            ]
+        );
+
+        /*
+         * Keywords
+         */
+
+        $mform->addElement(
+            'text',
+            'keywords',
+            'Keywords'
+        );
+
+        $mform->setType(
+            'keywords',
+            PARAM_TEXT
+        );
+
+        /*
+         * Copyright
+         */
+
+        $mform->addElement(
+            'select',
+            'copyright',
+            'Copyright',
+            [
+                'yes' => 'Yes',
+                'no' => 'No'
+            ]
+        );
+
+        /*
          * File Upload
          */
 

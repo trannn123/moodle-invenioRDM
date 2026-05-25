@@ -203,6 +203,48 @@ class invenio_client {
 
         return [];
     }
+
+    public function create_mock_record(array $metadata): bool {
+
+        $jsonpath = __DIR__ . '/../../mock_records.json';
+
+        if (!file_exists($jsonpath)) {
+            return false;
+        }
+
+        $json = file_get_contents($jsonpath);
+
+        $decoded = json_decode($json, true);
+
+        if (!is_array($decoded)) {
+            return false;
+        }
+
+        if (!isset($decoded['hits']['hits'])) {
+            $decoded['hits']['hits'] = [];
+        }
+
+        $record = [
+            'id' => $metadata['identifier'],
+            'metadata' => $metadata
+        ];
+
+        $decoded['hits']['hits'][] = $record;
+
+        $jsonEncoded = json_encode(
+            $decoded,
+            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
+        );
+
+        if ($jsonEncoded === false) {
+            return false;
+        }
+
+        $result = file_put_contents($jsonpath, $jsonEncoded);
+
+        return $result !== false;
+    }
+
     public function create_record(array $metadata): array {
 
         $url = $this->apiurl . 'records';

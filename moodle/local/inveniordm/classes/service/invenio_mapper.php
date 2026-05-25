@@ -15,41 +15,60 @@ class invenio_mapper {
         }
 
         return [
-            "metadata" => [
-                "title" => $data->title ?? '',
-                "description" => $data->description ?? '',
-                "language" => $data->language ?? 'en',
 
-                "resource_type" => [
-                    "id" => $data->learningresourcetype ?? 'lesson'
-                ],
+            'identifier' => uniqid('record-'),
 
-                "creators" => [
-                    [
-                        "person_or_org" => [
-                            "type" => "personal",
-                            "name" => $username
-                        ]
-                    ]
-                ],
+            'title' => $data->title ?? '',
 
-                "subjects" => [
-                    [
-                        "subject" => $data->discipline ?? 'General'
-                    ]
-                ],
+            'description' => $data->description ?? '',
 
-                "publication_date" => date('Y-m-d')
-            ],
+            'free_keyword' =>
+                array_map(
+                    'trim',
+                    explode(',', $data->keywords ?? '')
+                ),
 
-            "custom_fields" => [
-                "keywords" => $data->keywords ?? '',
-                "format" => $data->format ?? '',
-                "document_type" => $data->documenttype ?? '',
-                "target_audience" => $data->targetaudience ?? '',
-                "educational_level" => $data->educationallevel ?? '',
-                "copyright" => $data->copyright ?? 'no'
-            ]
+            'language' => $data->language ?? 'en',
+
+            'documentary_type' =>
+                $data->documenttype ?? '',
+
+            'format' =>
+                $data->format ?? '',
+
+            'location' => '#',
+
+            'learning_resource_type' =>
+                $data->learningresourcetype ?? '',
+
+            'target_audience' =>
+                $data->targetaudience ?? '',
+
+            'educational_level' =>
+                $data->educationallevel ?? '',
+
+            'copyright' =>
+                $data->copyright ?? '',
+
+            'objective' => 'discipline',
+
+            'taxon_entry' =>
+                $data->discipline ?? '',
+
+            'role' => 'author',
+
+            'entity' =>
+                trim(
+                    $USER->firstname .
+                    ' ' .
+                    $USER->lastname
+                ),
+
+            'date' =>
+                date('Y-m-d'),
+
+            'relation' =>
+                $data->relation ?? ''
         ];
     }
 }

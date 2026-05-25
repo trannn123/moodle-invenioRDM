@@ -13,10 +13,13 @@ require_once(
 
 require_once(
     $CFG->dirroot .
-    '/local/inveniordm/classes/controller/lecturer_controller.php'
+    '/local/inveniordm/classes/api/invenio_client.php'
 );
 
-require_once($CFG->dirroot . '/local/inveniordm/classes/service/invenio_mapper.php');
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/service/invenio_mapper.php'
+);
 
 $context = context_system::instance();
 
@@ -51,53 +54,24 @@ $form = new \local_inveniordm\form\upload_form();
 echo $OUTPUT->header();
 
 if ($form->is_cancelled()) {
+
     redirect(new moodle_url('/'));
-}
-else if ($data = $form->get_data()) {
 
-    echo '<pre>';
-    echo "FORM DATA\n";
-    print_r($data);
-    echo '</pre>';
+} else if ($data = $form->get_data()) {
 
-    $payload = \local_inveniordm\service\invenio_mapper::map($data, $USER);
+    $payload =
+        \local_inveniordm\service\invenio_mapper::map(
+            $data,
+            $USER
+        );
 
-    echo "<h3>INVENIO PAYLOAD</h3>";
-    echo "<pre>";
-    print_r($payload);
-    echo "</pre>";
-
-    $apiUrl = "http://127.0.0.1:5001/api/records";
-
-    echo "<h3>TEST API CONNECTION</h3>";
-    $ch = curl_init($apiUrl);
-
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Content-Type: application/json"
-    ]);
-
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-
-    $response = curl_exec($ch);
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-    curl_close($ch);
-
-    echo "<h3>INVENIO RESPONSE</h3>";
-    echo "HTTP CODE: " . $httpCode . "<br>";
-    echo "<pre>";
-    echo $response;
-    echo "</pre>";
-
-    exit();
     $fs = get_file_storage();
 
-    $context = context_user::instance($USER->id);
+    $usercontext =
+        context_user::instance($USER->id);
 
     $files = $fs->get_area_files(
-        $context->id,
+        $usercontext->id,
         'user',
         'draft',
         $data->resourcefile,
@@ -105,24 +79,62 @@ else if ($data = $form->get_data()) {
         false
     );
 
+    $filepath = '';
+
     foreach ($files as $file) {
 
-        echo "<h3>File Info</h3>";
-        echo "Filename: " . $file->get_filename() . "<br>";
+        $filename =
+            $file->get_filename();
 
-        $content = $file->get_content();
-        echo "File size: " . strlen($content) . "<br>";
+        $fullpath =
+            $CFG->dirroot .
+            '/local/inveniordm/repository/' .
+            time() . '_' .
+            $filename;
+
+        $file->copy_content_to(
+            $fullpath
+        );
+
+        $filepath = $fullpath;
 
         break;
     }
 
+    $relativepath =
+        '/local/inveniordm/repository/' .
+        basename($filepath);
 
-    echo $OUTPUT->footer();
-    exit();
+    $payload['location'] =
+        $relativepath;
+
+    $client = new \local_inveniordm\api\invenio_client();
+
+    $ok = $client->create_mock_record($payload);
+
+    clearstatcache();
+
+    if ($ok) {
+
+        redirect(
+            new moodle_url(
+                '/local/inveniordm/student/search.php'
+            ),
+            'Resource uploaded successfully',
+            2
+        );
+
+    } else {
+
+        echo $OUTPUT->notification(
+            'Upload failed',
+            'error'
+        );
+    }
+
+} else {
+
+    $form->display();
 }
 
-$form->display();
-
-
 echo $OUTPUT->footer();
-

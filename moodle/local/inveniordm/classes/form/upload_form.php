@@ -205,6 +205,21 @@ class upload_form extends \moodleform {
         );
 
         /*
+         * Relation
+         */
+
+        $mform->addElement(
+            'text',
+            'relation',
+            'Relation'
+        );
+
+        $mform->setType(
+            'relation',
+            PARAM_TEXT
+        );
+
+        /*
          * File Upload
          */
 

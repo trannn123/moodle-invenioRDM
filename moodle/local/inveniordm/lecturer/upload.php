@@ -59,12 +59,6 @@ if ($form->is_cancelled()) {
 
 } else if ($data = $form->get_data()) {
 
-    $payload =
-        \local_inveniordm\service\invenio_mapper::map(
-            $data,
-            $USER
-        );
-
     $fs = get_file_storage();
 
     $usercontext =
@@ -80,6 +74,7 @@ if ($form->is_cancelled()) {
     );
 
     $filepath = '';
+    $filename = '';
 
     foreach ($files as $file) {
 
@@ -101,35 +96,111 @@ if ($form->is_cancelled()) {
         break;
     }
 
-    $relativepath =
-        '/local/inveniordm/repository/' .
-        basename($filepath);
+    if (empty($filepath)) {
 
-    $payload['location'] =
-        $relativepath;
-
-    $client = new \local_inveniordm\api\invenio_client();
-
-    $ok = $client->create_mock_record($payload);
-
-    clearstatcache();
-
-    if ($ok) {
-
-        redirect(
-            new moodle_url(
-                '/local/inveniordm/student/search.php'
-            ),
-            'Resource uploaded successfully',
-            2
+        echo $OUTPUT->notification(
+            'No uploaded file found',
+            'error'
         );
 
     } else {
 
-        echo $OUTPUT->notification(
-            'Upload failed',
-            'error'
-        );
+        $client =
+            new \local_inveniordm\api\invenio_client();
+
+        /*
+         * CREATE RECORD
+         */
+        $recordpayload = [
+            'files' => [
+                'enabled' => true
+            ],
+
+            'metadata' => [
+                'title' => !empty($data->title)
+                    ? $data->title
+                    : 'Moodle Resource Upload',
+
+                'publication_date' => date('Y-m-d'),
+
+                'resource_type' => [
+                    'id' => 'publication-article'
+                ],
+
+                'creators' => [
+                    [
+                        'person_or_org' => [
+                            'type' => 'personal',
+
+                            'name' => fullname($USER),
+
+                            'family_name' => $USER->lastname,
+
+                            'given_name' => $USER->firstname
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $record =
+            $client->create_record(
+                $recordpayload
+            );
+
+        $recordid = $record['data']['id'] ?? null;
+
+        if (!$recordid) {
+
+        }
+
+        /*
+         * UPLOAD FILE
+         */
+        $uploadresult =
+            $client->upload_file(
+                $recordid,
+                [
+                    'name' => $filename,
+                    'tmp_name' => $filepath
+                ]
+            );
+
+        /*
+         * PUBLISH RECORD
+         */
+        $publishurl =
+            'https://ctu-it-rdm-frontend-1/api/records/' .
+            $recordid .
+            '/draft/actions/publish';
+
+        $ch = curl_init();
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $publishurl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => [
+                'Host: 127.0.0.1',
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Authorization: Bearer scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV'
+            ],
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POSTFIELDS => '{}',
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false
+        ]);
+
+        $publishresponse = curl_exec($ch);
+
+        $publishcode =
+            curl_getinfo(
+                $ch,
+                CURLINFO_HTTP_CODE
+            );
+
+        curl_close($ch);
     }
 
 } else {

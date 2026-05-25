@@ -119,6 +119,156 @@
                     "date": "2026-05-25",
                     "relation": "h"
                 }
+            },
+            {
+                "id": "record-6a13eda7aa7e0",
+                "metadata": {
+                    "identifier": "record-6a13eda7aa7e0",
+                    "title": "j",
+                    "description": "j",
+                    "free_keyword": [
+                        "j"
+                    ],
+                    "language": "en",
+                    "documentary_type": "text",
+                    "format": "pdf",
+                    "location": "\/local\/inveniordm\/repository\/1779690919_SoDoHeThong.docx",
+                    "learning_resource_type": "lesson",
+                    "target_audience": "learner",
+                    "educational_level": "bachelor",
+                    "copyright": "yes",
+                    "objective": "discipline",
+                    "taxon_entry": "Artificial Intelligence",
+                    "role": "author",
+                    "entity": "Admin User",
+                    "date": "2026-05-25",
+                    "relation": "j"
+                }
+            },
+            {
+                "id": "record-6a13eecaf1f18",
+                "metadata": {
+                    "identifier": "record-6a13eecaf1f18",
+                    "title": "q",
+                    "description": "q",
+                    "free_keyword": [
+                        "q"
+                    ],
+                    "language": "en",
+                    "documentary_type": "text",
+                    "format": "pdf",
+                    "location": "\/local\/inveniordm\/repository\/1779691210_CSDLMau.png",
+                    "learning_resource_type": "lesson",
+                    "target_audience": "learner",
+                    "educational_level": "bachelor",
+                    "copyright": "yes",
+                    "objective": "discipline",
+                    "taxon_entry": "Artificial Intelligence",
+                    "role": "author",
+                    "entity": "Admin User",
+                    "date": "2026-05-25",
+                    "relation": "q"
+                }
+            },
+            {
+                "id": "record-6a13efc407b93",
+                "metadata": {
+                    "identifier": "record-6a13efc407b93",
+                    "title": "ư",
+                    "description": "ư",
+                    "free_keyword": [
+                        "ư"
+                    ],
+                    "language": "en",
+                    "documentary_type": "text",
+                    "format": "pdf",
+                    "location": "\/local\/inveniordm\/repository\/1779691460_CSDLMau.png",
+                    "learning_resource_type": "lesson",
+                    "target_audience": "learner",
+                    "educational_level": "bachelor",
+                    "copyright": "yes",
+                    "objective": "discipline",
+                    "taxon_entry": "Artificial Intelligence",
+                    "role": "author",
+                    "entity": "Admin User",
+                    "date": "2026-05-25",
+                    "relation": "ư"
+                }
+            },
+            {
+                "id": "record-6a13f036a8f14",
+                "metadata": {
+                    "identifier": "record-6a13f036a8f14",
+                    "title": "q",
+                    "description": "q",
+                    "free_keyword": [
+                        "q"
+                    ],
+                    "language": "en",
+                    "documentary_type": "text",
+                    "format": "pdf",
+                    "location": "\/local\/inveniordm\/repository\/1779691574_CaiDatInvenioRDM.docx",
+                    "learning_resource_type": "lesson",
+                    "target_audience": "learner",
+                    "educational_level": "bachelor",
+                    "copyright": "yes",
+                    "objective": "discipline",
+                    "taxon_entry": "Artificial Intelligence",
+                    "role": "author",
+                    "entity": "Admin User",
+                    "date": "2026-05-25",
+                    "relation": "q"
+                }
+            },
+            {
+                "id": "record-6a13f0ca95a6b",
+                "metadata": {
+                    "identifier": "record-6a13f0ca95a6b",
+                    "title": "r",
+                    "description": "r",
+                    "free_keyword": [
+                        "r"
+                    ],
+                    "language": "en",
+                    "documentary_type": "text",
+                    "format": "pdf",
+                    "location": "\/local\/inveniordm\/repository\/1779691722_ChuanBiMoiTruongChoMoodle.docx",
+                    "learning_resource_type": "lesson",
+                    "target_audience": "learner",
+                    "educational_level": "bachelor",
+                    "copyright": "yes",
+                    "objective": "discipline",
+                    "taxon_entry": "Artificial Intelligence",
+                    "role": "author",
+                    "entity": "Admin User",
+                    "date": "2026-05-25",
+                    "relation": "r"
+                }
+            },
+            {
+                "id": "record-6a13f1275bc6c",
+                "metadata": {
+                    "identifier": "record-6a13f1275bc6c",
+                    "title": "t",
+                    "description": "t",
+                    "free_keyword": [
+                        "t"
+                    ],
+                    "language": "en",
+                    "documentary_type": "text",
+                    "format": "pdf",
+                    "location": "\/local\/inveniordm\/repository\/1779691815_DichTaiLieuMetadata.docx",
+                    "learning_resource_type": "lesson",
+                    "target_audience": "learner",
+                    "educational_level": "bachelor",
+                    "copyright": "yes",
+                    "objective": "discipline",
+                    "taxon_entry": "Artificial Intelligence",
+                    "role": "author",
+                    "entity": "Admin User",
+                    "date": "2026-05-25",
+                    "relation": "t"
+                }
             }
         ]
     }

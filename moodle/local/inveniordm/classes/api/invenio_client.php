@@ -18,10 +18,10 @@ class invenio_client {
 
     public function __construct() {
 
-        $this->apiurl = 'https://host.docker.internal:5000/api/';
+        $this->apiurl = 'https://ctu-it-rdm-frontend-1/api/';
         $this->hostheader = 'localhost';
 
-        $this->token = 'Bro0sVoQ6RcKrJNX5vAnsoxcP1l5Q9XuZy2TZuTzDQBps8quo7lvz0NSG7J8';
+        $this->token = 'scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV';
     }
 
     private function make_request(
@@ -32,7 +32,8 @@ class invenio_client {
         $ch = curl_init();
 
         $headers = [
-            'Accept: application/json'
+            'Accept: application/json',
+            'Host: localhost'
         ];
         if (!empty($this->token)) {
 
@@ -85,8 +86,7 @@ class invenio_client {
                 'error' => true,
                 'status' => $httpcode,
                 'response' => $response,
-                'url' => $url,
-                'payload' => $payload ?? null
+                'url' => $url
             ];
         }
 
@@ -104,6 +104,7 @@ class invenio_client {
         $ch = curl_init();
 
         $headers = [
+            'Host: localhost',
             'Accept: application/json',
             'Content-Type: application/json'
         ];
@@ -138,8 +139,13 @@ class invenio_client {
         $decoded = json_decode($response, true);
 
         if ($httpcode < 200 || $httpcode >= 300) {
-            debugging('HTTP Error: ' . $httpcode . ' Response: ' . $response);
-            return [];
+
+            return [
+                'error' => true,
+                'http_code' => $httpcode,
+                'response' => $response,
+                'url' => $url
+            ];
         }
 
         if (!is_array($decoded)) {
@@ -154,54 +160,22 @@ class invenio_client {
         string $query = ''
     ): array {
 
-        $jsonpath =
-            __DIR__ .
-            '/../../mock_records.json';
-        if (!file_exists($jsonpath)) {
-            return [];
+        $url = $this->apiurl . 'records';
+
+        if (!empty($query)) {
+            $url .= '?q=' . urlencode($query);
         }
 
-        $json = file_get_contents($jsonpath);
-
-        $decoded = json_decode($json, true);
-
-        if (!is_array($decoded)) {
-            return [];
-        }
-
-        return $decoded;
+        return $this->make_request($url);
     }
 
     public function get_record(
         string $id
     ): array {
 
-        $jsonpath =
-            __DIR__ .
-            '/../../mock_records.json';
+        $url = $this->apiurl . 'records/' . $id;
 
-        if (!file_exists($jsonpath)) {
-            return [];
-        }
-
-        $json = file_get_contents($jsonpath);
-
-        $decoded = json_decode($json, true);
-
-        if (!is_array($decoded)) {
-            return [];
-        }
-
-        $hits = $decoded['hits']['hits'] ?? [];
-
-        foreach ($hits as $record) {
-
-            if (($record['id'] ?? '') === $id) {
-                return $record;
-            }
-        }
-
-        return [];
+        return $this->make_request($url);
     }
 
     public function create_mock_record(array $metadata): bool {
@@ -249,18 +223,45 @@ class invenio_client {
 
         $url = $this->apiurl . 'records';
 
-        $payload = json_encode([
-            'metadata' => $metadata
+        $payload = json_encode(
+            $metadata,
+            JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES
+        );
+
+        $ch = curl_init();
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_HTTPHEADER => [
+                'Host: localhost',
+                'Content-Type: application/json',
+                'Accept: application/json',
+                'Content-Length: ' . strlen($payload),
+                'Authorization: Bearer ' . $this->token
+            ],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
         ]);
 
-        $result = $this->make_post_request($url, $payload);
+        $response = curl_exec($ch);
 
-        if (empty($result) || !isset($result['id'])) {
-            debugging('Create record failed');
-            return [];
-        }
+        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        return $result;
+        $error = curl_error($ch);
+
+        curl_close($ch);
+
+        return [
+            'http_code' => $code,
+            'curl_error' => $error,
+            'sent_payload' => $metadata,
+            'raw' => $response,
+            'data' => json_decode($response, true)
+        ];
     }
 
     public function upload_file($record_id, $file): array {
@@ -275,7 +276,9 @@ class invenio_client {
         $url1 = $this->apiurl . "records/$record_id/draft/files";
 
         $res1 = $this->make_post_request($url1, json_encode([
-            "key" => $key
+                    [
+                        "key" => $key
+                    ]
         ]));
 
         if (empty($res1)) {
@@ -297,9 +300,13 @@ class invenio_client {
             CURLOPT_CUSTOMREQUEST => "PUT",
             CURLOPT_POSTFIELDS => $filedata,
             CURLOPT_HTTPHEADER => [
+                'Host: localhost',
                 'Content-Type: application/octet-stream',
                 'Authorization: Bearer ' . $this->token
             ],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_FOLLOWLOCATION => true,
         ]);
 
         $response = curl_exec($ch);
@@ -316,8 +323,7 @@ class invenio_client {
         }
 
         // STEP 3: commit (ĐÚNG API)
-        $commitUrl = $this->apiurl . "records/$record_id/draft/files/commit";
-
+        $commitUrl = $this->apiurl . "records/$record_id/draft/files/$key/commit";
         $commit = $this->make_post_request($commitUrl, "{}");
 
         return [
@@ -337,6 +343,7 @@ class invenio_client {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST => "PUT",
             CURLOPT_HTTPHEADER => [
+                'Host: localhost',
                 'Accept: application/json',
                 'Authorization: Bearer ' . $this->token
             ]
@@ -358,5 +365,13 @@ class invenio_client {
             'code' => $code,
             'body' => json_decode($response, true)
         ];
+    }
+
+    public function publish_record(string $recordid): array {
+
+        $url = $this->apiurl .
+            "records/$recordid/draft/actions/publish";
+
+        return $this->make_post_request($url, "{}");
     }
 }

@@ -117,8 +117,11 @@ if ($form->is_cancelled()) {
             ],
 
             'metadata' => [
-                'title' => !empty($data->title)
-                    ? $data->title
+                'title' => (
+                    !empty(trim($data->title)) &&
+                    strlen(trim($data->title)) >= 3
+                )
+                    ? trim($data->title)
                     : 'Moodle Resource Upload',
 
                 'publication_date' => date('Y-m-d'),
@@ -201,6 +204,29 @@ if ($form->is_cancelled()) {
             );
 
         curl_close($ch);
+        if ($publishcode >= 200 && $publishcode < 300) {
+
+            echo $OUTPUT->notification(
+                'Upload resource successfully!',
+                'success'
+            );
+
+            echo '
+                    <a 
+                        href="' . $CFG->wwwroot . '/local/inveniordm/lecturer/upload.php"
+                        class="btn btn-primary"
+                    >
+                        Back to Upload Page
+                    </a>
+                ';
+
+        } else {
+
+            echo $OUTPUT->notification(
+                'Upload or publish failed!',
+                'error'
+            );
+        }
     }
 
 } else {

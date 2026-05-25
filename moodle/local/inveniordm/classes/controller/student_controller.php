@@ -98,7 +98,7 @@ class student_controller {
                     'title' => $title,
 
                     'author' =>
-                        $record['metadata']['creators'][0]['person_or_org']['name']
+                        $record['metadata']['entity']
                         ?? 'Unknown',
 
                     'format' =>
@@ -241,6 +241,10 @@ class student_controller {
             $metadata['copyright']
             ?? 'Unknown';
 
+        $relation =
+            $metadata['relation']
+            ?? 'Not specified';
+
         $learningresourcetype =
             $metadata['learning_resource_type']
             ?? 'Unknown';
@@ -289,6 +293,8 @@ class student_controller {
             'location' => $location,
 
             'copyright' => $copyright,
+
+            'relation' => $relation,
 
             'learningresourcetype' => $learningresourcetype,
 

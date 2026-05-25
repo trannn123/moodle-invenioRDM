@@ -4,57 +4,36 @@
       {
         "id": "record-001",
         "metadata": {
-
           "identifier": "record-001",
-
           "title": "Machine Learning Basics",
-
           "description": "Introduction to machine learning concepts and algorithms.",
-
           "free_keyword": [
             "AI",
             "Machine Learning",
             "Neural Network"
           ],
-
           "language": "en",
-
           "documentary_type": "text",
-
           "format": "pdf",
-
           "location": "/repository/ml-basics.pdf",
-
           "learning_resource_type": "lesson",
-
           "target_audience": "learner",
-
           "educational_level": "bachelor",
-
           "induced_activity": "self-study",
-
           "copyright": "yes",
-
           "objective": "discipline",
-
           "taxon_entry": "Artificial Intelligence",
-
           "role": "author",
-
           "entity": "Nguyen Van A",
-
           "date": "2026-05-24",
-
+          "relation": "Original work",
           "publication_date": "2026-05-24",
-
           "publisher": "Can Tho University",
-
           "resource_type": {
             "title": {
               "en": "Lesson"
             }
           },
-
           "creators": [
             {
               "person_or_org": {
@@ -62,7 +41,6 @@
               }
             }
           ],
-
           "subjects": [
             {
               "subject": "Artificial Intelligence"
@@ -70,61 +48,39 @@
           ]
         }
       },
-
       {
         "id": "record-002",
         "metadata": {
-
           "identifier": "record-002",
-
           "title": "Computer Network Laboratory",
-
           "description": "Practical Cisco networking laboratory exercises.",
-
           "free_keyword": [
             "Cisco",
             "Networking",
             "Routing"
           ],
-
           "language": "en",
-
           "documentary_type": "video",
-
           "format": "mp4",
-
           "location": "/repository/network-lab.mp4",
-
           "learning_resource_type": "tutorial",
-
           "target_audience": "learner",
-
           "educational_level": "bachelor",
-
           "induced_activity": "practice",
-
           "copyright": "yes",
-
           "objective": "discipline",
-
           "taxon_entry": "Computer Networking",
-
           "role": "author",
-
           "entity": "Tran Van B",
-
           "date": "2026-05-24",
-
+          "relation": "Derived from record-001",
           "publication_date": "2026-05-24",
-
           "publisher": "Can Tho University",
-
           "resource_type": {
             "title": {
               "en": "Tutorial"
             }
           },
-
           "creators": [
             {
               "person_or_org": {
@@ -132,7 +88,6 @@
               }
             }
           ],
-
           "subjects": [
             {
               "subject": "Computer Networking"

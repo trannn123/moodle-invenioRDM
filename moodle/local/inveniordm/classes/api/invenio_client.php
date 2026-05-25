@@ -157,7 +157,6 @@ class invenio_client {
         $jsonpath =
             __DIR__ .
             '/../../mock_records.json';
-
         if (!file_exists($jsonpath)) {
             return [];
         }

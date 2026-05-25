@@ -1,7 +1,6 @@
 <?php
 define('CLI_SCRIPT', true);
-require_once('../../config.php');
-
+require_once(__DIR__ . '/../../config.php');
 $urls = [
     'http://host.docker.internal:5000/api/records?q=*',
     'http://172.17.0.1:5000/api/records?q=*',

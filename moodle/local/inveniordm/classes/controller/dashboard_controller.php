@@ -12,7 +12,7 @@ class dashboard_controller {
 
         $context = context_system::instance();
 
-        require_capability('local/inveniordm:view', $context);
+        // require_capability('local/inveniordm:view', $context);
 
         $PAGE->set_url(new moodle_url('/local/inveniordm/index.php'));
         $PAGE->set_context($context);

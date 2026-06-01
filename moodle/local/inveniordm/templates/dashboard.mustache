@@ -7,18 +7,50 @@
     {{#is_student}}
     <div class="card">
         <h3>Student Area</h3>
-        <a href="{{wwwroot}}/local/inveniordm/student/search.php">
-            Search Resources
-        </a>
+        <ul>
+            <li>
+                <a href="{{wwwroot}}/local/inveniordm/student/search.php">
+                    Search Resources
+                </a>
+            </li>
+
+            <li>
+                <a href="{{wwwroot}}/local/inveniordm/student/favorites.php">
+                    Favorites
+                </a>
+            </li>
+        </ul>
     </div>
     {{/is_student}}
 
     {{#is_lecturer}}
     <div class="card">
         <h3>Lecturer Area</h3>
-        <a href="{{wwwroot}}/local/inveniordm/lecturer/upload.php">
-            Upload Resources
-        </a>
+        <ul>
+            <li>
+                <a href="{{wwwroot}}/local/inveniordm/lecturer/upload.php">
+                    Upload Resource
+                </a>
+            </li>
+
+            <li>
+                <a href="{{wwwroot}}/local/inveniordm/lecturer/myresources.php">
+                    My Resources
+                </a>
+            </li>
+
+            <li>
+                <a href="{{wwwroot}}/local/inveniordm/lecturer/course_resources.php">
+                    Course Resources
+                </a>
+            </li>
+
+            <li>
+                <a href="{{wwwroot}}/local/inveniordm/student/search.php">
+                    Search Repository
+                </a>
+            </li>
+        </ul>
     </div>
     {{/is_lecturer}}
 

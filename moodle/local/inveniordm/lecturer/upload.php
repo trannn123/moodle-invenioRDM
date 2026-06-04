@@ -111,46 +111,16 @@ if ($form->is_cancelled()) {
         /*
          * CREATE RECORD
          */
-        $recordpayload = [
-            'files' => [
-                'enabled' => true
-            ],
-
-            'metadata' => [
-                'title' => (
-                    !empty(trim($data->title)) &&
-                    strlen(trim($data->title)) >= 3
-                )
-                    ? trim($data->title)
-                    : 'Moodle Resource Upload',
-
-                'publication_date' => date('Y-m-d'),
-
-                'resource_type' => [
-                    'id' => 'publication-article'
-                ],
-
-                'creators' => [
-                    [
-                        'person_or_org' => [
-                            'type' => 'personal',
-
-                            'name' => fullname($USER),
-
-                            'family_name' => $USER->lastname,
-
-                            'given_name' => $USER->firstname
-                        ]
-                    ]
-                ]
-            ]
-        ];
+        $recordpayload =
+            \local_inveniordm\service\invenio_mapper::map(
+                $data,
+                $USER
+            );
 
         $record =
             $client->create_record(
                 $recordpayload
             );
-
         $recordid = $record['data']['id'] ?? null;
 
         if (!$recordid) {
@@ -173,9 +143,10 @@ if ($form->is_cancelled()) {
          * PUBLISH RECORD
          */
         $publishurl =
-            'https://ctu-it-rdm-frontend-1/api/records/' .
+            'http://ctu-it-rdm-web-api-1:5000/api/records/' .
             $recordid .
             '/draft/actions/publish';
+
 
         $ch = curl_init();
 
@@ -184,18 +155,16 @@ if ($form->is_cancelled()) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_POST => true,
             CURLOPT_HTTPHEADER => [
-                'Host: 127.0.0.1',
                 'Accept: application/json',
                 'Content-Type: application/json',
                 'Authorization: Bearer scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV'
             ],
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_POSTFIELDS => '{}',
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false
+            CURLOPT_POSTFIELDS => '{}'
         ]);
 
         $publishresponse = curl_exec($ch);
+
+        $curlerror = curl_error($ch);
 
         $publishcode =
             curl_getinfo(

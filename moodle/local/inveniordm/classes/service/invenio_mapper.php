@@ -6,69 +6,103 @@ defined('MOODLE_INTERNAL') || die();
 
 class invenio_mapper {
 
-    public static function map($data, $USER) {
+    public static function map($data, $USER): array {
 
-        // SAFE USER fallback
-        $username = 'Unknown User';
-        if ($USER) {
-            $username = trim($USER->firstname . ' ' . $USER->lastname);
-        }
+        $fullname = fullname($USER);
 
         return [
 
-            'identifier' => uniqid('record-'),
+            'files' => [
+                'enabled' => true
+            ],
 
-            'title' => $data->title ?? '',
+            /*
+             * STANDARD INVENTIO METADATA
+             */
+            'metadata' => [
 
-            'description' => $data->description ?? '',
+                'title' => trim($data->title),
 
-            'free_keyword' =>
-                array_map(
-                    'trim',
-                    explode(',', $data->keywords ?? '')
-                ),
+                'description' => trim($data->description),
 
-            'language' => $data->language ?? 'en',
+                'publication_date' => date('Y-m-d'),
 
-            'documentary_type' =>
-                $data->documenttype ?? '',
+                'resource_type' => [
+                    'id' => 'publication-article'
+                ],
 
-            'format' =>
-                $data->format ?? '',
+                'creators' => [
+                    [
+                        'person_or_org' => [
+                            'type' => 'personal',
+                            'name' => $USER->lastname . ', ' . $USER->firstname,
+                            'family_name' => $USER->lastname,
+                            'given_name' => $USER->firstname
+                        ]
+                    ]
+                ]
+            ],
 
-            'location' => '#',
+            /*
+             * YOUR CUSTOM LOM METADATA
+             */
+            'custom_fields' => [
 
-            'learning_resource_type' =>
-                $data->learningresourcetype ?? '',
+                'moodle:identifier' =>
+                    uniqid('record-'),
 
-            'target_audience' =>
-                $data->targetaudience ?? '',
+                'moodle:free_keyword' =>
+                    array_values(
+                        array_filter(
+                            array_map(
+                                'trim',
+                                explode(',', $data->keywords ?? '')
+                            )
+                        )
+                    ),
 
-            'educational_level' =>
-                $data->educationallevel ?? '',
+                'moodle:language' =>
+                    $data->language ?? '',
 
-            'copyright' =>
-                $data->copyright ?? '',
+                'moodle:documentary_type' =>
+                    $data->documenttype ?? '',
 
-            'objective' => 'discipline',
+                'moodle:format' =>
+                    $data->format ?? '',
 
-            'taxon_entry' =>
-                $data->discipline ?? '',
+                'moodle:location' =>
+                    '#',
 
-            'role' => 'author',
+                'moodle:learning_resource_type' =>
+                    $data->learningresourcetype ?? '',
 
-            'entity' =>
-                trim(
-                    $USER->firstname .
-                    ' ' .
-                    $USER->lastname
-                ),
+                'moodle:target_audience' =>
+                    $data->targetaudience ?? '',
 
-            'date' =>
-                date('Y-m-d'),
+                'moodle:educational_level' =>
+                    $data->educationallevel ?? '',
 
-            'relation' =>
-                $data->relation ?? ''
+                'moodle:copyright' =>
+                    $data->copyright ?? '',
+
+                'moodle:objective' =>
+                    'discipline',
+
+                'moodle:taxon_entry' =>
+                    $data->discipline ?? '',
+
+                'moodle:role' =>
+                    'author',
+
+                'moodle:entity' =>
+                    $fullname,
+
+                'moodle:date' =>
+                    date('Y-m-d'),
+
+                'moodle:relation' =>
+                    $data->relation ?? ''
+            ]
         ];
     }
 }

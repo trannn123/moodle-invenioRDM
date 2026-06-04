@@ -54,7 +54,7 @@ class student_controller {
                 $record['metadata']['description'] ?? '';
 
             $subject =
-                $record['metadata']['taxon_entry'] ?? '';
+                $record['custom_fields']['moodle:taxon_entry'] ?? '';
 
             // FILTER SEARCH
             $matchquery =
@@ -66,21 +66,21 @@ class student_controller {
             $matchformat =
                 $format === '' ||
                 (
-                    ($record['metadata']['format'] ?? '')
+                    ($record['custom_fields']['moodle:format'] ?? '')
                     === $format
                 );
 
             $matchdiscipline =
                 $discipline === '' ||
                 (
-                    ($record['metadata']['taxon_entry'] ?? '')
+                    ($record['custom_fields']['moodle:taxon_entry'] ?? '')
                     === $discipline
                 );
 
             $matchlevel =
                 $level === '' ||
                 (
-                    ($record['metadata']['educational_level'] ?? '')
+                    ($record['custom_fields']['moodle:educational_level'] ?? '')
                     === $level
                 );
 
@@ -98,23 +98,23 @@ class student_controller {
                     'title' => $title,
 
                     'author' =>
-                        $record['metadata']['entity']
+                        $record['custom_fields']['moodle:entity']
                         ?? 'Unknown',
 
                     'format' =>
-                        $record['metadata']['format']
+                        $record['custom_fields']['moodle:format']
                         ?? 'Unknown',
 
                     'discipline' =>
-                        $record['metadata']['taxon_entry']
+                        $record['custom_fields']['moodle:taxon_entry']
                         ?? 'Unknown',
 
                     'educationallevel' =>
-                        $record['metadata']['educational_level']
+                        $record['custom_fields']['moodle:educational_level']
                         ?? 'Unknown',
 
                     'learningresourcetype' =>
-                        $record['metadata']['learning_resource_type']
+                        $record['custom_fields']['moodle:learning_resource_type']
                         ?? 'Unknown'
                 ];
             }
@@ -173,8 +173,8 @@ class student_controller {
             if (!empty($firstfile['links']['content'])) {
 
                 $downloadurl = str_replace(
-                    'https://127.0.0.1:5001',
-                    'https://ctu-it-rdm-frontend-1',
+                    'http://host.docker.internal:5001',
+                    'http://localhost:5001',
                     $firstfile['links']['content']
                 );
             }
@@ -231,58 +231,61 @@ class student_controller {
             $metadata['description']
             ?? 'No description';
 
+        $customfields =
+            $record['custom_fields'] ?? [];
+
         $format =
-            $metadata['format']
+            $customfields['moodle:format']
             ?? 'Unknown';
 
         $documenttype =
-            $metadata['documentary_type']
+            $customfields['moodle:documentary_type']
             ?? 'Unknown';
 
         $educationallevel =
-            $metadata['educational_level']
+            $customfields['moodle:educational_level']
             ?? 'Unknown';
 
         $targetaudience =
-            $metadata['target_audience']
+            $customfields['moodle:target_audience']
             ?? 'Unknown';
 
         $discipline =
-            $metadata['taxon_entry']
+            $customfields['moodle:taxon_entry']
             ?? 'Unknown';
 
         $location =
-            $metadata['location']
+            $customfields['moodle:location']
             ?? '#';
 
         $copyright =
-            $metadata['copyright']
+            $customfields['moodle:copyright']
             ?? 'Unknown';
 
         $relation =
-            $metadata['relation']
+            $customfields['moodle:relation']
             ?? 'Not specified';
 
         $learningresourcetype =
-            $metadata['learning_resource_type']
+            $customfields['moodle:learning_resource_type']
             ?? 'Unknown';
 
         $language =
-            $metadata['language']
+            $customfields['moodle:language']
             ?? 'Unknown';
 
         $keywords = [];
 
-        if (!empty($metadata['subjects'])) {
+        if (!empty($customfields['moodle:free_keyword'])) {
 
-            foreach ($metadata['subjects'] as $subject) {
+            foreach (
+                $customfields['moodle:free_keyword']
+                as $keyword
+            ) {
 
-                if (isset($subject['subject'])) {
-
-                    $keywords[] = [
-                        'name' => $subject['subject']
-                    ];
-                }
+                $keywords[] = [
+                    'name' => $keyword
+                ];
             }
         }
 

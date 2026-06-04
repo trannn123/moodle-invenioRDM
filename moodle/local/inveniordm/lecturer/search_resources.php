@@ -50,16 +50,25 @@ if (!empty($attach)) {
         $file['links']['content']
     );
 
-    $content = file_service::download_from_url($fileurl);
-
-    if (empty($content)) {
-        throw new moodle_exception('Download failed');
-    }
-
-    $localpath = file_service::save_file(
-        $content,
-        $filename
+    $exists = $DB->record_exists(
+        'local_inveniordm_course_resources',
+        [
+            'courseid' => $courseid,
+            'recordid' => $attach
+        ]
     );
+
+    if ($exists) {
+        redirect(
+            new moodle_url(
+                '/local/inveniordm/lecturer/search_resources.php',
+                [
+                    'courseid' => $courseid
+                ]
+            ),
+            'Resource already attached'
+        );
+    }
 
     $DB->insert_record(
         'local_inveniordm_course_resources',
@@ -67,14 +76,13 @@ if (!empty($attach)) {
             'courseid' => $courseid,
             'recordid' => $attach,
             'title' => $title,
-            'localpath' => $localpath,
             'timecreated' => time()
         ]
     );
 
     redirect(
         new moodle_url(
-            '/local/inveniordm/lecturer/manage_course_resources.php',
+            '/local/inveniordm/lecturer/search_resources.php',
             [
                 'courseid' => $courseid
             ]
@@ -89,7 +97,7 @@ if (!empty($attach)) {
  * =========================
  */
 
-$PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/manage_course_resources.php',
+$PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources.php',
     ['courseid' => $courseid]));
 
 $PAGE->set_context($context);

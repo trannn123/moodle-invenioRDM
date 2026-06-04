@@ -16,6 +16,11 @@ $PAGE->set_url(new moodle_url('/local/inveniordm/student/course_resources.php',
 $PAGE->set_context($context);
 $PAGE->set_title('Course Resources');
 $PAGE->set_heading('Course Resources');
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/course_resources.css'
+    )
+);
 
 echo $OUTPUT->header();
 
@@ -31,27 +36,50 @@ if (!$resources) {
     echo "<p>No resources found</p>";
 } else {
 
-    echo '<table border="1" cellpadding="8">';
-    echo '<tr><th>Title</th><th>Download</th></tr>';
+    echo '<div class="course-resource-list">';
 
-    foreach ($resources as $r) {
+    foreach ($resources as $res) {
 
-        $downloadurl = moodle_url::make_pluginfile_url(
-            context_system::instance()->id,
-            'local_inveniordm',
-            'resource',
-            $r->id,
-            '/',
-            basename($r->localpath)
+        $viewurl = new moodle_url(
+            '/local/inveniordm/student/view.php',
+            [
+                'id' => $res->recordid
+            ]
         );
 
-        echo '<tr>';
-        echo '<td>'.s($r->title).'</td>';
-        echo '<td><a href="'.$downloadurl.'">Download</a></td>';
-        echo '</tr>';
+        $downloadurl = new moodle_url(
+            '/local/inveniordm/student/download.php',
+            [
+                'recordid' => $res->recordid
+            ]
+        );
+
+        echo '
+        <div class="course-resource-card">
+
+            <div class="course-resource-title">
+                '.s($res->title).'
+            </div>
+
+            <div class="course-resource-actions">
+
+                <a class="btn btn-primary"
+                   href="'.$viewurl.'">
+                    View Metadata
+                </a>
+
+                <a class="btn btn-secondary"
+                   href="'.$downloadurl.'">
+                    Download
+                </a>
+
+            </div>
+
+        </div>
+    ';
     }
 
-    echo '</table>';
+    echo '</div>';
 }
 
 echo $OUTPUT->footer();

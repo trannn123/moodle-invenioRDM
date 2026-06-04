@@ -162,6 +162,24 @@ class student_controller {
 
         $record = $client->get_record($id);
 
+        $downloadurl = '#';
+
+        $files = $record['files']['entries'] ?? [];
+
+        if (!empty($files)) {
+
+            $firstfile = array_values($files)[0];
+
+            if (!empty($firstfile['links']['content'])) {
+
+                $downloadurl = str_replace(
+                    'https://127.0.0.1:5001',
+                    'https://ctu-it-rdm-frontend-1',
+                    $firstfile['links']['content']
+                );
+            }
+        }
+
         if (!$record || !isset($record['metadata'])) {
 
             return $OUTPUT->notification(
@@ -290,7 +308,14 @@ class student_controller {
 
             'discipline' => $discipline,
 
-            'location' => $location,
+            'location' => (
+            new \moodle_url(
+                '/local/inveniordm/student/download.php',
+                [
+                    'recordid' => $id
+                ]
+            )
+            )->out(false),
 
             'copyright' => $copyright,
 

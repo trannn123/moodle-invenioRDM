@@ -1,9 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../../../config.php');
-
 require_login();
-
 global $DB;
 
 $courseid = required_param(
@@ -22,7 +20,6 @@ $title = required_param(
 );
 
 $data = new stdClass();
-
 $data->courseid = $courseid;
 $data->recordid = $recordid;
 $data->title = $title;

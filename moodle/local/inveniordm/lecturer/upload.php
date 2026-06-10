@@ -1,9 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../../../config.php');
-
 require_login();
-
 global $CFG, $PAGE, $OUTPUT, $USER;
 
 require_once(
@@ -28,21 +26,15 @@ $PAGE->set_url(
         '/local/inveniordm/lecturer/upload.php'
     )
 );
-
 $PAGE->set_context($context);
-
 $PAGE->set_pagelayout('standard');
-
 $PAGE->set_title('Upload Resource');
-
 $PAGE->set_heading('Upload Repository Resource');
-
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/main.css'
     )
 );
-
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/upload_lecturer.css'
@@ -50,20 +42,12 @@ $PAGE->requires->css(
 );
 
 $form = new \local_inveniordm\form\upload_form();
-
 echo $OUTPUT->header();
-
 if ($form->is_cancelled()) {
-
     redirect(new moodle_url('/'));
-
 } else if ($data = $form->get_data()) {
-
     $fs = get_file_storage();
-
-    $usercontext =
-        context_user::instance($USER->id);
-
+    $usercontext = context_user::instance($USER->id);
     $files = $fs->get_area_files(
         $usercontext->id,
         'user',
@@ -72,51 +56,37 @@ if ($form->is_cancelled()) {
         'id',
         false
     );
-
     $filepath = '';
     $filename = '';
-
     foreach ($files as $file) {
-
         $filename =
             $file->get_filename();
-
         $fullpath =
             $CFG->dirroot .
             '/local/inveniordm/repository/' .
             time() . '_' .
             $filename;
-
         $file->copy_content_to(
             $fullpath
         );
-
         $filepath = $fullpath;
-
         break;
     }
 
     if (empty($filepath)) {
-
         echo $OUTPUT->notification(
             'No uploaded file found',
             'error'
         );
 
     } else {
-
         $client =
             new \local_inveniordm\api\invenio_client();
-
-        /*
-         * CREATE RECORD
-         */
         $recordpayload =
             \local_inveniordm\service\invenio_mapper::map(
                 $data,
                 $USER
             );
-
         $record =
             $client->create_record(
                 $recordpayload
@@ -126,10 +96,6 @@ if ($form->is_cancelled()) {
         if (!$recordid) {
 
         }
-
-        /*
-         * UPLOAD FILE
-         */
         $uploadresult =
             $client->upload_file(
                 $recordid,
@@ -138,18 +104,11 @@ if ($form->is_cancelled()) {
                     'tmp_name' => $filepath
                 ]
             );
-
-        /*
-         * PUBLISH RECORD
-         */
         $publishurl =
             'http://ctu-it-rdm-web-api-1:5000/api/records/' .
             $recordid .
             '/draft/actions/publish';
-
-
         $ch = curl_init();
-
         curl_setopt_array($ch, [
             CURLOPT_URL => $publishurl,
             CURLOPT_RETURNTRANSFER => true,
@@ -161,25 +120,19 @@ if ($form->is_cancelled()) {
             ],
             CURLOPT_POSTFIELDS => '{}'
         ]);
-
         $publishresponse = curl_exec($ch);
-
         $curlerror = curl_error($ch);
-
         $publishcode =
             curl_getinfo(
                 $ch,
                 CURLINFO_HTTP_CODE
             );
-
         curl_close($ch);
         if ($publishcode >= 200 && $publishcode < 300) {
-
             echo $OUTPUT->notification(
                 'Upload resource successfully!',
                 'success'
             );
-
             echo '
                     <a 
                         href="' . $CFG->wwwroot . '/local/inveniordm/lecturer/upload.php"
@@ -187,10 +140,8 @@ if ($form->is_cancelled()) {
                     >
                         Back to Upload Page
                     </a>
-                ';
-
+            ';
         } else {
-
             echo $OUTPUT->notification(
                 'Upload or publish failed!',
                 'error'
@@ -199,7 +150,6 @@ if ($form->is_cancelled()) {
     }
 
 } else {
-
     $form->display();
 }
 

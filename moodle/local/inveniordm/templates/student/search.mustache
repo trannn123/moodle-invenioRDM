@@ -1,23 +1,16 @@
 <div class="container mt-4">
-
     <div class="text-center mb-5">
-
         <h1 class="display-5 fw-bold">
             Academic Repository Portal
         </h1>
-
         <p class="text-muted">
             Search research papers, books, thesis and learning resources
         </p>
-
     </div>
 
     <div class="invenio-search-section mb-5">
-
         <form method="get">
-
             <div class="input-group invenio-search-box">
-
                 <input
                     type="text"
                     name="q"
@@ -25,198 +18,143 @@
                     class="form-control form-control-lg"
                     placeholder="Search resources..."
                 >
-
                 <button
                     type="submit"
                     class="btn btn-primary btn-lg"
                 >
                     Search
                 </button>
-
             </div>
 
             <div class="row mt-3 invenio-filter-section">
-
                 <div class="col-md-4">
-
                     <select
                         name="format"
                         class="form-select"
                     >
-
                         <option value="">
                             All Formats
                         </option>
-
                         <option
                             value="pdf"
                             {{#selected_pdf}}selected{{/selected_pdf}}
                         >
                             PDF
                         </option>
-
                         <option
                             value="video"
                             {{#selected_video}}selected{{/selected_video}}
                         >
                             Video
                         </option>
-
                         <option
                             value="doc"
                             {{#selected_doc}}selected{{/selected_doc}}
                         >
                             DOC
                         </option>
-
                     </select>
-
                 </div>
-
                 <div class="col-md-4">
-
                     <select
                         name="discipline"
                         class="form-select"
                     >
-
                         <option value="">
                             All Disciplines
                         </option>
-
                         <option
                             value="Artificial Intelligence"
                             {{#selected_ai}}selected{{/selected_ai}}
                         >
                             Artificial Intelligence
                         </option>
-
                         <option
                             value="Computer Networking"
                             {{#selected_networking}}selected{{/selected_networking}}
                         >
                             Networking
                         </option>
-
                     </select>
-
                 </div>
 
                 <div class="col-md-4">
-
                     <select
                         name="level"
                         class="form-select"
                     >
-
                         <option value="">
                             All Levels
                         </option>
-
                         <option
                             value="bachelor"
                             {{#selected_bachelor}}selected{{/selected_bachelor}}
                         >
                             Bachelor
                         </option>
-
                         <option
                             value="master"
                             {{#selected_master}}selected{{/selected_master}}
                         >
                             Master
                         </option>
-
                     </select>
-
                 </div>
-
             </div>
-
         </form>
-
     </div>
 
     <div class="row mb-5">
-
         <div class="col-md-4">
-
             <div class="card invenio-card text-center">
-
                 <div class="card-body">
-
                     <h3>120</h3>
-
                     <p class="text-muted mb-0">
                         Total Records
                     </p>
-
                 </div>
-
             </div>
-
         </div>
 
         <div class="col-md-4">
-
             <div class="card invenio-card text-center">
-
                 <div class="card-body">
-
                     <h3>35</h3>
-
                     <p class="text-muted mb-0">
                         Courses
                     </p>
-
                 </div>
-
             </div>
-
         </div>
 
         <div class="col-md-4">
-
             <div class="card invenio-card text-center">
-
                 <div class="card-body">
-
                     <h3>540</h3>
-
                     <p class="text-muted mb-0">
                         Downloads
                     </p>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="mb-5">
-
         <h4 class="mb-3">
             Popular Categories
         </h4>
-
         <span class="badge bg-primary p-2 me-2">
             AI
         </span>
-
         <span class="badge bg-success p-2 me-2">
             Security
         </span>
-
         <span class="badge bg-info p-2 me-2">
             Networking
         </span>
-
         <span class="badge bg-dark p-2 me-2">
             NLP
         </span>
-
     </div>
 
     <h4 class="mb-4">
@@ -224,55 +162,40 @@
     </h4>
 
     {{#records}}
-
     <div class="card invenio-card mb-4">
-
         <div class="card-body">
-
             <h3 class="invenio-title">
                 {{title}}
             </h3>
 
             <div class="invenio-meta mb-2">
-
                 <strong>Author:</strong>
                 {{author}}
-
             </div>
 
             <div class="invenio-meta mb-3">
-
                 <strong>Record ID:</strong>
                 {{id}}
-
             </div>
 
             <div class="invenio-meta mb-2">
-
                 <strong>Format:</strong>
                 {{format}}
-
             </div>
 
             <div class="invenio-meta mb-2">
-
                 <strong>Discipline:</strong>
                 {{discipline}}
-
             </div>
 
             <div class="invenio-meta mb-2">
-
                 <strong>Educational Level:</strong>
                 {{educationallevel}}
-
             </div>
 
             <div class="invenio-meta mb-3">
-
                 <strong>Learning Resource Type:</strong>
                 {{learningresourcetype}}
-
             </div>
 
             <a
@@ -281,21 +204,13 @@
             >
                 View Details
             </a>
-
         </div>
-
     </div>
-
     {{/records}}
 
     {{^records}}
-
     <div class="alert alert-secondary">
-
         No records found.
-
     </div>
-
     {{/records}}
-
 </div>

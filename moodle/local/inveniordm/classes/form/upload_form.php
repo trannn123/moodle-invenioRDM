@@ -1,17 +1,12 @@
 <?php
 
 namespace local_inveniordm\form;
-
 defined('MOODLE_INTERNAL') || die();
-
 require_once($GLOBALS['CFG']->libdir . '/formslib.php');
 
 class upload_form extends \moodleform {
-
     public function definition() {
-
         $mform = $this->_form;
-
         $mform->addElement('header', 'basicinfo', 'Basic Information');
 
         // Title
@@ -64,20 +59,9 @@ class upload_form extends \moodleform {
         // Submit Button
         $this->add_action_buttons(true, 'Upload Resource');
 
-        // CSS + JS realtime validation (không trùng lặp)
+        // JS realtime validation
         $mform->addElement('html', '
-        <style>
-            .error-border input, .error-border textarea {
-                border: 2px solid #da4453 !important;
-                background-color: #fff8f8 !important;
-            }
-            .error-msg {
-                color: #da4453;
-                font-size: 12px;
-                margin-top: 4px;
-                display: block;
-            }
-        </style>
+        
         <script>
         (function() {
             var rules = {

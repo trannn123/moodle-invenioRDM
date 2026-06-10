@@ -1,81 +1,48 @@
 <?php
 
 namespace local_inveniordm\api;
-
 defined('MOODLE_INTERNAL') || die();
-
 global $CFG;
-
+// Load thư viện xử lý file của Moodle
 require_once($CFG->libdir . '/filelib.php');
 
 class invenio_client {
-
     private string $apiurl;
-
     private string $token;
-
     private string $hostheader;
-
     public function __construct() {
-
         $this->apiurl = 'http://host.docker.internal:5001/api/';
         $this->hostheader = 'localhost';
-
         $this->token = 'scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV';
     }
 
-    private function make_request(
-        string $url,
-        string $method = 'GET'
-    ): array {
-
+    private function make_request(string $url, string $method = 'GET'): array {
         $ch = curl_init();
-
         $headers = [
             'Accept: application/json',
             'Host: localhost'
         ];
         if (!empty($this->token)) {
-
-            $headers[] =
-                'Authorization: Bearer ' .
-                $this->token;
+            $headers[] = 'Authorization: Bearer ' . $this->token;
         }
 
-
         curl_setopt_array($ch, [
-
             CURLOPT_URL => $url,
-
             CURLOPT_RETURNTRANSFER => true,
-
             CURLOPT_HTTPHEADER => $headers,
-
             CURLOPT_TIMEOUT => 30,
-
             CURLOPT_SSL_VERIFYPEER => false,
-
             CURLOPT_SSL_VERIFYHOST => false,
-
             CURLOPT_FOLLOWLOCATION => true,
         ]);
 
+        // Gửi request
         $response = curl_exec($ch);
-
-        $httpcode = curl_getinfo(
-            $ch,
-            CURLINFO_HTTP_CODE
-        );
+        $httpcode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
 
         if ($response === false) {
-
-            debugging(
-                'cURL Error: ' .
-                curl_error($ch)
-            );
-
+            debugging('cURL Error: ' . curl_error($ch));
             curl_close($ch);
-
             return [];
         }
 
@@ -91,16 +58,13 @@ class invenio_client {
         }
 
         $decoded = json_decode($response, true);
-
         if (!is_array($decoded)) {
             return [];
         }
-
         return $decoded;
     }
 
     private function make_post_request(string $url, string $payload): array {
-
         $ch = curl_init();
 
         $headers = [
@@ -133,13 +97,10 @@ class invenio_client {
         }
 
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         curl_close($ch);
-
         $decoded = json_decode($response, true);
 
         if ($httpcode < 200 || $httpcode >= 300) {
-
             return [
                 'error' => true,
                 'http_code' => $httpcode,
@@ -152,75 +113,26 @@ class invenio_client {
             debugging('Invalid JSON Response: ' . $response);
             return [];
         }
-
         return $decoded;
     }
 
-    public function get_records(
-        string $query = ''
-    ): array {
-
+    public function get_records(string $query = ''): array {
+        // Không tìm kiếm, vd: GET /api/records
         $url = $this->apiurl . 'records';
-
         if (!empty($query)) {
+            // Có tìm kiếm, vd: GET /api/records?q=vlan
             $url .= '?q=' . urlencode($query);
         }
-
         return $this->make_request($url);
     }
 
-    public function get_record(
-        string $id
-    ): array {
-
+    public function get_record(string $id): array {
+        // Lấy chi tiết 1 record, vd: GET /api/records/abcd123
         $url = $this->apiurl . 'records/' . $id;
-
         return $this->make_request($url);
-    }
-
-    public function create_mock_record(array $metadata): bool {
-
-        $jsonpath = __DIR__ . '/../../mock_records.json';
-
-        if (!file_exists($jsonpath)) {
-            return false;
-        }
-
-        $json = file_get_contents($jsonpath);
-
-        $decoded = json_decode($json, true);
-
-        if (!is_array($decoded)) {
-            return false;
-        }
-
-        if (!isset($decoded['hits']['hits'])) {
-            $decoded['hits']['hits'] = [];
-        }
-
-        $record = [
-            'id' => $metadata['identifier'],
-            'metadata' => $metadata
-        ];
-
-        $decoded['hits']['hits'][] = $record;
-
-        $jsonEncoded = json_encode(
-            $decoded,
-            JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE
-        );
-
-        if ($jsonEncoded === false) {
-            return false;
-        }
-
-        $result = file_put_contents($jsonpath, $jsonEncoded);
-
-        return $result !== false;
     }
 
     public function create_record(array $metadata): array {
-
         $url = $this->apiurl . 'records';
 
         $payload = json_encode(
@@ -247,12 +159,10 @@ class invenio_client {
             CURLOPT_SSL_VERIFYHOST => false,
         ]);
 
+        // Gửi POST, vd: POST /api/records
         $response = curl_exec($ch);
-
         $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         $error = curl_error($ch);
-
         curl_close($ch);
 
         return [
@@ -265,16 +175,14 @@ class invenio_client {
     }
 
     public function upload_file($record_id, $file): array {
-
         $filename = $file['name'];
         $filepath = $file['tmp_name'];
         $filedata = file_get_contents($filepath);
 
         $key = preg_replace('/[^a-zA-Z0-9._-]/', '_', $filename);
 
-        // STEP 1: create file entry
+        // Đăng ký file draft, vd: POST /api/records/{id}/draft/files
         $url1 = $this->apiurl . "records/$record_id/draft/files";
-
         $res1 = $this->make_post_request($url1, json_encode([
                     [
                         "key" => $key
@@ -290,7 +198,7 @@ class invenio_client {
             ];
         }
 
-        // STEP 2: upload content
+        // Upload nội dung file, vd: PUT /api/records/{id}/draft/files/{key}/content
         $url2 = $this->apiurl . "records/$record_id/draft/files/$key/content";
 
         $ch = curl_init();
@@ -322,7 +230,7 @@ class invenio_client {
             ];
         }
 
-        // STEP 3: commit (ĐÚNG API)
+        // Commit file, vd: POST /api/records/{id}/draft/files/{key}/commit
         $commitUrl = $this->apiurl . "records/$record_id/draft/files/$key/commit";
         $commit = $this->make_post_request($commitUrl, "{}");
 
@@ -331,47 +239,5 @@ class invenio_client {
             'upload_code' => $code,
             'commit' => $commit
         ];
-    }
-    public function init_file($record_id, $filename): array {
-
-        $url = $this->apiurl . "records/$record_id/draft/files/$filename";
-
-        $ch = curl_init();
-
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CUSTOMREQUEST => "PUT",
-            CURLOPT_HTTPHEADER => [
-                'Host: localhost',
-                'Accept: application/json',
-                'Authorization: Bearer ' . $this->token
-            ]
-        ]);
-
-        $response = curl_exec($ch);
-        $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($code < 200 || $code >= 300) {
-            return [
-                'step' => 'upload_content',
-                'error' => 'failed',
-                'http_code' => $code,
-                'response' => $response
-            ];
-        }
-        curl_close($ch);
-
-        return [
-            'code' => $code,
-            'body' => json_decode($response, true)
-        ];
-    }
-
-    public function publish_record(string $recordid): array {
-
-        $url = $this->apiurl .
-            "records/$recordid/draft/actions/publish";
-
-        return $this->make_post_request($url, "{}");
     }
 }

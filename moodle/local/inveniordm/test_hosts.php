@@ -1,10 +1,8 @@
 <?php
 require_once('../../config.php');
 require_login();
-
 global $OUTPUT;
 echo $OUTPUT->header();
-
 echo "<h2>Testing different API endpoints</h2>";
 
 // Các URL cần test
@@ -18,7 +16,6 @@ $urls = [
 
 foreach ($urls as $url) {
     echo "<h3>Testing: " . htmlspecialchars($url) . "</h3>";
-
     $ch = curl_init();
     curl_setopt_array($ch, [
         CURLOPT_URL => $url,
@@ -27,17 +24,14 @@ foreach ($urls as $url) {
         CURLOPT_SSL_VERIFYPEER => false,
         CURLOPT_SSL_VERIFYHOST => false,
     ]);
-
     $response = curl_exec($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $error = curl_error($ch);
     curl_close($ch);
-
     echo "HTTP Code: " . $http_code . "<br>";
     if ($error) {
         echo "Error: " . $error . "<br>";
     }
-
     if ($http_code == 200) {
         echo "<span style='color:green'>✓ WORKING!</span><br>";
         $data = json_decode($response, true);
@@ -49,5 +43,4 @@ foreach ($urls as $url) {
     }
     echo "<hr>";
 }
-
 echo $OUTPUT->footer();

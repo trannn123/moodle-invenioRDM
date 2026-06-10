@@ -1,72 +1,92 @@
-<h2>InvenioRDM Dashboard</h2>
-
-<p><strong>Role:</strong> {{role}}</p>
-
-<div class="dashboard-box">
+<div class="invenio-dashboard">
+    <div class="hero-section">
+        <h1>InvenioRDM Learning Repository</h1>
+        <p>
+            Digital Learning Resource Management System integrated
+            between Moodle and InvenioRDM.
+        </p>
+    </div>
 
     {{#is_student}}
-    <div class="card">
-        <h3>Student Area</h3>
-        <ul>
-            <li>
-                <a href="{{wwwroot}}/local/inveniordm/student/search.php">
-                    Search Resources
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    📚
+                </div>
+                <h3>My Courses</h3>
+                <p>
+                    Access learning resources attached to your enrolled courses.
+                </p>
+                <a class="btn btn-primary"
+                   href="{{wwwroot}}/local/inveniordm/student/mycourses.php">
+                    Open Courses
                 </a>
-            </li>
-
-            <li>
-                <a href="{{wwwroot}}/local/inveniordm/student/favorites.php">
-                    Favorites
-                </a>
-            </li>
-        </ul>
-    </div>
-    {{/is_student}}
-
-    {{#is_lecturer}}
-    <div class="card">
-        <h3>Lecturer Area</h3>
-        <ul>
-            <li>
-                <a href="{{wwwroot}}/local/inveniordm/lecturer/upload.php">
-                    Upload Resource
-                </a>
-            </li>
-
-            <li>
-                <a href="{{wwwroot}}/local/inveniordm/lecturer/myresources.php">
-                    My Resources
-                </a>
-            </li>
-
-            <li>
-                <a href="{{wwwroot}}/local/inveniordm/lecturer/course_resources.php">
-                    Course Resources
-                </a>
-            </li>
-
-            <li>
-                <a href="{{wwwroot}}/local/inveniordm/student/search.php">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    🔍
+                </div>
+                <h3>Repository Search</h3>
+                <p>
+                    Search learning resources stored in InvenioRDM.
+                </p>
+                <a class="btn btn-outline-primary"
+                   href="{{wwwroot}}/local/inveniordm/student/search.php">
                     Search Repository
                 </a>
-            </li>
-        </ul>
+            </div>
+        </div>
+    </div>
+    {{/is_student}}
+    {{#is_lecturer}}
+    <div class="row g-4">
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card">
+                <div class="card-icon">📚</div>
+                <h3>Courses</h3>
+                <p>Manage course resources.</p>
+                <a class="btn btn-primary"
+                   href="{{wwwroot}}/local/inveniordm/lecturer/mycourses.php">
+                    Open
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card">
+                <div class="card-icon">⬆️</div>
+                <h3>Upload</h3>
+                <p>Publish learning resources.</p>
+                <a class="btn btn-success"
+                   href="{{wwwroot}}/local/inveniordm/lecturer/upload.php">
+                    Upload
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card">
+                <div class="card-icon">📄</div>
+                <h3>Resources</h3>
+                <p>Browse repository resources.</p>
+                <a class="btn btn-info"
+                   href="{{wwwroot}}/local/inveniordm/lecturer/myresources.php">
+                    Open
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card">
+                <div class="card-icon">🔍</div>
+                <h3>Search</h3>
+                <p>Find and attach resources.</p>
+                <a class="btn btn-secondary"
+                   href="{{wwwroot}}/local/inveniordm/student/search.php">
+                    Search
+                </a>
+            </div>
+        </div>
     </div>
     {{/is_lecturer}}
-
-    {{#is_admin}}
-    <div class="card">
-        <h3>Admin Area</h3>
-        <a href="{{wwwroot}}/local/inveniordm/admin/dashboard.php">
-            System Management
-        </a>
-        <hr>
-
-        <a href="{{wwwroot}}/local/inveniordm/student/search.php">
-            Open Student Search
-        </a>
-    </div>
-
-    {{/is_admin}}
-
 </div>

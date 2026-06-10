@@ -4,20 +4,26 @@
             #0d6efd,
             #4f8cff
     );
-    color: #fff;
+    color: white;
     padding: 40px;
     border-radius: 16px;
     margin-bottom: 30px;
 }
 
-.hero-section h1 {
-    margin-bottom: 10px;
-    font-weight: 700;
+.search-box {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    margin-bottom: 30px;
 }
 
-.hero-section p {
-    margin: 0;
-    opacity: .95;
+.search-box .form-control {
+    flex: 1;
 }
 
 .resource-grid {
@@ -27,9 +33,9 @@
 }
 
 .resource-card {
-    background: #fff;
-    border-radius: 16px;
+    background: white;
     padding: 24px;
+    border-radius: 16px;
     border: 1px solid #e9ecef;
     box-shadow: 0 4px 12px rgba(0,0,0,.05);
     transition: all .2s ease;
@@ -43,19 +49,19 @@
 .resource-title {
     font-size: 22px;
     font-weight: 600;
-    margin-bottom: 18px;
-    color: #212529;
+    margin-bottom: 15px;
 }
 
 .resource-info-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
     color: #6c757d;
+    margin-bottom: 15px;
 }
 
 .resource-actions {
     margin-top: 20px;
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }

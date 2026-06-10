@@ -4,20 +4,24 @@
             #0d6efd,
             #4f8cff
     );
-    color: #fff;
+    color: white;
     padding: 40px;
     border-radius: 16px;
     margin-bottom: 30px;
 }
 
-.hero-section h1 {
-    margin-bottom: 10px;
-    font-weight: 700;
+.stats-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
 }
 
-.hero-section p {
+.stats-card h2 {
+    color: #0d6efd;
     margin: 0;
-    opacity: .95;
 }
 
 .resource-grid {
@@ -27,35 +31,31 @@
 }
 
 .resource-card {
-    background: #fff;
+    background: white;
     border-radius: 16px;
     padding: 24px;
     border: 1px solid #e9ecef;
     box-shadow: 0 4px 12px rgba(0,0,0,.05);
-    transition: all .2s ease;
+    transition: .2s;
 }
 
 .resource-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
 }
 
 .resource-title {
     font-size: 22px;
     font-weight: 600;
-    margin-bottom: 18px;
-    color: #212529;
+    margin-bottom: 15px;
 }
 
 .resource-info-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #6c757d;
 }
 
 .resource-actions {
     margin-top: 20px;
-    display: flex;
-    gap: 10px;
 }

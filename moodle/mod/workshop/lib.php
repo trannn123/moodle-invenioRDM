@@ -1267,7 +1267,7 @@ function workshop_get_file_areas($course, $cm, $context) {
 /**
  * Serves the files from the workshop file areas
  *
- * Apart from module intro (handled by pluginfile.php automatically), workshop files may be
+ * Apart from module intro (handled by lib.php automatically), workshop files may be
  * media inserted into submission content (like images) and submission attachments. For these two,
  * the fileareas submission_content and submission_attachment are used.
  * Besides that, areas instructauthors, instructreviewers and conclusion contain the media
@@ -1516,7 +1516,7 @@ function workshop_get_file_info($browser, $areas, $course, $cm, $context, $filea
             }
         }
 
-        $urlbase = $CFG->wwwroot . '/pluginfile.php';
+        $urlbase = $CFG->wwwroot . '/lib.php';
         // do not allow manual modification of any files!
         return new file_info_stored($browser, $context, $storedfile, $urlbase, $topvisiblename, true, true, false, false);
     }
@@ -1569,7 +1569,7 @@ function workshop_get_file_info($browser, $areas, $course, $cm, $context, $filea
             return null;
         }
 
-        $urlbase = $CFG->wwwroot . '/pluginfile.php';
+        $urlbase = $CFG->wwwroot . '/lib.php';
 
         // Do not allow manual modification of any files.
         return new file_info_stored($browser, $context, $storedfile, $urlbase, $itemid, true, true, false, false);
@@ -1581,7 +1581,7 @@ function workshop_get_file_info($browser, $areas, $course, $cm, $context, $filea
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_workshop', $filearea, 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_workshop', $filearea, 0);

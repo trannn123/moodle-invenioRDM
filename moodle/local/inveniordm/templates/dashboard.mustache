@@ -41,8 +41,22 @@
         </div>
     </div>
     {{/is_student}}
+
     {{#is_lecturer}}
     <div class="row g-4">
+        {{#cancreatecourse}}
+        <div class="col-md-6 col-xl-3">
+            <div class="dashboard-card">
+                <div class="card-icon">➕</div>
+                <h3>Create Course</h3>
+                <p>Create a new Moodle course.</p>
+                <a class="btn btn-warning"
+                   href="{{wwwroot}}/course/edit.php">
+                    Create
+                </a>
+            </div>
+        </div>
+        {{/cancreatecourse}}
         <div class="col-md-6 col-xl-3">
             <div class="dashboard-card">
                 <div class="card-icon">📚</div>

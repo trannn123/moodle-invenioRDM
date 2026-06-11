@@ -292,7 +292,7 @@ abstract class grade_export {
             // Rewrite links to get the export working for 36, refer MDL-63488.
             $string = file_rewrite_pluginfile_urls(
                 $feedback->feedback,
-                'pluginfile.php',
+                'lib.php',
                 $grade->get_context()->id,
                 GRADE_FILE_COMPONENT,
                 GRADE_FEEDBACK_FILEAREA,

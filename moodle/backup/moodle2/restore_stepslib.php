@@ -5973,7 +5973,7 @@ class restore_process_file_aliases_queue extends restore_execution_step {
     /**
      * Return the expected location of a file
      *
-     * Please note this may and may not work as a part of URL to pluginfile.php
+     * Please note this may and may not work as a part of URL to lib.php
      * (depends on how the given component/filearea deals with the itemid).
      *
      * @param stdClass $filerecord

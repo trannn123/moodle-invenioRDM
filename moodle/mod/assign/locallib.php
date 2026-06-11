@@ -3587,7 +3587,7 @@ class assign {
         $format = $plugin->get_editor_format($editor, $submissionid);
 
         $finaltext = file_rewrite_pluginfile_urls($text,
-                                                  'pluginfile.php',
+                                                  'lib.php',
                                                   $this->get_context()->id,
                                                   $component,
                                                   $filearea,

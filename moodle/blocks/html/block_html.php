@@ -68,7 +68,7 @@ class block_html extends block_base {
         $this->content->footer = '';
         if (isset($this->config->text)) {
             // rewrite url
-            $this->config->text = file_rewrite_pluginfile_urls($this->config->text, 'pluginfile.php', $this->context->id, 'block_html', 'content', NULL);
+            $this->config->text = file_rewrite_pluginfile_urls($this->config->text, 'lib.php', $this->context->id, 'block_html', 'content', NULL);
             // Default to FORMAT_HTML which is what will have been used before the
             // editor was properly implemented for the block.
             $format = FORMAT_HTML;

@@ -40,7 +40,7 @@ class external_settings {
     private $fileurl = true;
 
     /** @var string In which file should the urls be rewritten */
-    private $file = 'webservice/pluginfile.php';
+    private $file = 'webservice/lib.php';
 
     /** @var string The session lang */
     private $lang = '';
@@ -55,8 +55,8 @@ class external_settings {
         if ((AJAX_SCRIPT == false) && (CLI_SCRIPT == false) && (WS_SERVER == false)) {
             // For normal pages, the default should match the default for format_text.
             $this->filter = true;
-            // Use pluginfile.php for web requests.
-            $this->file = 'pluginfile.php';
+            // Use lib.php for web requests.
+            $this->file = 'lib.php';
         }
     }
 

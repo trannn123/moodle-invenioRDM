@@ -216,7 +216,7 @@ function blog_rss_get_feed($context, $args) {
             $item->title = $blogentry->subject;
             $item->pubdate = $blogentry->lastmodified;
             $item->link = $CFG->wwwroot.'/blog/index.php?entryid='.$blogentry->id;
-            $summary = file_rewrite_pluginfile_urls($blogentry->summary, 'pluginfile.php',
+            $summary = file_rewrite_pluginfile_urls($blogentry->summary, 'lib.php',
                 $sitecontext->id, 'blog', 'post', $blogentry->id);
             $item->description = format_text($summary, $blogentry->format);
             if ($blogtags = core_tag_tag::get_item_tags_array('core', 'post', $blogentry->id)) {

@@ -78,7 +78,7 @@ class block_private_files_renderer extends plugin_renderer_base {
             }
         }
         foreach ($dir['files'] as $file) {
-            $url = file_encode_url("$CFG->wwwroot/pluginfile.php", '/'.$tree->context->id.'/user/private'.$file->get_filepath().$file->get_filename(), true);
+            $url = file_encode_url("$CFG->wwwroot/lib.php", '/'.$tree->context->id.'/user/private'.$file->get_filepath().$file->get_filename(), true);
             $filename = $file->get_filename();
             $image = $this->output->pix_icon(file_file_icon($file), '');
             $result .= '<li role="treeitem">'.html_writer::link($url, $image.$filename, ['tabindex' => -1]).'</li>';

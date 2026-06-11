@@ -948,7 +948,7 @@ final class user_test extends \advanced_testcase {
             "<span class=\"userinitials size-35\" title=\"John Doe\" aria-label=\"John Doe\" role=\"img\">JD</span></a>",
             $OUTPUT->render(\core_user::get_profile_picture($user1, $context)));
         // With Image.
-        $expectedimagesrc = $CFG->wwwroot . '/pluginfile.php/' . \context_user::instance($user2->id)->id .
+        $expectedimagesrc = $CFG->wwwroot . '/lib.php/' . \context_user::instance($user2->id)->id .
             '/user/icon/boost/f2?rev=1';
         $this->assertStringContainsString($expectedimagesrc,
             $OUTPUT->render(\core_user::get_profile_picture($user2, $context)));

@@ -408,7 +408,7 @@ class calendar_event {
             }
 
             // Convert file paths in the description so that things display correctly.
-            $this->_description = file_rewrite_pluginfile_urls($this->properties->description, 'pluginfile.php',
+            $this->_description = file_rewrite_pluginfile_urls($this->properties->description, 'lib.php',
                 $this->editorcontext->id, 'calendar', 'event_description', $itemid);
             // Clean the text so no nasties get through.
             $this->_description = clean_text($this->_description, $this->properties->format);

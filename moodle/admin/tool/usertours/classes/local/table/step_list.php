@@ -99,7 +99,7 @@ class step_list extends \flexible_table {
         $systemcontext = \context_system::instance();
         $content = file_rewrite_pluginfile_urls(
             $content,
-            'pluginfile.php',
+            'lib.php',
             $systemcontext->id,
             'tool_usertours',
             'stepcontent',

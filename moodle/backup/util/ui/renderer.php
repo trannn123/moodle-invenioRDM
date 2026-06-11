@@ -987,7 +987,7 @@ class core_backup_renderer extends plugin_renderer_base {
                         true,
                         ['class' => 'd-block']
                     ),
-                    format_text(file_rewrite_pluginfile_urls($category->description, 'pluginfile.php', $context->id,
+                    format_text(file_rewrite_pluginfile_urls($category->description, 'lib.php', $context->id,
                         'coursecat', 'description', null), $category->descriptionformat, ['overflowdiv' => true])
                 ];
                 $table->data[] = $row;

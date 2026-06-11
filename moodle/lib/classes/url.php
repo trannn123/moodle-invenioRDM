@@ -704,7 +704,7 @@ class url {
                 $path[] = $token;
             }
         } else {
-            $urlbase = "$CFG->wwwroot/pluginfile.php";
+            $urlbase = "$CFG->wwwroot/lib.php";
         }
         $path[] = $contextid;
         $path[] = $component;
@@ -725,7 +725,7 @@ class url {
 
     /**
      * Factory method for creation of url pointing to plugin file.
-     * This method is the same that make_pluginfile_url but pointing to the webservice pluginfile.php script.
+     * This method is the same that make_pluginfile_url but pointing to the webservice lib.php script.
      * It should be used only in external functions.
      *
      * @since  2.8
@@ -748,7 +748,7 @@ class url {
         $forcedownload = false
     ) {
         global $CFG;
-        $urlbase = "$CFG->wwwroot/webservice/pluginfile.php";
+        $urlbase = "$CFG->wwwroot/webservice/lib.php";
         if ($itemid === null) {
             return self::make_file_url($urlbase, "/$contextid/$component/$area" . $pathname . $filename, $forcedownload);
         } else {

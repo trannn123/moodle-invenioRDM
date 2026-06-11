@@ -690,7 +690,7 @@ abstract class handler {
             if (strlen((string)$field->description)) {
                 // Add field description.
                 $context = $this->get_configuration_context();
-                $value = file_rewrite_pluginfile_urls($field->description, 'pluginfile.php',
+                $value = file_rewrite_pluginfile_urls($field->description, 'lib.php',
                     $context->id, 'core_customfield', 'description', $field->id);
                 $value = format_text($value, $field->descriptionformat, ['context' => $context]);
                 $mform->addElement('static', 'customfield_' . $field->shortname . '_static', '', $value);

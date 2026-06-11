@@ -329,7 +329,7 @@ class core_course_external extends external_api {
 
                         // Return contents only if the user can access to the module.
                         if ($cm->uservisible) {
-                            $baseurl = 'webservice/pluginfile.php';
+                            $baseurl = 'webservice/lib.php';
 
                             // Call $modulename_export_contents (each module callback take care about checking the capabilities).
                             require_once($CFG->dirroot . '/mod/' . $cm->modname . '/lib.php');

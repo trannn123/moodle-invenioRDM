@@ -146,7 +146,7 @@ class blog extends base {
 
                 // All blog files are stored in system context.
                 $context = context_system::instance();
-                $summary = file_rewrite_pluginfile_urls($summary, 'pluginfile.php', $context->id, 'blog', 'post', $post->id);
+                $summary = file_rewrite_pluginfile_urls($summary, 'lib.php', $context->id, 'blog', 'post', $post->id);
 
                 return format_text($summary, $post->summaryformat, ['context' => $context->id]);
             });

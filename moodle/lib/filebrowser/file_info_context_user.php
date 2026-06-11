@@ -118,7 +118,7 @@ class file_info_context_user extends file_info {
                 return null;
             }
         }
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
 
         //TODO: user quota from $CFG->userquota
 
@@ -162,7 +162,7 @@ class file_info_context_user extends file_info {
                 return null;
             }
         }
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         return new file_info_stored($this->browser, $this->context, $storedfile, $urlbase,
                 get_string('areauserprofile', 'repository'), false, $readaccess, $writeaccess, false);
     }
@@ -240,7 +240,7 @@ class file_info_context_user extends file_info {
                 return null;
             }
         }
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         return new file_info_stored($this->browser, $this->context, $storedfile, $urlbase, get_string('areauserbackup', 'repository'), false, true, true, false);
     }
 

@@ -371,7 +371,7 @@ final class framework_test extends \advanced_testcase {
         // Create a library record.
         $lib = $generator->create_library_record('Library', 'Lib', 1, 1);
 
-        $expected = "{$CFG->wwwroot}/pluginfile.php/1/core_h5p/libraries/{$lib->id}/Library-1.1/library.json";
+        $expected = "{$CFG->wwwroot}/lib.php/1/core_h5p/libraries/{$lib->id}/Library-1.1/library.json";
 
         // Get the URL of a file from an existing library. The provided folder name is parsable.
         $actual = $this->framework->getLibraryFileUrl('Library-1.1', 'library.json');
@@ -437,7 +437,7 @@ final class framework_test extends \advanced_testcase {
         $lib1 = $generator->create_library_record('Library', 'Lib', 1, 1);
         $lib2 = $generator->create_library_record('Library', 'Lib', 1, 3);
 
-        $expected = "{$CFG->wwwroot}/pluginfile.php/1/core_h5p/libraries/{$lib2->id}/Library-1.3/library.json";
+        $expected = "{$CFG->wwwroot}/lib.php/1/core_h5p/libraries/{$lib2->id}/Library-1.3/library.json";
 
         // Get the URL of a file from an existing library (Library 1.3). The provided folder name is parsable.
         $actual = $this->framework->getLibraryFileUrl('Library-1.3', 'library.json');
@@ -461,7 +461,7 @@ final class framework_test extends \advanced_testcase {
         $lib2 = $generator->create_library_record('Library', 'Lib', 1, 1, 4);
         $lib3 = $generator->create_library_record('Library', 'Lib', 1, 1, 3);
 
-        $expected = "{$CFG->wwwroot}/pluginfile.php/1/core_h5p/libraries/{$lib2->id}/Library-1.1/library.json";
+        $expected = "{$CFG->wwwroot}/lib.php/1/core_h5p/libraries/{$lib2->id}/Library-1.1/library.json";
 
         // Get the URL of a file from an existing library. The provided folder name is parsable.
         $actual = $this->framework->getLibraryFileUrl('Library-1.1', 'library.json');
@@ -483,7 +483,7 @@ final class framework_test extends \advanced_testcase {
         // Create a library record.
         $lib = $generator->create_library_record('Library', 'Lib', 1, 1);
 
-        $expected = "{$CFG->wwwroot}/pluginfile.php/1/core_h5p/libraries/{$lib->id}/Library-1.1/css/example.css";
+        $expected = "{$CFG->wwwroot}/lib.php/1/core_h5p/libraries/{$lib->id}/Library-1.1/css/example.css";
 
         // Get the URL of a file from a sub-folder from an existing library. The provided folder name is parsable.
         $actual = $this->framework->getLibraryFileUrl('Library-1.1/css', 'example.css');

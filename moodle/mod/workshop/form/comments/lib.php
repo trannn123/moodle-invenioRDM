@@ -216,7 +216,7 @@ class workshop_comments_strategy implements workshop_strategy {
         // rewrite URLs to the embedded files
         for ($i = 0; $i < $nodimensions; $i++) {
             $fields->{'description__idx_'.$i} = file_rewrite_pluginfile_urls($fields->{'description__idx_'.$i},
-                'pluginfile.php', $PAGE->context->id, 'workshopform_comments', 'description', $fields->{'dimensionid__idx_'.$i});
+                'lib.php', $PAGE->context->id, 'workshopform_comments', 'description', $fields->{'dimensionid__idx_'.$i});
         }
 
         if ('assessment' === $mode and !empty($assessment)) {

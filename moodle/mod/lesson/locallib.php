@@ -4384,7 +4384,7 @@ abstract class lesson_page extends lesson_base {
      */
     private function format_response($response, $context, $responseformat, $answerid, $options) {
 
-        $convertstudentresponse = file_rewrite_pluginfile_urls($response, 'pluginfile.php',
+        $convertstudentresponse = file_rewrite_pluginfile_urls($response, 'lib.php',
             $context->id, 'mod_lesson', 'page_responses', $answerid);
 
         return format_text($convertstudentresponse, $responseformat, $options);
@@ -4501,10 +4501,10 @@ abstract class lesson_page extends lesson_base {
 
         $context = context_module::instance($PAGE->cm->id);
         if ($rewriteanswer) {
-            $answer->answer = file_rewrite_pluginfile_urls($answer->answer, 'pluginfile.php', $context->id,
+            $answer->answer = file_rewrite_pluginfile_urls($answer->answer, 'lib.php', $context->id,
                     'mod_lesson', 'page_answers', $answer->id);
         }
-        $answer->response = file_rewrite_pluginfile_urls($answer->response, 'pluginfile.php', $context->id,
+        $answer->response = file_rewrite_pluginfile_urls($answer->response, 'lib.php', $context->id,
                 'mod_lesson', 'page_responses', $answer->id);
 
         return $answer;
@@ -4880,7 +4880,7 @@ abstract class lesson_page extends lesson_base {
                 $this->properties->contentsformat = FORMAT_HTML;
             }
             $context = context_module::instance($PAGE->cm->id);
-            $contents = file_rewrite_pluginfile_urls($this->properties->contents, 'pluginfile.php', $context->id, 'mod_lesson',
+            $contents = file_rewrite_pluginfile_urls($this->properties->contents, 'lib.php', $context->id, 'mod_lesson',
                                                      'page_contents', $this->properties->id);  // Must do this BEFORE format_text()!
             return format_text($contents, $this->properties->contentsformat,
                                array('context' => $context, 'noclean' => true,

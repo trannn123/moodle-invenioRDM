@@ -72,7 +72,7 @@ class event_exporter_base extends exporter {
         $data->name = $event->get_name();
         $data->description = file_rewrite_pluginfile_urls(
             $event->get_description()->get_value(),
-            'pluginfile.php',
+            'lib.php',
             $related['context']->id,
             'calendar',
             'event_description',

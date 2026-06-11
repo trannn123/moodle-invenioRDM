@@ -86,7 +86,7 @@ class summary implements named_templatable, renderable {
     public function format_summary_text(): string {
         $section = $this->section;
         $context = context_course::instance($section->course);
-        $summarytext = file_rewrite_pluginfile_urls($section->summary, 'pluginfile.php',
+        $summarytext = file_rewrite_pluginfile_urls($section->summary, 'lib.php',
             $context->id, 'course', 'section', $section->id);
 
         $options = new stdClass();

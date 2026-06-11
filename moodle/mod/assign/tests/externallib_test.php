@@ -248,7 +248,7 @@ final class externallib_test extends \mod_assign\externallib_advanced_testcase {
         $this->assertNotEmpty($assignment['configs']);
         // Check the url of the file attatched.
         $this->assertMatchesRegularExpression(
-            '@"' . $CFG->wwwroot . '/webservice/pluginfile.php/\d+/mod_assign/intro/intro\.txt"@', $assignment['intro']);
+            '@"' . $CFG->wwwroot . '/webservice/lib.php/\d+/mod_assign/intro/intro\.txt"@', $assignment['intro']);
         $this->assertEquals(1, $assignment['markingworkflow']);
         $this->assertEquals(1, $assignment['markingallocation']);
         $this->assertEquals(1, $assignment['blindmarking']);

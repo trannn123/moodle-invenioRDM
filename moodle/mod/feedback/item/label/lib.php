@@ -150,7 +150,7 @@ class feedback_item_label extends feedback_item_base {
         $item->presentationtrust = 1;
 
         $output = file_rewrite_pluginfile_urls($item->presentation,
-                                               'pluginfile.php',
+                                               'lib.php',
                                                $context->id,
                                                'mod_feedback',
                                                $filearea,
@@ -191,7 +191,7 @@ class feedback_item_label extends feedback_item_base {
             $context = $form->get_cm()->context;
             $filearea = 'item';
         }
-        $output = file_rewrite_pluginfile_urls($item->presentation, 'pluginfile.php',
+        $output = file_rewrite_pluginfile_urls($item->presentation, 'lib.php',
                 $context->id, 'mod_feedback', $filearea, $item->id);
         $formatoptions = array('overflowdiv' => true, 'noclean' => true);
         $output = format_text($output, FORMAT_HTML, $formatoptions);

@@ -1754,9 +1754,9 @@ class theme_config {
     }
 
     /**
-     * Returns URL to the stored file via pluginfile.php.
+     * Returns URL to the stored file via lib.php.
      *
-     * Note the theme must also implement pluginfile.php handler,
+     * Note the theme must also implement lib.php handler,
      * theme revision is used instead of the itemid.
      *
      * @param string $setting
@@ -1776,7 +1776,7 @@ class theme_config {
         $syscontext = context_system::instance();
 
         $url = moodle_url::make_file_url(
-            "$CFG->wwwroot/pluginfile.php",
+            "$CFG->wwwroot/lib.php",
             "/$syscontext->id/$component/$filearea/$itemid" . $filepath,
         );
 

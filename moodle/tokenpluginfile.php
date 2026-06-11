@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Entry point for token-based access to pluginfile.php.
+ * Entry point for token-based access to lib.php.
  *
  * @package    core
  * @copyright  2018 Andrew Nicols <andrew@nicols.co.uk>

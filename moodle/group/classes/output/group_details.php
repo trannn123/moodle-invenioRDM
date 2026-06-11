@@ -63,7 +63,7 @@ class group_details implements renderable, templatable {
         if (!empty($this->group->description) || (!empty($this->group->picture))) {
             $context = context_course::instance($this->group->courseid);
             $description = file_rewrite_pluginfile_urls($this->group->description,
-                                                        'pluginfile.php',
+                                                        'lib.php',
                                                         $context->id,
                                                         'group',
                                                         'description',

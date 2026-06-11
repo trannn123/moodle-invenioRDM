@@ -595,7 +595,7 @@ class question_attempt {
      * @return string the URL of that file.
      */
     public function get_response_file_url(stored_file $file) {
-        return file_encode_url(new moodle_url('/pluginfile.php'), '/' . implode('/', array(
+        return file_encode_url(new moodle_url('/lib.php'), '/' . implode('/', array(
                 $file->get_contextid(),
                 $file->get_component(),
                 $file->get_filearea(),
@@ -866,7 +866,7 @@ class question_attempt {
      * @return string the content with the URLs rewritten.
      */
     public function rewrite_pluginfile_urls($text, $component, $filearea, $itemid) {
-        return question_rewrite_question_urls($text, 'pluginfile.php',
+        return question_rewrite_question_urls($text, 'lib.php',
                 $this->question->contextid, $component, $filearea,
                 $this->extra_file_path_components(), $itemid);
     }

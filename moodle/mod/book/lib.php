@@ -396,7 +396,7 @@ function book_get_file_info($browser, $areas, $course, $cm, $context, $filearea,
     $chaptername = $DB->get_field('book_chapters', 'title', array('bookid'=>$cm->instance, 'id'=>$itemid));
     $chaptername = format_string($chaptername, true, array('context'=>$context));
 
-    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+    $urlbase = $CFG->wwwroot.'/lib.php';
     return new file_info_stored($browser, $context, $storedfile, $urlbase, $chaptername, true, true, $canwrite, false);
 }
 
@@ -448,7 +448,7 @@ function book_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
         $filename = "index.html";
 
         // We need to rewrite the pluginfile URLs so the media filters can work.
-        $content = file_rewrite_pluginfile_urls($chapter->content, 'webservice/pluginfile.php', $context->id, 'mod_book', 'chapter',
+        $content = file_rewrite_pluginfile_urls($chapter->content, 'webservice/lib.php', $context->id, 'mod_book', 'chapter',
                                                 $chapter->id);
         $formatoptions = new stdClass;
         $formatoptions->noclean = true;
@@ -459,7 +459,7 @@ function book_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
 
         // Remove @@PLUGINFILE@@/.
         $options = array('reverse' => true);
-        $content = file_rewrite_pluginfile_urls($content, 'webservice/pluginfile.php', $context->id, 'mod_book', 'chapter',
+        $content = file_rewrite_pluginfile_urls($content, 'webservice/lib.php', $context->id, 'mod_book', 'chapter',
                                                 $chapter->id, $options);
         $content = str_replace('@@PLUGINFILE@@/', '', $content);
 

@@ -631,7 +631,7 @@ function quiz_feedback_for_grade($grade, $quiz, $context) {
     // Clean the text, ready for display.
     $formatoptions = new stdClass();
     $formatoptions->noclean = true;
-    $feedbacktext = file_rewrite_pluginfile_urls($feedback->feedbacktext, 'pluginfile.php',
+    $feedbacktext = file_rewrite_pluginfile_urls($feedback->feedbacktext, 'lib.php',
             $context->id, 'mod_quiz', 'feedback', $feedback->id);
     $feedbacktext = format_text($feedbacktext, $feedback->feedbacktextformat, $formatoptions);
 

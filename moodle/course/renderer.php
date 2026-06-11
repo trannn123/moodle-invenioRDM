@@ -604,7 +604,7 @@ class core_course_renderer extends plugin_renderer_base {
         $contentimages = $contentfiles = '';
         foreach ($course->get_course_overviewfiles() as $file) {
             $isimage = $file->is_valid_image();
-            $url = moodle_url::make_file_url("$CFG->wwwroot/pluginfile.php",
+            $url = moodle_url::make_file_url("$CFG->wwwroot/lib.php",
                 '/' . $file->get_contextid() . '/' . $file->get_component() . '/' .
                 $file->get_filearea() . $file->get_filepath() . $file->get_filename(), !$isimage);
             if ($isimage) {
@@ -2002,7 +2002,7 @@ class coursecat_helper {
                 $options['context'] = $context;
             }
             $text = file_rewrite_pluginfile_urls($coursecat->description,
-                    'pluginfile.php', $context->id, 'coursecat', 'description', null);
+                    'lib.php', $context->id, 'coursecat', 'description', null);
             return format_text($text, $descriptionformat, $options);
         }
         return null;
@@ -2026,7 +2026,7 @@ class coursecat_helper {
         if (!isset($options['context'])) {
             $options['context'] = $context;
         }
-        $summary = file_rewrite_pluginfile_urls($course->summary, 'pluginfile.php', $context->id, 'course', 'summary', null);
+        $summary = file_rewrite_pluginfile_urls($course->summary, 'lib.php', $context->id, 'course', 'summary', null);
         $summary = format_text($summary, $course->summaryformat, $options);
         if (!empty($this->searchcriteria['search'])) {
             $summary = highlight($this->searchcriteria['search'], $summary);

@@ -415,8 +415,8 @@ class player {
         $slug = $this->content['slug'] ? $this->content['slug'] . '-' : '';
         $filename = "{$slug}{$this->content['id']}.h5p";
         // We have to build the right URL.
-        // Depending the request was made through webservice/pluginfile.php or pluginfile.php.
-        if (strpos($this->url, '/webservice/pluginfile.php')) {
+        // Depending the request was made through webservice/lib.php or lib.php.
+        if (strpos($this->url, '/webservice/lib.php')) {
             $url  = \moodle_url::make_webservice_pluginfile_url(
                 $systemcontext->id,
                 \core_h5p\file_storage::COMPONENT,
@@ -484,7 +484,7 @@ class player {
         $files = $this->get_dependency_files();
         if ($this->embedtype === 'div') {
             $systemcontext = \context_system::instance();
-            $h5ppath = "/pluginfile.php/{$systemcontext->id}/core_h5p";
+            $h5ppath = "/lib.php/{$systemcontext->id}/core_h5p";
 
             // Schedule JavaScripts for loading through Moodle.
             foreach ($files['scripts'] as $script) {

@@ -32,18 +32,14 @@ require_once($CFG->libdir . '/clilib.php');
 list($options, $unrecognized) = cli_get_params(
     [
         'courseid' => false,
-        'disablerecyclebin' => false,
         'help' => false,
-        'idnumber' => false,
-        'non-interactive' => false,
-        'shortname' => false,
-        'showdebugging' => false,
         'showsql' => false,
+        'showdebugging' => false,
+        'disablerecyclebin' => false,
+        'non-interactive' => false,
     ], [
         'c' => 'courseid',
         'h' => 'help',
-        'i' => 'idnumber',
-        's' => 'shortname',
     ]
 );
 
@@ -52,30 +48,22 @@ if ($unrecognized) {
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));
 }
 
-if (
-    $options['help']
-    || (empty($options['courseid']) && empty($options['idnumber']) && empty($options['shortname']) )
-) {
+if ($options['help'] || empty($options['courseid'])) {
     $help = <<<EOT
 CLI script to delete a course.
 
 Options:
  -h, --help                Print out this help
- -c, --courseid            Course id to be deleted
-     --disablerecyclebin   Skip backing up the course
- -i, --idnumber            Course idnumber to be deleted
-     --non-interactive     No interactive questions or confirmations
- -s, --shortname           Course short name to be deleted
-     --showdebugging       Show developer level debugging information
      --showsql             Show sql queries before they are executed
+     --showdebugging       Show developer level debugging information
+     --disablerecyclebin   Skip backing up the course
+     --non-interactive     No interactive questions or confirmations
+ -c, --courseid            Course id to be deleted
 
 Example:
-
 \$sudo -u www-data /usr/bin/php admin/cli/delete_course.php --courseid=123456
-\$sudo -u www-data /usr/bin/php admin/cli/delete_course.php --courseid=123456 --disablerecyclebin
 \$sudo -u www-data /usr/bin/php admin/cli/delete_course.php --courseid=123456 --showdebugging
-\$sudo -u www-data /usr/bin/php admin/cli/delete_course.php --idnumber=COMP101
-\$sudo -u www-data /usr/bin/php admin/cli/delete_course.php --shortname=COMP101
+\$sudo -u www-data /usr/bin/php admin/cli/delete_course.php --courseid=123456 --disablerecyclebin
 
 EOT;
 
@@ -103,16 +91,7 @@ if (moodle_needs_upgrading()) {
     cli_error('Moodle upgrade pending, CLI execution suspended');
 }
 
-if (!empty($options['courseid'])) {
-    $course = $DB->get_record('course', ['id' => $options['courseid']]);
-}
-if (!empty($options['idnumber'])) {
-    $course = $DB->get_record('course', ['idnumber' => $options['idnumber']]);
-}
-if (!empty($options['shortname'])) {
-    $course = $DB->get_record('course', ['shortname' => $options['shortname']]);
-}
-
+$course = $DB->get_record('course', array('id' => $options['courseid']));
 if (empty($course)) {
     cli_error('Course not found');
 }
@@ -120,7 +99,6 @@ if (empty($course)) {
 mtrace('Deleting course id ' . $course->id);
 mtrace('Course name: ' . $course->fullname);
 mtrace('Short name: ' . $course->shortname);
-mtrace('ID number: ' . $course->idnumber);
 
 if ($interactive) {
     mtrace('');

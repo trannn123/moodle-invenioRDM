@@ -327,7 +327,7 @@ function resource_get_file_info($browser, $areas, $course, $cm, $context, $filea
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_resource', 'content', 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_resource', 'content', 0);
@@ -373,7 +373,7 @@ function resource_pluginfile($course, $cm, $context, $filearea, $args, $forcedow
     }
 
     if ($filearea !== 'content') {
-        // intro is handled automatically in pluginfile.php
+        // intro is handled automatically in lib.php
         return false;
     }
 

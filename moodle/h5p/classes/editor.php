@@ -409,7 +409,7 @@ class editor {
             $settings['editor']['nodeVersionId'] = $this->id;
 
             // Override content URL.
-            $contenturl = "{$root}/pluginfile.php/{$context->id}/core_h5p/content/{$this->id}";
+            $contenturl = "{$root}/lib.php/{$context->id}/core_h5p/content/{$this->id}";
             $settings['contents']['cid-' . $this->id]['contentUrl'] = $contenturl;
         }
 

@@ -232,13 +232,13 @@ function booktool_exportimscp_chapter_content($chapter, $context) {
     $options->context = $context;
 
     // We need to rewrite the pluginfile URLs so the media filters can work.
-    $chaptercontent = file_rewrite_pluginfile_urls($chapter->content, 'pluginfile.php', $context->id, 'mod_book', 'chapter',
+    $chaptercontent = file_rewrite_pluginfile_urls($chapter->content, 'lib.php', $context->id, 'mod_book', 'chapter',
                                                     $chapter->id);
     $chaptercontent = format_text($chaptercontent, $chapter->contentformat, $options);
 
     // Now remove again the full pluginfile URLs.
     $options = array('reverse' => true);
-    $chaptercontent = file_rewrite_pluginfile_urls($chaptercontent, 'pluginfile.php', $context->id, 'mod_book', 'chapter',
+    $chaptercontent = file_rewrite_pluginfile_urls($chaptercontent, 'lib.php', $context->id, 'mod_book', 'chapter',
                                                     $chapter->id, $options);
     $chaptercontent = str_replace('@@PLUGINFILE@@/', '', $chaptercontent);
 

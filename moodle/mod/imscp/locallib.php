@@ -68,7 +68,7 @@ function imscp_htmllize_item($item, $imscp, $cm) {
             $url = $item['href'];
         } else {
             $context = context_module::instance($cm->id);
-            $urlbase = "$CFG->wwwroot/pluginfile.php";
+            $urlbase = "$CFG->wwwroot/lib.php";
             $path = '/'.$context->id.'/mod_imscp/content/'.$imscp->revision.'/'.$item['href'];
             $url = file_encode_url($urlbase, $path, false);
         }

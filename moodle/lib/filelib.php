@@ -478,7 +478,7 @@ function file_prepare_draft_area(&$draftitemid, $contextid, $component, $fileare
  * in the @@PLUGINFILE@@ form.
  *
  * @param   string  $text The content that may contain ULRs in need of rewriting.
- * @param   string  $file The script that should be used to serve these files. pluginfile.php, draftfile.php, etc.
+ * @param   string  $file The script that should be used to serve these files. lib.php, draftfile.php, etc.
  * @param   int     $contextid This parameter and the next two identify the file area to use.
  * @param   string  $component
  * @param   string  $filearea helps identify the file area.

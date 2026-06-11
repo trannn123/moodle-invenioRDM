@@ -3216,7 +3216,7 @@ function data_get_file_info($browser, $areas, $course, $cm, $context, $filearea,
         return null;
     }
 
-    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+    $urlbase = $CFG->wwwroot.'/lib.php';
 
     return new file_info_stored($browser, $context, $storedfile, $urlbase, $itemid, true, true, false, false);
 }

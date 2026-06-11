@@ -54,7 +54,7 @@ class file_info_stored extends file_info {
      * @param file_browser $browser file browser instance
      * @param stdClass $context context object
      * @param stored_file|virtual_root_file $storedfile stored_file instance
-     * @param string $urlbase the serving script - usually the $CFG->wwwroot/.'pluginfile.php'
+     * @param string $urlbase the serving script - usually the $CFG->wwwroot/.'lib.php'
      * @param string $topvisiblename the human readable name of this area
      * @param int|bool $itemidused false if itemid  always 0 and not included in URL
      * @param bool $readaccess allow file reading

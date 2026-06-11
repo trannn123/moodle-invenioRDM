@@ -201,7 +201,7 @@ class mod_feedback_structure {
 
         $context = context_module::instance($this->get_cm()->id);
         $output = file_rewrite_pluginfile_urls($pageaftersubmit,
-                'pluginfile.php', $context->id, 'mod_feedback', 'page_after_submit', 0);
+                'lib.php', $context->id, 'mod_feedback', 'page_after_submit', 0);
 
         return format_text($output, $pageaftersubmitformat, array('overflowdiv' => true));
     }

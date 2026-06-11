@@ -873,7 +873,7 @@ class user extends grade_report {
                     if ($gradegrade->feedback) {
                         $gradegrade->feedback = file_rewrite_pluginfile_urls(
                             $gradegrade->feedback,
-                            'pluginfile.php',
+                            'lib.php',
                             $gradegrade->get_context()->id,
                             GRADE_FILE_COMPONENT,
                             GRADE_FEEDBACK_FILEAREA,

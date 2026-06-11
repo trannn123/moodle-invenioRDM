@@ -1194,8 +1194,8 @@ class page_wiki_diff extends page_wiki {
 
         if ($oldversion && $newversion) {
 
-            $oldtext = format_text(file_rewrite_pluginfile_urls($oldversion->content, 'pluginfile.php', $this->modcontext->id, 'mod_wiki', 'attachments', $this->subwiki->id));
-            $newtext = format_text(file_rewrite_pluginfile_urls($newversion->content, 'pluginfile.php', $this->modcontext->id, 'mod_wiki', 'attachments', $this->subwiki->id));
+            $oldtext = format_text(file_rewrite_pluginfile_urls($oldversion->content, 'lib.php', $this->modcontext->id, 'mod_wiki', 'attachments', $this->subwiki->id));
+            $newtext = format_text(file_rewrite_pluginfile_urls($newversion->content, 'lib.php', $this->modcontext->id, 'mod_wiki', 'attachments', $this->subwiki->id));
             list($diff1, $diff2) = ouwiki_diff_html($oldtext, $newtext);
             $oldversion->diff = $diff1;
             $oldversion->user = wiki_get_user_info($oldversion->userid);
@@ -2213,7 +2213,7 @@ class page_wiki_viewversion extends page_wiki {
             echo $OUTPUT->container($heading, 'wiki_headingtime', 'wiki_modifieduser');
             $options = array('swid' => $this->subwiki->id, 'pretty_print' => true, 'pageid' => $this->page->id);
 
-            $pageversion->content = file_rewrite_pluginfile_urls($pageversion->content, 'pluginfile.php', $this->modcontext->id, 'mod_wiki', 'attachments', $this->subwiki->id);
+            $pageversion->content = file_rewrite_pluginfile_urls($pageversion->content, 'lib.php', $this->modcontext->id, 'mod_wiki', 'attachments', $this->subwiki->id);
 
             $parseroutput = wiki_parse_content($pageversion->contentformat, $pageversion->content, $options);
             $content = $OUTPUT->container(format_text($parseroutput['parsed_text'], FORMAT_HTML, ['overflowdiv' => true]));
@@ -2301,7 +2301,7 @@ class page_wiki_prettyview extends page_wiki {
         $id = $this->subwiki->wikiid;
         if ($cm = get_coursemodule_from_instance("wiki", $id)) {
             $context = context_module::instance($cm->id);
-            $html = file_rewrite_pluginfile_urls($html, 'pluginfile.php', $context->id, 'mod_wiki', 'attachments', $this->subwiki->id);
+            $html = file_rewrite_pluginfile_urls($html, 'lib.php', $context->id, 'mod_wiki', 'attachments', $this->subwiki->id);
         }
         echo '<div id="wiki_printable_content">';
         echo format_text($html, FORMAT_HTML);

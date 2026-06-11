@@ -575,7 +575,7 @@ abstract class assign_plugin {
      */
     public function get_file_info($browser, $filearea, $itemid, $filepath, $filename) {
         global $CFG, $DB, $USER;
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         $writeaccess = false;
         // Permission check on the itemid.
         $assignment = $this->assignment;

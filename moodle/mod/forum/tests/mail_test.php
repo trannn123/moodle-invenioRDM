@@ -1026,7 +1026,7 @@ final class mail_test extends \advanced_testcase {
                         '~{$a',
                         '~&(amp|lt|gt|quot|\#039);(?!course)',
                         'Attachment example.txt:' . '\r*\n' .
-                            'https://www.example.com/moodle/pluginfile.php/\d*/mod_forum/attachment/\d*/example.txt' . '\r*\n',
+                            'https://www.example.com/moodle/lib.php/\d*/mod_forum/attachment/\d*/example.txt' . '\r*\n',
                         'Hello Moodle', 'Moodle Forum', 'Welcome.*Moodle', 'Love Moodle', '1\d1'
                     ),
                 ),
@@ -1085,10 +1085,10 @@ final class mail_test extends \advanced_testcase {
             '~{$a',
             '~&(amp|lt|gt|quot|\#039);(?!course)',
             'Attachment example.txt:' . '\r*\n' .
-            'https://www.example.com/moodle/pluginfile.php/\d*/mod_forum/attachment/\d*/example.txt' .  '\r*\n' ,
+            'https://www.example.com/moodle/lib.php/\d*/mod_forum/attachment/\d*/example.txt' .  '\r*\n' ,
             'Text and image', 'Moodle Forum',
             'Welcome to Moodle, *' . '\r*\n' . '.*'
-                .'https://www.example.com/moodle/pluginfile.php/\d+/mod_forum/post/\d+/'
+                .'https://www.example.com/moodle/lib.php/\d+/mod_forum/post/\d+/'
                 .'Screen%20Shot%202016-03-22%20at%205\.54\.36%20AM%20%281%29\.png *' . '\r*\n' . '.*!',
             'Love Moodle', '1\d1');
         $textcases['Text mail with text+image message i.e. @@PLUGINFILE@@ token handling'] = array('data' => $newcase);

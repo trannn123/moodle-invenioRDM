@@ -250,12 +250,12 @@ switch ($mode) {
                 // Set rest of the message values
                 $currentpage = $lesson->load_page($attempt->pageid);
                 $a->question = format_text($currentpage->contents, $currentpage->contentsformat, $formattextdefoptions);
-                $answer = file_rewrite_pluginfile_urls($essayinfo->answer, 'pluginfile.php', $context->id,
+                $answer = file_rewrite_pluginfile_urls($essayinfo->answer, 'lib.php', $context->id,
                     'mod_lesson', 'essay_answers', $attempt->id);
                 $a->response = format_text($answer, $essayinfo->answerformat,
                         array('context' => $context, 'para' => true));
                 $a->comment = $essayinfo->response;
-                $a->comment = file_rewrite_pluginfile_urls($a->comment, 'pluginfile.php', $context->id,
+                $a->comment = file_rewrite_pluginfile_urls($a->comment, 'lib.php', $context->id,
                             'mod_lesson', 'essay_responses', $attempt->id);
                 $a->comment  = format_text($a->comment, $essayinfo->responseformat, $formattextdefoptions);
                 $a->lesson = format_string($lesson->name, true);
@@ -466,7 +466,7 @@ switch ($mode) {
         // Grading form
         // Expects the following to be set: $attemptid, $answer, $user, $page, $attempt
         $essayinfo = lesson_page_type_essay::extract_useranswer($attempt->useranswer);
-        $answer = file_rewrite_pluginfile_urls($essayinfo->answer, 'pluginfile.php', $context->id,
+        $answer = file_rewrite_pluginfile_urls($essayinfo->answer, 'lib.php', $context->id,
             'mod_lesson', 'essay_answers', $attempt->id);
         $currentpage = $lesson->load_page($attempt->pageid);
 

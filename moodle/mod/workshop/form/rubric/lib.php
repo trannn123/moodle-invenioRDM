@@ -256,7 +256,7 @@ class workshop_rubric_strategy implements workshop_strategy {
         // rewrite URLs to the embeded files
         for ($i = 0; $i < $nodimensions; $i++) {
             $fields->{'description__idx_'.$i} = file_rewrite_pluginfile_urls($fields->{'description__idx_'.$i},
-                'pluginfile.php', $this->workshop->context->id, 'workshopform_rubric', 'description',
+                'lib.php', $this->workshop->context->id, 'workshopform_rubric', 'description',
                 $fields->{'dimensionid__idx_'.$i});
 
         }

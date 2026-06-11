@@ -284,7 +284,7 @@ function page_get_file_info($browser, $areas, $course, $cm, $context, $filearea,
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_page', 'content', 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_page', 'content', 0);
@@ -330,7 +330,7 @@ function page_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
     }
 
     if ($filearea !== 'content') {
-        // intro is handled automatically in pluginfile.php
+        // intro is handled automatically in lib.php
         return false;
     }
 
@@ -345,7 +345,7 @@ function page_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
         }
 
         // We need to rewrite the pluginfile URLs so the media filters can work.
-        $content = file_rewrite_pluginfile_urls($page->content, 'webservice/pluginfile.php', $context->id, 'mod_page', 'content',
+        $content = file_rewrite_pluginfile_urls($page->content, 'webservice/lib.php', $context->id, 'mod_page', 'content',
                                                 $page->revision);
         $formatoptions = new stdClass;
         $formatoptions->noclean = true;
@@ -355,7 +355,7 @@ function page_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
 
         // Remove @@PLUGINFILE@@/.
         $options = array('reverse' => true);
-        $content = file_rewrite_pluginfile_urls($content, 'webservice/pluginfile.php', $context->id, 'mod_page', 'content',
+        $content = file_rewrite_pluginfile_urls($content, 'webservice/lib.php', $context->id, 'mod_page', 'content',
                                                 $page->revision, $options);
         $content = str_replace('@@PLUGINFILE@@/', '', $content);
 

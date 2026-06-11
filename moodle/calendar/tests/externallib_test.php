@@ -374,7 +374,7 @@ final class externallib_test extends externallib_advanced_testcase {
 
         // Expect the same URL in the description of two different events (because they are repeated).
         $coursecontext = \context_course::instance($course->id);
-        $expectedurl = "webservice/pluginfile.php/$coursecontext->id/calendar/event_description/$courseevent->id/fakeimage.png";
+        $expectedurl = "webservice/lib.php/$coursecontext->id/calendar/event_description/$courseevent->id/fakeimage.png";
         $withdescription = 0;
         foreach ($events['events'] as $event) {
             if (!empty($event['description'])) {

@@ -116,7 +116,7 @@ class file_info_context_coursecat extends file_info {
 
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         if (!$storedfile = $fs->get_file($this->context->id, 'coursecat', 'description', 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
                 $storedfile = new virtual_root_file($this->context->id, 'coursecat', 'description', 0);

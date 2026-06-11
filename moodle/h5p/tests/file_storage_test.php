@@ -898,7 +898,7 @@ final class file_storage_test extends \advanced_testcase {
     public function test_get_custom_styles(): void {
         global $CFG;
         $css = '.debug { color: #fab; }';
-        $cssurl = $CFG->wwwroot . '/pluginfile.php/1/core_h5p/css/custom_h5p.css';
+        $cssurl = $CFG->wwwroot . '/lib.php/1/core_h5p/css/custom_h5p.css';
         \set_config('h5pcustomcss', $css, 'core_h5p');
         $h5pfsrc = new \ReflectionClass(file_storage::class);
         $customcssfilename = $h5pfsrc->getConstant('CUSTOM_CSS_FILENAME');

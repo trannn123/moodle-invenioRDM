@@ -67,8 +67,8 @@ final class url_test extends \advanced_testcase {
         $this->assertSame('/', $url->get_path());
 
         $url = new url('http://www.example.org/pluginfile.php/slash/arguments');
-        $this->assertSame('/pluginfile.php/slash/arguments', $url->get_path());
-        $this->assertSame('/pluginfile.php', $url->get_path(false));
+        $this->assertSame('/lib.php/slash/arguments', $url->get_path());
+        $this->assertSame('/lib.php', $url->get_path(false));
     }
 
     public function test_round_trip(): void {
@@ -324,7 +324,7 @@ final class url_test extends \advanced_testcase {
     public function test_get_slashargument(): void {
         $this->resetAfterTest();
 
-        $url = new url('/pluginfile.php/14/user/private/capybara.png');
+        $url = new url('/lib.php/14/user/private/capybara.png');
         $this->assertEquals('/14/user/private/capybara.png', $url->get_slashargument());
 
         $url = new url('/image/capybara.png');

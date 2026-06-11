@@ -1132,7 +1132,7 @@ function glossary_print_entry_default ($entry, $glossary, $cm) {
     $definition = '<span class="nolink">' . strip_tags($definition) . '</span>';
 
     $context = context_module::instance($cm->id);
-    $definition = file_rewrite_pluginfile_urls($definition, 'pluginfile.php', $context->id, 'mod_glossary', 'entry', $entry->id);
+    $definition = file_rewrite_pluginfile_urls($definition, 'lib.php', $context->id, 'mod_glossary', 'entry', $entry->id);
 
     $options = new stdClass();
     $options->para = false;
@@ -1183,7 +1183,7 @@ function glossary_print_entry_definition($entry, $glossary, $cm) {
     $GLOSSARY_EXCLUDEENTRY = $entry->id;
 
     $context = context_module::instance($cm->id);
-    $definition = file_rewrite_pluginfile_urls($definition, 'pluginfile.php', $context->id, 'mod_glossary', 'entry', $entry->id);
+    $definition = file_rewrite_pluginfile_urls($definition, 'lib.php', $context->id, 'mod_glossary', 'entry', $entry->id);
 
     $options = new stdClass();
     $options->para = false;
@@ -1626,7 +1626,7 @@ function glossary_print_attachments($entry, $cm, $type=NULL, $unused = null) {
             $filename = $file->get_filename();
             $mimetype = $file->get_mimetype();
             $iconimage = $OUTPUT->pix_icon(file_file_icon($file), get_mimetype_description($file), 'moodle', array('class' => 'icon'));
-            $path = file_encode_url($CFG->wwwroot.'/pluginfile.php', '/'.$context->id.'/mod_glossary/attachment/'.$entry->id.'/'.$filename);
+            $path = file_encode_url($CFG->wwwroot.'/lib.php', '/'.$context->id.'/mod_glossary/attachment/'.$entry->id.'/'.$filename);
 
             if ($type == 'html') {
                 $output .= "<a href=\"$path\">$iconimage</a> ";
@@ -1745,7 +1745,7 @@ function glossary_get_file_info($browser, $areas, $course, $cm, $context, $filea
         return null;
     }
 
-    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+    $urlbase = $CFG->wwwroot.'/lib.php';
 
     return new file_info_stored($browser, $filecontext, $storedfile, $urlbase, s($entry->concept), true, true, false, false);
 }

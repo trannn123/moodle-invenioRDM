@@ -42,9 +42,23 @@ function local_inveniordm_extend_navigation_user(
     $context
 ) {
     $navigation->add(
-        'InvenioRDM',
+        get_string(
+            'repository',
+            'local_inveniordm'
+        ),
         new moodle_url(
             '/local/inveniordm/index.php'
         )
+    );
+}
+
+function local_inveniordm_extend_navigation(global_navigation $navigation) {
+    if (!isloggedin() || isguestuser()) {
+        return;
+    }
+
+    $navigation->add(
+        'InvenioRDM',
+        new moodle_url('/local/inveniordm/index.php')
     );
 }

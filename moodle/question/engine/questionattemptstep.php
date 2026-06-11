@@ -323,7 +323,7 @@ class question_attempt_step {
      */
     public function rewrite_response_pluginfile_urls($text, $contextid, $name, $extras) {
         $filearea = question_file_saver::clean_file_area_name('response_' . $name);
-        return question_rewrite_question_urls($text, 'pluginfile.php', $contextid,
+        return question_rewrite_question_urls($text, 'lib.php', $contextid,
                 'question', $filearea, $extras, $this->id);
     }
 

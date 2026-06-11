@@ -1452,7 +1452,7 @@ class core_tag_tag {
     public function get_formatted_description($options = array()) {
         $options = empty($options) ? array() : (array)$options;
         $options += array('para' => false, 'overflowdiv' => true);
-        $description = file_rewrite_pluginfile_urls($this->description, 'pluginfile.php',
+        $description = file_rewrite_pluginfile_urls($this->description, 'lib.php',
                 context_system::instance()->id, 'tag', 'description', $this->id);
         return format_text($description, $this->descriptionformat, $options);
     }

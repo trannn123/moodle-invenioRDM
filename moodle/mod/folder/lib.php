@@ -232,7 +232,7 @@ function folder_get_file_info($browser, $areas, $course, $cm, $context, $fileare
         }
 
         require_once("$CFG->dirroot/mod/folder/locallib.php");
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
 
         // students may read files here
         $canwrite = has_capability('mod/folder:managefiles', $context);
@@ -271,7 +271,7 @@ function folder_pluginfile($course, $cm, $context, $filearea, $args, $forcedownl
     }
 
     if ($filearea !== 'content') {
-        // intro is handled automatically in pluginfile.php
+        // intro is handled automatically in lib.php
         return false;
     }
 

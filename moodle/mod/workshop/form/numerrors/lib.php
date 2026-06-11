@@ -253,7 +253,7 @@ class workshop_numerrors_strategy implements workshop_strategy {
         // rewrite URLs to the embeded files
         for ($i = 0; $i < $nodimensions; $i++) {
             $fields->{'description__idx_'.$i} = file_rewrite_pluginfile_urls($fields->{'description__idx_'.$i},
-                'pluginfile.php', $PAGE->context->id, 'workshopform_numerrors', 'description', $fields->{'dimensionid__idx_'.$i});
+                'lib.php', $PAGE->context->id, 'workshopform_numerrors', 'description', $fields->{'dimensionid__idx_'.$i});
         }
 
         if ('assessment' === $mode and !empty($assessment)) {

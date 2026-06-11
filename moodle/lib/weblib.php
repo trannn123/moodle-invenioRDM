@@ -410,11 +410,11 @@ function get_file_argument() {
     $hasforcedslashargs = false;
 
     if (isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['REQUEST_URI'])) {
-        // Checks whether $_SERVER['REQUEST_URI'] contains '/pluginfile.php/'
-        // instead of '/pluginfile.php?', when serving a file from e.g. mod_imscp or mod_scorm.
-        if ((strpos($_SERVER['REQUEST_URI'], '/pluginfile.php/') !== false)
+        // Checks whether $_SERVER['REQUEST_URI'] contains '/lib.php/'
+        // instead of '/lib.php?', when serving a file from e.g. mod_imscp or mod_scorm.
+        if ((strpos($_SERVER['REQUEST_URI'], '/lib.php/') !== false)
                 && isset($_SERVER['PATH_INFO']) && !empty($_SERVER['PATH_INFO'])) {
-            // Exclude edge cases like '/pluginfile.php/?file='.
+            // Exclude edge cases like '/lib.php/?file='.
             $args = explode('/', ltrim($_SERVER['PATH_INFO'], '/'));
             $hasforcedslashargs = (count($args) > 2); // Always at least: context, component and filearea.
         }
@@ -841,7 +841,7 @@ function format_module_intro($module, $activity, $cmid, $filter=true) {
     require_once("$CFG->libdir/filelib.php");
     $context = context_module::instance($cmid);
     $options = array('noclean' => true, 'para' => false, 'filter' => $filter, 'context' => $context, 'overflowdiv' => true);
-    $intro = file_rewrite_pluginfile_urls($activity->intro, 'pluginfile.php', $context->id, 'mod_'.$module, 'intro', null);
+    $intro = file_rewrite_pluginfile_urls($activity->intro, 'lib.php', $context->id, 'mod_'.$module, 'intro', null);
     return trim(format_text($intro, $activity->introformat, $options, null));
 }
 

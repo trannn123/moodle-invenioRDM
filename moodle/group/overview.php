@@ -326,7 +326,7 @@ foreach ($members as $gpgid=>$groupdata) {
         }
         $line = array();
         $name = print_group_picture($groups[$gpid], $course->id, false, true, false) . $groups[$gpid]->formattedname;
-        $description = file_rewrite_pluginfile_urls($groups[$gpid]->description, 'pluginfile.php', $context->id, 'group', 'description', $gpid);
+        $description = file_rewrite_pluginfile_urls($groups[$gpid]->description, 'lib.php', $context->id, 'group', 'description', $gpid);
         $options = new stdClass;
         $options->noclean = true;
         $options->overflowdiv = true;
@@ -362,7 +362,7 @@ foreach ($members as $gpgid=>$groupdata) {
         }
     } else {
         echo $OUTPUT->heading($groupings[$gpgid]->formattedname, 3);
-        $description = file_rewrite_pluginfile_urls($groupings[$gpgid]->description, 'pluginfile.php', $context->id, 'grouping', 'description', $gpgid);
+        $description = file_rewrite_pluginfile_urls($groupings[$gpgid]->description, 'lib.php', $context->id, 'grouping', 'description', $gpgid);
         $options = new stdClass;
         $options->overflowdiv = true;
         echo $OUTPUT->box(format_text($description, $groupings[$gpgid]->descriptionformat, $options), 'generalbox boxwidthnarrow boxaligncenter');

@@ -1750,7 +1750,7 @@ function quiz_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
         return false;
     }
 
-    // The 'intro' area is served by pluginfile.php.
+    // The 'intro' area is served by lib.php.
     $fileareas = ['feedback'];
     if (!in_array($filearea, $fileareas)) {
         return false;
@@ -1771,7 +1771,7 @@ function quiz_pluginfile($course, $cm, $context, $filearea, $args, $forcedownloa
 }
 
 /**
- * Called via pluginfile.php -> question_pluginfile to serve files belonging to
+ * Called via lib.php -> question_pluginfile to serve files belonging to
  * a question in a question_attempt when that attempt is a quiz attempt.
  *
  * @package  mod_quiz

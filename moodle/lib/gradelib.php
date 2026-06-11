@@ -595,7 +595,7 @@ function grade_get_grades($courseid, $itemtype, $itemmodule, $iteminstance, $use
                         } else {
                             $feedback = file_rewrite_pluginfile_urls(
                                 $grade->feedback,
-                                'pluginfile.php',
+                                'lib.php',
                                 $grade_grades[$userid]->get_context()->id,
                                 GRADE_FILE_COMPONENT,
                                 GRADE_FEEDBACK_FILEAREA,

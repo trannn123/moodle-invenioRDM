@@ -369,7 +369,7 @@ class tablelog extends \table_sql implements \renderable {
 
             $feedback = file_rewrite_pluginfile_urls(
                 $history->feedback,
-                'pluginfile.php',
+                'lib.php',
                 $context->id,
                 GRADE_FILE_COMPONENT,
                 GRADE_HISTORY_FEEDBACK_FILEAREA,

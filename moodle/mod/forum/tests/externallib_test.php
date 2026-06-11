@@ -484,7 +484,7 @@ final class externallib_test extends externallib_advanced_testcase {
         // User pictures are initially empty, we should get the links once the external function is called.
         $isolatedurl = $urlfactory->get_discussion_view_url_from_discussion_id($discussion1reply2->discussion);
         $isolatedurl->params(['parent' => $discussion1reply2->id]);
-        $message = file_rewrite_pluginfile_urls($discussion1reply2->message, 'pluginfile.php',
+        $message = file_rewrite_pluginfile_urls($discussion1reply2->message, 'lib.php',
             $forum1context->id, 'mod_forum', 'post', $discussion1reply2->id);
         $expectedposts['posts'][] = array(
             'id' => $discussion1reply2->id,
@@ -543,7 +543,7 @@ final class externallib_test extends externallib_advanced_testcase {
 
         $isolatedurl = $urlfactory->get_discussion_view_url_from_discussion_id($discussion1reply1->discussion);
         $isolatedurl->params(['parent' => $discussion1reply1->id]);
-        $message = file_rewrite_pluginfile_urls($discussion1reply1->message, 'pluginfile.php',
+        $message = file_rewrite_pluginfile_urls($discussion1reply1->message, 'lib.php',
             $forum1context->id, 'mod_forum', 'post', $discussion1reply1->id);
         $expectedposts['posts'][] = array(
             'id' => $discussion1reply1->id,
@@ -1373,7 +1373,7 @@ final class externallib_test extends externallib_advanced_testcase {
                 $this->assertCount(1, $thispost['attachments']);
                 $this->assertEquals('attachment.txt', $thispost['attachments'][0]['filename']);
                 $this->assertEquals($thispost['attachments'][0]['filename'], $attachfilename, "There should be 1 attachment");
-                $this->assertStringContainsString('pluginfile.php', $thispost['message']);
+                $this->assertStringContainsString('lib.php', $thispost['message']);
                 $postfound = true;
                 break;
             }
@@ -1591,7 +1591,7 @@ final class externallib_test extends externallib_advanced_testcase {
                 $this->assertCount(1, $thisdiscussion['attachments'], "There should be 1 attachment");
                 $this->assertEquals($thisdiscussion['attachments'][0]['filename'], $attachfilename, "There should be 1 attachment");
                 $this->assertStringNotContainsString('draftfile.php', $thisdiscussion['message']);
-                $this->assertStringContainsString('pluginfile.php', $thisdiscussion['message']);
+                $this->assertStringContainsString('lib.php', $thisdiscussion['message']);
                 $postfound = true;
                 break;
             }
@@ -2473,7 +2473,7 @@ final class externallib_test extends externallib_advanced_testcase {
                         'timemodified' => $discussion1reply1->modified,
                         'subject' => $discussion1reply1->subject,
                         'replysubject' => get_string('re', 'mod_forum') . " {$discussion1reply1->subject}",
-                        'message' => file_rewrite_pluginfile_urls($discussion1reply1->message, 'pluginfile.php',
+                        'message' => file_rewrite_pluginfile_urls($discussion1reply1->message, 'lib.php',
                         $forum1context->id, 'mod_forum', 'post', $discussion1reply1->id),
                         'messageformat' => 1,   // This value is usually changed by \core_external\util::format_text() function.
                         'unread' => null,
@@ -2539,7 +2539,7 @@ final class externallib_test extends externallib_advanced_testcase {
                         'timemodified' => $discussion1firstpostobject->modified,
                         'subject' => $discussion1firstpostobject->subject,
                         'replysubject' => get_string('re', 'mod_forum') . " {$discussion1firstpostobject->subject}",
-                        'message' => file_rewrite_pluginfile_urls($discussion1firstpostobject->message, 'pluginfile.php',
+                        'message' => file_rewrite_pluginfile_urls($discussion1firstpostobject->message, 'lib.php',
                             $forum1context->id, 'mod_forum', 'post', $discussion1firstpostobject->id),
                         'messageformat' => 1,   // This value is usually changed by \core_external\util::format_text() function.
                         'unread' => null,
@@ -2616,7 +2616,7 @@ final class externallib_test extends externallib_advanced_testcase {
                         'timemodified' => $discussion2reply1->modified,
                         'subject' => $discussion2reply1->subject,
                         'replysubject' => get_string('re', 'mod_forum') . " {$discussion2reply1->subject}",
-                        'message' => file_rewrite_pluginfile_urls($discussion2reply1->message, 'pluginfile.php',
+                        'message' => file_rewrite_pluginfile_urls($discussion2reply1->message, 'lib.php',
                             $forum1context->id, 'mod_forum', 'post', $discussion2reply1->id),
                         'messageformat' => 1,   // This value is usually changed by \core_external\util::format_text() function.
                         'unread' => null,
@@ -2682,7 +2682,7 @@ final class externallib_test extends externallib_advanced_testcase {
                         'timemodified' => $discussion2firstpostobject->modified,
                         'subject' => $discussion2firstpostobject->subject,
                         'replysubject' => get_string('re', 'mod_forum') . " {$discussion2firstpostobject->subject}",
-                        'message' => file_rewrite_pluginfile_urls($discussion2firstpostobject->message, 'pluginfile.php',
+                        'message' => file_rewrite_pluginfile_urls($discussion2firstpostobject->message, 'lib.php',
                             $forum1context->id, 'mod_forum', 'post', $discussion2firstpostobject->id),
                         'messageformat' => 1,   // This value is usually changed by \core_external\util::format_text() function.
                         'unread' => null,

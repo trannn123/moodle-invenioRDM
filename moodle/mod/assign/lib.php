@@ -1189,7 +1189,7 @@ function assign_get_file_info($browser,
         return null;
     }
 
-    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+    $urlbase = $CFG->wwwroot.'/lib.php';
     $fs = get_file_storage();
     $filepath = is_null($filepath) ? '/' : $filepath;
     $filename = is_null($filename) ? '.' : $filename;

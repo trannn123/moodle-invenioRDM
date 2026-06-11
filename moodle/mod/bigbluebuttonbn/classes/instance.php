@@ -566,7 +566,7 @@ EOF;
         if ($rewritepluginfileurls) {
             $description = file_rewrite_pluginfile_urls(
                 $description,
-                'pluginfile.php',
+                'lib.php',
                 $this->get_context_id(),
                 'mod_bigbluebuttonbn',
                 'intro',

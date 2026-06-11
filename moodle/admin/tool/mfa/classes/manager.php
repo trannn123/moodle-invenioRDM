@@ -456,8 +456,8 @@ class manager {
             return self::NO_REDIRECT;
         }
 
-        // Check for pluginfile.php urls.
-        $pluginfileurl = new \moodle_url('/pluginfile.php');
+        // Check for lib.php urls.
+        $pluginfileurl = new \moodle_url('/lib.php');
         if ($url->compare($pluginfileurl)) {
             // Get the slash arguments.
             $args = explode('/', ltrim($url->get_slashargument(), '/'));

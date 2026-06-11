@@ -192,7 +192,7 @@ class blog_entry implements renderable {
             $this->renderable->comment = new comment($cmt);
         }
 
-        $this->summary = file_rewrite_pluginfile_urls($this->summary, 'pluginfile.php', SYSCONTEXTID, 'blog', 'post', $this->id);
+        $this->summary = file_rewrite_pluginfile_urls($this->summary, 'lib.php', SYSCONTEXTID, 'blog', 'post', $this->id);
 
         // External blog link.
         if ($this->uniquehash && $this->content) {
@@ -1175,7 +1175,7 @@ class blog_entry_attachment implements renderable {
 
         $this->file = $file;
         $this->filename = $file->get_filename();
-        $this->url = file_encode_url($CFG->wwwroot . '/pluginfile.php',
+        $this->url = file_encode_url($CFG->wwwroot . '/lib.php',
                                      '/' . SYSCONTEXTID . '/blog/attachment/' . $entryid . '/' . $this->filename);
     }
 

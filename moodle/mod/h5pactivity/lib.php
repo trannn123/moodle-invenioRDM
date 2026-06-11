@@ -438,7 +438,7 @@ function h5pactivity_get_file_info(file_browser $browser, array $areas, stdClass
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         if (!$storedfile = $fs->get_file($context->id, 'mod_h5pactivity', 'package', 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
                 $storedfile = new virtual_root_file($context->id, 'mod_h5pactivity', 'package', 0);

@@ -168,8 +168,8 @@ class backup_course_task extends backup_task {
         $content = self::encode_links_helper($content, 'GRADEREPORTINDEXBYID', '/grade/report/index.php?id=');
         $content = self::encode_links_helper($content, 'BADGESVIEWBYID',       '/badges/index.php?type=2&id=');
         $content = self::encode_links_helper($content, 'USERINDEXVIEWBYID',    '/user/index.php?id=');
-        $content = self::encode_links_helper($content, 'PLUGINFILEBYCONTEXT',  '/pluginfile.php/');
-        $content = self::encode_links_helper($content, 'PLUGINFILEBYCONTEXTURLENCODED', '/pluginfile.php/', true);
+        $content = self::encode_links_helper($content, 'PLUGINFILEBYCONTEXT',  '/lib.php/');
+        $content = self::encode_links_helper($content, 'PLUGINFILEBYCONTEXTURLENCODED', '/lib.php/', true);
 
         return $content;
     }

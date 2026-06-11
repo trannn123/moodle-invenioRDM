@@ -31,7 +31,11 @@ class dashboard_controller {
             'is_student' => ($role === 'student'),
             'is_lecturer' => ($role === 'lecturer'),
             'is_admin' => ($role === 'admin'),
-            'wwwroot' => $CFG->wwwroot
+            'wwwroot' => $CFG->wwwroot,
+            'cancreatecourse' => has_capability(
+                'local/inveniordm:createcourse',
+                $context
+            )
         ];
 
         echo $OUTPUT->header();

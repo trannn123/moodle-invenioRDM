@@ -119,7 +119,7 @@ class MoodleQuickForm_wikifiletable extends HTML_QuickForm_element {
 
                 //actions
                 $icon = file_file_icon($file);
-                $file_url = file_encode_url($CFG->wwwroot.'/pluginfile.php', "/{$this->_contextid}/mod_wiki/attachments/{$this->_fileareaitemid}/".$file->get_filename());
+                $file_url = file_encode_url($CFG->wwwroot.'/lib.php', "/{$this->_contextid}/mod_wiki/attachments/{$this->_fileareaitemid}/".$file->get_filename());
 
                 $action_icons = "";
                 if(!empty($tags['attach'])) {

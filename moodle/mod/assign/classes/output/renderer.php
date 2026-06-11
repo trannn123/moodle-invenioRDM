@@ -1546,7 +1546,7 @@ class renderer extends \plugin_renderer_base {
         $context = \context_module::instance($cmid);
         $options = array('noclean' => true, 'para' => false, 'filter' => true, 'context' => $context, 'overflowdiv' => true);
         $activity = file_rewrite_pluginfile_urls(
-            $assign->activity, 'pluginfile.php', $context->id, 'mod_assign', ASSIGN_ACTIVITYATTACHMENT_FILEAREA, 0);
+            $assign->activity, 'lib.php', $context->id, 'mod_assign', ASSIGN_ACTIVITYATTACHMENT_FILEAREA, 0);
         return trim(format_text($activity, $assign->activityformat, $options, null));
     }
 }

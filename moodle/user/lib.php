@@ -298,7 +298,7 @@ function user_get_default_fields() {
  *
  * Give user record from mdl_user, build an array contains all user details.
  *
- * Warning: description file urls are 'webservice/pluginfile.php' is use.
+ * Warning: description file urls are 'webservice/lib.php' is use.
  *          it can be changed with $CFG->moodlewstextformatlinkstoimagesfile
  *
  * @throws moodle_exception
@@ -585,7 +585,7 @@ function user_get_user_details($user, $course = null, array $userfields = array(
                     }
                 }
 
-                $groupdescription = file_rewrite_pluginfile_urls($group->description, 'pluginfile.php', $context->id, 'group',
+                $groupdescription = file_rewrite_pluginfile_urls($group->description, 'lib.php', $context->id, 'group',
                     'description', $group->id);
 
                 $userdetails['groups'][] = [

@@ -735,7 +735,7 @@ function wiki_parser_real_path($url, $context, $component, $filearea, $swid) {
         return $url;
     } else {
 
-        $file = 'pluginfile.php';
+        $file = 'lib.php';
         if (!$CFG->slasharguments) {
             $file = $file . '?file=';
         }
@@ -1382,7 +1382,7 @@ function wiki_print_page_content($page, $context, $subwikiid) {
             echo $OUTPUT->box($box);
         }
     }
-    $html = file_rewrite_pluginfile_urls($page->cachedcontent, 'pluginfile.php', $context->id, 'mod_wiki', 'attachments', $subwikiid);
+    $html = file_rewrite_pluginfile_urls($page->cachedcontent, 'lib.php', $context->id, 'mod_wiki', 'attachments', $subwikiid);
     $html = format_text($html, FORMAT_HTML, array('overflowdiv' => true, 'allowid' => true));
     echo $OUTPUT->box($html);
 
@@ -1487,7 +1487,7 @@ function wiki_print_upload_table($context, $filearea, $fileitemid, $deleteupload
 
             $checkbox .= " />";
 
-            $htmltable->data[] = array($checkbox, '<a href="' . file_encode_url($CFG->wwwroot . '/pluginfile.php', '/' . $context->id . '/wiki_upload/' . $fileitemid . '/' . $file->get_filename()) . '">' . $file->get_filename() . '</a>', "");
+            $htmltable->data[] = array($checkbox, '<a href="' . file_encode_url($CFG->wwwroot . '/lib.php', '/' . $context->id . '/wiki_upload/' . $fileitemid . '/' . $file->get_filename()) . '">' . $file->get_filename() . '</a>', "");
         }
     }
 

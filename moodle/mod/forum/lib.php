@@ -2598,7 +2598,7 @@ function forum_print_attachments($post, $cm, $type) {
                             'style' => 'max-width: 24px; max-height: 24px; vertical-align: middle;',
                     ]
             );
-            $path = file_encode_url($CFG->wwwroot.'/pluginfile.php', '/'.$context->id.'/mod_forum/attachment/'.$post->id.'/'.$filename);
+            $path = file_encode_url($CFG->wwwroot.'/lib.php', '/'.$context->id.'/mod_forum/attachment/'.$post->id.'/'.$filename);
 
             if ($type == 'html') {
                 $output .= "<a href=\"$path\">$iconimage</a> ";
@@ -2771,7 +2771,7 @@ function forum_get_file_info($browser, $areas, $course, $cm, $context, $filearea
         return null;
     }
 
-    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+    $urlbase = $CFG->wwwroot.'/lib.php';
     return new file_info_stored($browser, $context, $storedfile, $urlbase, $itemid, true, true, false, false);
 }
 

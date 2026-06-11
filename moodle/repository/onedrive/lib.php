@@ -620,7 +620,7 @@ class repository_onedrive extends repository {
             $filename = $storedfile->get_filename();
             send_file($downloaded['path'], $filename, $lifetime, $filter, false, $forcedownload, '', false, $options);
         } else if ($source->link) {
-            // Do not use redirect() here because is not compatible with webservice/pluginfile.php.
+            // Do not use redirect() here because is not compatible with webservice/lib.php.
             header('Location: ' . $source->link);
         } else {
             $details = 'File is missing source link';

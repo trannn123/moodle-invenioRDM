@@ -1730,12 +1730,12 @@ function question_rewrite_question_preview_urls($text, $questionid, $filecontext
         $path .= '/' . $itemid;
     }
 
-    return file_rewrite_pluginfile_urls($text, 'pluginfile.php', $filecontextid,
+    return file_rewrite_pluginfile_urls($text, 'lib.php', $filecontextid,
             $filecomponent, $filearea, $path, $options);
 }
 
 /**
- * Called by pluginfile.php to serve files related to the 'question' core
+ * Called by lib.php to serve files related to the 'question' core
  * component and for files belonging to qtypes.
  *
  * For files that relate to questions in a question_attempt, then we delegate to

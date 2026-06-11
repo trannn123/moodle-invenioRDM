@@ -450,7 +450,7 @@ class zipwriter {
             // Use a tokenurl pluginfile for those.
             $content = file_rewrite_pluginfile_urls(
                 $content,
-                'pluginfile.php',
+                'lib.php',
                 $context->id,
                 $component,
                 $filearea,

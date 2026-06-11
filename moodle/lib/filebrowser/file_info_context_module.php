@@ -150,7 +150,7 @@ class file_info_context_module extends file_info {
             }
         }
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         return new file_info_stored($this->browser, $this->context, $storedfile, $urlbase, get_string('moduleintro'), false, true, true, false);
     }
 
@@ -185,7 +185,7 @@ class file_info_context_module extends file_info {
         $downloadable = has_capability('moodle/backup:downloadfile', $this->context);
         $uploadable   = has_capability('moodle/restore:uploadfile', $this->context);
 
-        $urlbase = $CFG->wwwroot.'/pluginfile.php';
+        $urlbase = $CFG->wwwroot.'/lib.php';
         return new file_info_stored($this->browser, $this->context, $storedfile, $urlbase, get_string('activitybackup', 'repository'), false, $downloadable, $uploadable, false);
     }
 

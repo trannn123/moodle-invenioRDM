@@ -485,7 +485,7 @@ class gradingform_guide_controller extends gradingform_controller {
         $context = $this->get_context();
 
         $options = self::description_form_field_options($this->get_context());
-        $description = file_rewrite_pluginfile_urls($this->definition->description, 'pluginfile.php', $context->id,
+        $description = file_rewrite_pluginfile_urls($this->definition->description, 'lib.php', $context->id,
             'grading', 'description', $this->definition->id, $options);
 
         $formatoptions = array(

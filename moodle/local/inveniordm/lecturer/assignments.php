@@ -1,16 +1,18 @@
 <?php
 
 require_once(__DIR__.'/../../../config.php');
-require_login();
 global $DB, $PAGE, $OUTPUT;
 $courseid = required_param('courseid', PARAM_INT);
-$context = context_course::instance($courseid);
-
+$course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
+$context = context_course::instance($course->id);
+require_login($course);
 require_capability(
     'local/inveniordm:upload',
     $context
 );
-
+if (!has_capability('local/inveniordm:upload', $context)) {
+    throw new moodle_exception('nopermission', 'error');
+}
 $PAGE->set_url(
     new moodle_url(
         '/local/inveniordm/lecturer/assignments.php',

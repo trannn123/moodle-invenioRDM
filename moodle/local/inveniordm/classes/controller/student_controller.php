@@ -9,6 +9,12 @@ class student_controller {
     public function search() {
         global $OUTPUT;
         $client = new invenio_client();
+        $response = $client->get_records();
+
+        echo '<pre>';
+        print_r($response['hits']['total'] ?? 'NO TOTAL');
+        print_r($response['hits']['hits'] ?? 'NO HITS');
+        die();
         $query = optional_param('q', '', PARAM_TEXT);
         $format =
             optional_param(

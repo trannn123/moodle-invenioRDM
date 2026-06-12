@@ -88,10 +88,14 @@ if (empty($courses)) {
             continue;
         }
         $manageurl = new moodle_url(
-            '/local/inveniordm/lecturer/search_resources.css.php',
+            '/local/inveniordm/lecturer/course_resources.php',
             [
                 'courseid' => $course->id
             ]
+        );
+        $assignurl = new moodle_url(
+            '/local/inveniordm/lecturer/assignments.php',
+            ['courseid' => $course->id]
         );
         $resourcecount = $DB->count_records(
             'local_inveniordm_course_resources',
@@ -115,6 +119,9 @@ if (empty($courses)) {
             <a class="btn btn-primary"
                href="'.$manageurl.'">
                 Manage Resources
+            </a>
+            <a class="btn btn-success" href="'.$assignurl.'">
+                Open Assignments
             </a>
         </div>
         ';

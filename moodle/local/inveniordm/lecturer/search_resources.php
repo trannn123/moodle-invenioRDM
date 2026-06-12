@@ -42,7 +42,7 @@ if (!empty($attach)) {
     if ($exists) {
         redirect(
             new moodle_url(
-                '/local/inveniordm/lecturer/search_resources.css.php',
+                '/local/inveniordm/lecturer/search_resources.php',
                 [
                     'courseid' => $courseid
                 ]
@@ -63,7 +63,7 @@ if (!empty($attach)) {
 
     redirect(
         new moodle_url(
-            '/local/inveniordm/lecturer/search_resources.css.php',
+            '/local/inveniordm/lecturer/search_resources.php',
             [
                 'courseid' => $courseid
             ]
@@ -72,7 +72,7 @@ if (!empty($attach)) {
     );
 }
 
-$PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources.css.php',
+$PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources.php',
     ['courseid' => $courseid]));
 $PAGE->set_context($context);
 $PAGE->set_title('Manage Course Resources');

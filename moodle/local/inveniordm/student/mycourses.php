@@ -98,6 +98,10 @@ if (empty($courses)) {
                 'courseid' => $course->id
             ]
         );
+        $assignurl = new moodle_url(
+            '/local/inveniordm/student/assignments.php',
+            ['courseid' => $course->id]
+        );
         echo '
         <div class="course-card"> 
             <div class="course-title">
@@ -114,7 +118,10 @@ if (empty($courses)) {
             <a class="btn btn-primary"
                href="'.$url.'">
                 Open Resources
-            </a>        
+            </a>  
+            <a class="btn btn-success" href="'.$assignurl.'">
+                Open Assignments
+            </a>      
         </div>        
         ';
     }

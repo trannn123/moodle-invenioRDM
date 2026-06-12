@@ -1,0 +1,88 @@
+.hero-section {
+    background: linear-gradient(
+            135deg,
+            #198754,
+            #20c997
+    );
+    color: white;
+    padding: 40px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+}
+
+.submit-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid #e9ecef;
+    max-width: 800px;
+    margin: auto;
+}
+
+.submit-card input[type="file"] {
+    padding: 12px;
+}
+
+.upload-area input[type="file"] {
+    display: none;
+}
+
+.upload-area {
+    margin-bottom: 25px;
+}
+
+.upload-label {
+
+    display: block;
+
+    width: 100%;
+
+    border: 2px dashed #adb5bd;
+
+    border-radius: 16px;
+
+    padding: 40px;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+}
+
+.upload-label:hover {
+
+    border-color: #198754;
+
+    background: #f8fff9;
+}
+
+.upload-icon {
+
+    font-size: 48px;
+
+    margin-bottom: 10px;
+}
+
+.upload-text {
+
+    font-size: 18px;
+
+    font-weight: 600;
+}
+
+.upload-subtext {
+
+    color: #6c757d;
+
+    margin-top: 5px;
+}
+
+.selected-file {
+
+    margin-top: 15px;
+
+    font-weight: 600;
+
+    color: #198754;
+}

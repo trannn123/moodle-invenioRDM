@@ -21,11 +21,46 @@ $resources = $DB->get_records(
     ['courseid' => $courseid],
     'timecreated DESC'
 );
-echo "<h2>Course Resources</h2>";
+echo '
+<div class="hero-section">
+    <h1>Course Resources</h1>
+    <p>
+        Manage learning resources attached
+        to this course.
+    </p>
+</div>
+';
+$searchurl = new moodle_url(
+    '/local/inveniordm/lecturer/search_resources.php',
+    [
+        'courseid' => $courseid
+    ]
+);
+
+$assignmentsurl = new moodle_url(
+    '/local/inveniordm/lecturer/assignments.php',
+    [
+        'courseid' => $courseid
+    ]
+);
+
+echo '
+<div class="mb-4">
+    <a class="btn btn-primary"
+       href="'.$searchurl.'">
+        Search New Resource
+    </a>
+
+    <a class="btn btn-secondary"
+       href="'.$assignmentsurl.'">
+        Assignments
+    </a>
+</div>
+';
 if (!$resources) {
     echo "<p>No resources found</p>";
 } else {
-    echo '<div class="course-resource-list">';
+    echo '<div class="resource-grid">';
     foreach ($resources as $res) {
         $viewurl = new moodle_url(
             '/local/inveniordm/student/view.php',
@@ -39,12 +74,23 @@ if (!$resources) {
                 'recordid' => $res->recordid
             ]
         );
+        $assignmenturl = new moodle_url(
+            '/local/inveniordm/lecturer/create_assignment.php',
+            [
+                'courseid' => $courseid,
+                'recordid' => $res->recordid
+            ]
+        );
         echo '
-        <div class="course-resource-card">
-            <div class="course-resource-title">
+        <div class="resource-card">
+            <div class="resource-title">
                 '.s($res->title).'
             </div>
-            <div class="course-resource-actions">
+            <div class="resource-info-row">
+                <strong>Record ID</strong>
+                <span>'.s($res->recordid).'</span>
+            </div>
+            <div class="resource-actions">
                 <a class="btn btn-primary"
                    href="'.$viewurl.'">
                     View Metadata
@@ -52,6 +98,10 @@ if (!$resources) {
                 <a class="btn btn-secondary"
                    href="'.$downloadurl.'">
                     Download
+                </a>
+                <a class="btn btn-success"
+                   href="'.$assignmenturl.'">
+                    Create Assignment
                 </a>
             </div>
         </div>

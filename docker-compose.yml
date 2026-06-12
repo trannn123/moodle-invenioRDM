@@ -29,7 +29,7 @@ services:
       MOODLE_DATABASE_PASSWORD: moodlepass
     volumes:
       - ./moodle:/var/www/html
-      - ./moodledata:/moodledata
+      - ./moodledata:/var/www/moodledata
 volumes:
   postgres_data:
   moodledata_data:

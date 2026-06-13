@@ -336,6 +336,68 @@ class upload_form extends \moodleform {
             true,
             'Upload Resource'
         );
+
+        // CSS + JS realtime validation (không trùng lặp)
+        // JS realtime validation
+        $mform->addElement('html', '
+        <style>
+            .error-border input, .error-border textarea {
+                border: 2px solid #da4453 !important;
+                background-color: #fff8f8 !important;
+            }
+            .error-msg {
+                color: #da4453;
+                font-size: 12px;
+                margin-top: 4px;
+                display: block;
+            }
+        </style>
+        
+        <script>
+        (function() {
+            var rules = {
+                title: { check: function(v) { return v.trim().length >= 3; }, msg: "Title must be at least 3 characters" },
+                description: { check: function(v) { return v.trim().length >= 10; }, msg: "Description must be at least 10 characters" },
+                keywords: { check: function(v) { return v.trim().length > 0; }, msg: "Keywords are required" }
+            };
+            
+            function validateField(id) {
+                var input = document.getElementById("id_" + id);
+                if (!input) return;
+                var rule = rules[id];
+                if (!rule) return;
+                var isValid = rule.check(input.value);
+                var fitem = input.closest(".fitem");
+                if (fitem) {
+                    var oldMsg = fitem.querySelector(".error-msg");
+                    if (!isValid) {
+                        fitem.classList.add("error-border");
+                        if (!oldMsg) {
+                            var msg = document.createElement("div");
+                            msg.className = "error-msg";
+                            msg.innerText = rule.msg;
+                            input.closest(".felement").appendChild(msg);
+                        }
+                    } else {
+                        fitem.classList.remove("error-border");
+                        if (oldMsg) oldMsg.remove();
+                    }
+                }
+            }
+            
+            document.addEventListener("DOMContentLoaded", function() {
+                for (var id in rules) {
+                    var el = document.getElementById("id_" + id);
+                    if (el) {
+                        el.addEventListener("input", function(id) { return function() { validateField(id); }; }(id));
+                        el.addEventListener("blur", function(id) { return function() { validateField(id); }; }(id));
+                    }
+                }
+            });
+        })();
+        </script>
+        ');
+
     }
 
     public function validation($data, $files) {

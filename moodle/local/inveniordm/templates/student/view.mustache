@@ -1,152 +1,257 @@
 <div class="container mt-4">
-    <div class="card invenio-detail-card">
-        <div class="card-body p-4">
-            <h1 class="invenio-detail-title">
-                {{title}}
-            </h1>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Author
+<div class="card shadow-sm border-0">
+
+    <div class="card-body p-4">
+
+        <div class="d-flex justify-content-between align-items-start mb-4">
+
+            <div>
+
+                <h1 class="mb-2">
+                    {{title}}
+                </h1>
+
+                <div class="text-muted">
+
+                    Created by <strong>{{author}}</strong>
+
                 </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{author}}
-                </div>
+
             </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Publication Date
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{publicationdate}}
-                </div>
+
+            <div>
+
+                <a
+                    href="{{location}}"
+                    class="btn btn-primary"
+                >
+                    Download Resource
+                </a>
+
             </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Format
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{format}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Document Type
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{documenttype}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Educational Level
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{educationallevel}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Target Audience
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{targetaudience}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Discipline
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{discipline}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Learning Resource Type
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{learningresourcetype}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Language
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{language}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Copyright
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{copyright}}
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Relation
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{relation}}
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-3 invenio-detail-label">
-                    Resource Location
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    <a href="{{location}}">
-                        Download Resource
-                    </a>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Resource Type
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{resourcetype}}
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-3 invenio-detail-label">
-                    Publisher
-                </div>
-                <div class="col-md-9 invenio-detail-value">
-                    {{publisher}}
-                </div>
-            </div>
-            <div class="mb-4">
-                <div class="invenio-detail-label mb-2">
-                    Keywords
-                </div>
-                {{#keywords}}
-                <span class="badge bg-primary invenio-keyword me-2 mb-2">
+
+        </div>
+
+        <hr>
+
+        <h4 class="mb-3">
+            General Information
+        </h4>
+
+        <table class="table table-bordered">
+
+            <tbody>
+
+                <tr>
+                    <th width="250">
+                        Identifier
+                    </th>
+                    <td>
+                        {{identifier}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Publication Date
+                    </th>
+                    <td>
+                        {{publicationdate}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Language
+                    </th>
+                    <td>
+                        {{language}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Format
+                    </th>
+                    <td>
+                        {{format}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Document Type
+                    </th>
+                    <td>
+                        {{documenttype}}
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <h4 class="mt-4 mb-3">
+            Educational Information
+        </h4>
+
+        <table class="table table-bordered">
+
+            <tbody>
+
+                <tr>
+                    <th width="250">
+                        Educational Level
+                    </th>
+                    <td>
+                        {{educationallevel}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Target Audience
+                    </th>
+                    <td>
+                        {{targetaudience}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Learning Resource Type
+                    </th>
+                    <td>
+                        {{learningresourcetype}}
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <h4 class="mt-4 mb-3">
+            Classification
+        </h4>
+
+        <table class="table table-bordered">
+
+            <tbody>
+
+                <tr>
+                    <th width="250">
+                        Discipline
+                    </th>
+                    <td>
+                        {{discipline}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Objective
+                    </th>
+                    <td>
+                        {{objective}}
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <h4 class="mt-4 mb-3">
+            Rights & Relation
+        </h4>
+
+        <table class="table table-bordered">
+
+            <tbody>
+
+                <tr>
+                    <th width="250">
+                        Copyright
+                    </th>
+                    <td>
+                        {{copyright}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Relation
+                    </th>
+                    <td>
+                        {{relation}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Role
+                    </th>
+                    <td>
+                        {{role}}
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <h4 class="mt-4 mb-3">
+            Keywords
+        </h4>
+
+        <div class="mb-4">
+
+            {{#keywords}}
+
+                <span
+                    class="badge bg-secondary me-2 mb-2"
+                >
                     {{name}}
                 </span>
-                {{/keywords}}
-                {{^keywords}}
+
+            {{/keywords}}
+
+            {{^keywords}}
+
                 <span class="text-muted">
                     No keywords
                 </span>
-                {{/keywords}}
+
+            {{/keywords}}
+
+        </div>
+
+        <h4 class="mt-4 mb-3">
+            Description
+        </h4>
+
+        <div class="card bg-light border-0">
+
+            <div class="card-body">
+
+                {{description}}
+
             </div>
-            <div class="mb-4">
-                <div class="invenio-detail-label mb-2">
-                    Description
-                </div>
-                <div class="invenio-detail-value">
-                    {{description}}
-                </div>
-            </div>
+
+        </div>
+
+        <div class="mt-4">
+
             <a
                 href="{{backurl}}"
                 class="btn btn-outline-secondary"
             >
-                Back
+                Back to Search
             </a>
+
         </div>
+
     </div>
+
+</div>
+
 </div>

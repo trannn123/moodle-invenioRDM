@@ -24,8 +24,8 @@ if (empty($files)) {
 $file = array_values($files)[0];
 $contenturl = $file['links']['content'];
 $contenturl = str_replace(
-    'https://127.0.0.1:5001',
-    'https://ctu-it-rdm-frontend-1',
+    'http://localhost',
+    'http://host.docker.internal:5001',
     $contenturl
 );
 $ch = curl_init();
@@ -37,7 +37,7 @@ curl_setopt_array($ch, [
     CURLOPT_SSL_VERIFYHOST => false,
     CURLOPT_HTTPHEADER => [
         'Host: localhost',
-        'Authorization: Bearer scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV'
+        'Authorization: Bearer ' . INVENIO_TOKEN
     ]
 ]);
 $content = curl_exec($ch);

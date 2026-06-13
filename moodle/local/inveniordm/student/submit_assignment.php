@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         CURLOPT_HTTPHEADER => [
             'Accept: application/json',
             'Content-Type: application/json',
-            'Authorization: Bearer scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV'
+            'Authorization: Bearer ' . INVENIO_TOKEN
         ],
         CURLOPT_POSTFIELDS => '{}'
     ]);
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $DB->insert_record('local_inveniordm_submissions', [
         'assignmentid' => $assignmentid,
-        'userid'       => $USER->id,
+        'studentid'       => $USER->id,
         'recordid'     => $recordid,
         'filename'     => $filename,
         'timecreated'  => time()

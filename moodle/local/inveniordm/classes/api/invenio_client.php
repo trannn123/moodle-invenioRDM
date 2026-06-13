@@ -13,7 +13,7 @@ class invenio_client {
     public function __construct() {
         $this->apiurl = 'http://host.docker.internal:5001/api/';
         $this->hostheader = 'localhost';
-        $this->token = 'scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV';
+        $this->token = INVENIO_TOKEN;
     }
 
     private function make_request(string $url, string $method = 'GET'): array {

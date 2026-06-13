@@ -6,6 +6,10 @@ global $DB, $USER, $PAGE, $OUTPUT;
 
 $courseid = required_param('courseid', PARAM_INT);
 $recordid = required_param('recordid', PARAM_TEXT);
+$resourcerecordid = required_param(
+    'recordid',
+    PARAM_TEXT
+);
 $context = context_course::instance($courseid);
 
 require_capability(
@@ -54,14 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $client = new \local_inveniordm\api\invenio_client();
 
     $result = $client->create_record($payload);
-    $recordid = $result['data']['id'] ?? null;
+    $assignmentrecordid = $result['data']['id'] ?? null;
 
-    if (!$recordid) {
+    if (!$assignmentrecordid) {
         throw new moodle_exception('Failed to create Invenio record');
     }
     $publishurl =
         'http://ctu-it-rdm-web-api-1:5000/api/records/' .
-        $recordid .
+        $assignmentrecordid .
         '/draft/actions/publish';
 
     if ($publishurl) {
@@ -74,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             CURLOPT_HTTPHEADER => [
                 'Accept: application/json',
                 'Content-Type: application/json',
-                'Authorization: Bearer ' . "scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV"
+                'Authorization: Bearer ' . INVENIO_TOKEN
             ],
             CURLOPT_POSTFIELDS => '{}'
         ]);
@@ -93,7 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new moodle_exception('Publish failed: ' . $response);
         }
     }
-    $assignment->recordid = $recordid;
+    $assignment->recordid = $assignmentrecordid;
+    $assignment->resource_recordid = $resourcerecordid;
     $assignmentid = $DB->insert_record(
         'local_inveniordm_assignments',
         $assignment

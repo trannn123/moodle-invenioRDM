@@ -63,6 +63,12 @@ if (!$assignments) {
                 'assignmentid' => $a->id
             ]
         );
+        $downloadurl = new moodle_url(
+            '/local/inveniordm/student/download.php',
+            [
+                'recordid' => $a->resource_recordid
+            ]
+        );
 
         echo '
         <div class="assignment-card">
@@ -83,6 +89,13 @@ if (!$assignments) {
                     ).'
             </div>
         
+            <a
+                class="btn btn-primary"
+                href="'.$downloadurl.'"
+            >
+                Download Assignment
+            </a>
+            
             <a
                 class="btn btn-success"
                 href="'.$submiturl.'"

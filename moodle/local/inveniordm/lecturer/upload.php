@@ -116,7 +116,7 @@ if ($form->is_cancelled()) {
             CURLOPT_HTTPHEADER => [
                 'Accept: application/json',
                 'Content-Type: application/json',
-                'Authorization: Bearer scPx1LLmZkoCjM4dkH3tDa3n1KzfZfvBxhwdHATFa8ZN2SO0Sm9Ds8D8VcjV'
+                'Authorization: Bearer ' . INVENIO_TOKEN
             ],
             CURLOPT_POSTFIELDS => '{}'
         ]);

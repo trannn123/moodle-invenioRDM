@@ -5,6 +5,7 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 // Load thư viện xử lý file của Moodle
 require_once($CFG->libdir . '/filelib.php');
+require_once($CFG->dirroot . '/local/inveniordm/locallib.php');
 
 class invenio_client {
     private string $apiurl;
@@ -13,7 +14,7 @@ class invenio_client {
     public function __construct() {
         $this->apiurl = 'http://host.docker.internal:5001/api/';
         $this->hostheader = 'localhost';
-        $this->token = INVENIO_TOKEN;
+        $this->token = \INVENIO_TOKEN;
     }
 
     private function make_request(string $url, string $method = 'GET'): array {
@@ -239,5 +240,9 @@ class invenio_client {
             'upload_code' => $code,
             'commit' => $commit
         ];
+    }
+
+    public function get_token(): string {
+        return $this->token;
     }
 }

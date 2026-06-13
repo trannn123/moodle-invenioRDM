@@ -37,7 +37,7 @@ curl_setopt_array($ch, [
     CURLOPT_SSL_VERIFYHOST => false,
     CURLOPT_HTTPHEADER => [
         'Host: localhost',
-        'Authorization: Bearer ' . INVENIO_TOKEN
+        'Authorization: Bearer ' . $client->get_token()
     ]
 ]);
 $content = curl_exec($ch);

@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         CURLOPT_HTTPHEADER => [
             'Accept: application/json',
             'Content-Type: application/json',
-            'Authorization: Bearer ' . INVENIO_TOKEN
+            'Authorization: Bearer ' . $client->get_token()
         ],
         CURLOPT_POSTFIELDS => '{}'
     ]);

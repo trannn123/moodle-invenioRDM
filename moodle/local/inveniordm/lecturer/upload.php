@@ -3,7 +3,6 @@
 require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $CFG, $PAGE, $OUTPUT, $USER;
-
 require_once(
     $CFG->dirroot .
     '/local/inveniordm/classes/form/upload_form.php'
@@ -116,7 +115,7 @@ if ($form->is_cancelled()) {
             CURLOPT_HTTPHEADER => [
                 'Accept: application/json',
                 'Content-Type: application/json',
-                'Authorization: Bearer ' . INVENIO_TOKEN
+                'Authorization: Bearer ' . $client->get_token()
             ],
             CURLOPT_POSTFIELDS => '{}'
         ]);

@@ -1,110 +1,357 @@
 <?php
 
 namespace local_inveniordm\form;
+
 defined('MOODLE_INTERNAL') || die();
+
 require_once($GLOBALS['CFG']->libdir . '/formslib.php');
 
 class upload_form extends \moodleform {
+
     public function definition() {
         $mform = $this->_form;
-        $mform->addElement('header', 'basicinfo', 'Basic Information');
 
-        // Title
-        $mform->addElement('text', 'title', 'Resource Title');
+        /*
+         * =====================================================
+         * GENERAL
+         * =====================================================
+         */
+        $mform->addElement('header', 'generalinfo', 'General Information');
+
+        // title
+        $mform->addElement('text', 'title', 'Title');
         $mform->setType('title', PARAM_TEXT);
+        $mform->addRule('title', 'Required', 'required');
 
-        // Description
-        $mform->addElement('textarea', 'description', 'Description', ['rows' => 6, 'cols' => 60]);
+        // description
+        $mform->addElement(
+            'textarea',
+            'description',
+            'Description',
+            ['rows' => 5, 'cols' => 60]
+        );
         $mform->setType('description', PARAM_TEXT);
 
-        // Language
-        $mform->addElement('select', 'language', 'Language', ['en' => 'English', 'vi' => 'Vietnamese']);
+        // free_keyword
+        $mform->addElement('text', 'free_keyword', 'Keywords');
+        $mform->setType('free_keyword', PARAM_TEXT);
 
-        // Format
-        $mform->addElement('select', 'format', 'Format', ['pdf' => 'PDF', 'video' => 'Video', 'doc' => 'DOC']);
+        // language
+        $mform->addElement(
+            'select',
+            'language',
+            'Language',
+            [
+                'vi' => 'Vietnamese',
+                'en' => 'English',
+                'fr' => 'French'
+            ]
+        );
 
-        // Document Type
-        $mform->addElement('select', 'documenttype', 'Document Type', ['text' => 'Text', 'dataset' => 'Dataset', 'image' => 'Image', 'video' => 'Video']);
+        // documentary_type
+        $mform->addElement(
+            'select',
+            'documentary_type',
+            'Documentary Type',
+            [
+                'collection' => 'Collection',
+                'dataset' => 'Dataset',
+                'event' => 'Event',
+                'image' => 'Image',
+                'moving image' => 'Moving Image',
+                'still image' => 'Still Image',
+                'software' => 'Software',
+                'physical object' => 'Physical Object',
+                'interactive resource' => 'Interactive Resource',
+                'service' => 'Service',
+                'sound' => 'Sound',
+                'text' => 'Text'
+            ]
+        );
 
-        // Discipline
-        $mform->addElement('select', 'discipline', 'Discipline', [
-            'Artificial Intelligence' => 'Artificial Intelligence',
-            'Computer Networking' => 'Computer Networking',
-            'Cyber Security' => 'Cyber Security'
-        ]);
+        /*
+         * =====================================================
+         * TECHNICAL
+         * =====================================================
+         */
+        $mform->addElement('header', 'technicalinfo', 'Technical Information');
 
-        // Educational Level
-        $mform->addElement('select', 'educationallevel', 'Educational Level', ['bachelor' => 'Bachelor', 'master' => 'Master']);
+        // format
+        $mform->addElement(
+            'select',
+            'format',
+            'Format',
+            [
+                'pdf' => 'PDF',
+                'doc' => 'DOC',
+                'docx' => 'DOCX',
+                'xls' => 'XLS',
+                'xlsx' => 'XLSX',
+                'ppt' => 'PPT',
+                'pptx' => 'PPTX',
+                'odt' => 'ODT',
+                'jpg' => 'JPG',
+                'jpeg' => 'JPEG',
+                'png' => 'PNG',
+                'zip' => 'ZIP'
+            ]
+        );
+        $mform->setType('format', PARAM_TEXT);
 
-        // Target Audience
-        $mform->addElement('select', 'targetaudience', 'Target Audience', ['learner' => 'Learner', 'teacher' => 'Teacher']);
+        // location
+        $mform->addElement(
+            'text',
+            'location',
+            'Location URL'
+        );
+        $mform->setType('location', PARAM_URL);
 
-        // Learning Resource Type
-        $mform->addElement('select', 'learningresourcetype', 'Learning Resource Type', ['lesson' => 'Lesson', 'tutorial' => 'Tutorial', 'lab' => 'Lab', 'exercise' => 'Exercise']);
+        /*
+         * =====================================================
+         * EDUCATIONAL
+         * =====================================================
+         */
+        $mform->addElement('header', 'educationalinfo', 'Educational Information');
 
-        // Keywords
-        $mform->addElement('text', 'keywords', 'Keywords');
-        $mform->setType('keywords', PARAM_TEXT);
+        // learning_resource_type
+        $mform->addElement(
+            'select',
+            'learning_resource_type',
+            'Learning Resource Type',
+            [
+                'exercise' => 'Exercise',
+                'simulation' => 'Simulation',
+                'demonstration' => 'Demonstration',
+                'questionnaire' => 'Questionnaire',
+                'exam' => 'Exam',
+                'assessment' => 'Assessment',
+                'experiment' => 'Experiment',
+                'lesson' => 'Lesson',
+                'animation' => 'Animation',
+                'tutorial' => 'Tutorial',
+                'glossary' => 'Glossary',
+                'guide' => 'Guide',
+                'reference material' => 'Reference Material',
+                'methodology' => 'Methodology',
+                'tool' => 'Tool',
+                'teaching scenario' => 'Teaching Scenario',
+                'self-assessment' => 'Self Assessment',
+                'problem statement' => 'Problem Statement'
+            ]
+        );
 
-        // Copyright
-        $mform->addElement('select', 'copyright', 'Copyright', ['yes' => 'Yes', 'no' => 'No']);
+        // target_audience
+        $mform->addElement(
+            'select',
+            'target_audience',
+            'Target Audience',
+            [
+                'teacher' => 'Teacher',
+                'author' => 'Author',
+                'learner' => 'Learner',
+                'administrator' => 'Administrator'
+            ]
+        );
 
-        // Relation
-        $mform->addElement('text', 'relation', 'Relation');
-        $mform->setType('relation', PARAM_TEXT);
+        // educational_level
+        $mform->addElement(
+            'select',
+            'educational_level',
+            'Educational Level',
+            [
+                'school education' => 'School Education',
+                'higher education' => 'Higher Education',
+                'vocational training' => 'Vocational Training',
+                'primary education' => 'Primary Education',
+                'secondary education' => 'Secondary Education',
+                'bachelor\'s degree' => 'Bachelor Degree',
+                'master\'s degree' => 'Master Degree',
+                'doctorate' => 'Doctorate',
+                'continuing education' => 'Continuing Education',
+                'in-company training' => 'In-company Training'
+            ]
+        );
 
-        // File Upload
-        $mform->addElement('filepicker', 'resourcefile', 'Upload File');
+        // induced_activity
+        $mform->addElement(
+            'select',
+            'induced_activity',
+            'Induced Activity',
+            [
+                'facilitate' => 'Facilitate',
+                'learn' => 'Learn',
+                'collaborate' => 'Collaborate',
+                'communicate' => 'Communicate',
+                'cooperate' => 'Cooperate',
+                'create' => 'Create',
+                'exchange' => 'Exchange',
+                'read' => 'Read',
+                'observe' => 'Observe',
+                'organise' => 'Organise',
+                'produce' => 'Produce',
+                'publish' => 'Publish',
+                'research' => 'Research',
+                'self-study' => 'Self Study',
+                'practise' => 'Practise',
+                'find out' => 'Find Out',
+                'train' => 'Train',
+                'simulate' => 'Simulate',
+                'assess' => 'Assess'
+            ]
+        );
 
-        // Submit Button
-        $this->add_action_buttons(true, 'Upload Resource');
+        /*
+         * =====================================================
+         * RIGHTS
+         * =====================================================
+         */
+        $mform->addElement('header', 'rightsinfo', 'Rights');
 
-        // JS realtime validation
-        $mform->addElement('html', '
-        
-        <script>
-        (function() {
-            var rules = {
-                title: { check: function(v) { return v.trim().length >= 3; }, msg: "Title must be at least 3 characters" },
-                description: { check: function(v) { return v.trim().length >= 10; }, msg: "Description must be at least 10 characters" },
-                keywords: { check: function(v) { return v.trim().length > 0; }, msg: "Keywords are required" }
-            };
-            
-            function validateField(id) {
-                var input = document.getElementById("id_" + id);
-                if (!input) return;
-                var rule = rules[id];
-                if (!rule) return;
-                var isValid = rule.check(input.value);
-                var fitem = input.closest(".fitem");
-                if (fitem) {
-                    var oldMsg = fitem.querySelector(".error-msg");
-                    if (!isValid) {
-                        fitem.classList.add("error-border");
-                        if (!oldMsg) {
-                            var msg = document.createElement("div");
-                            msg.className = "error-msg";
-                            msg.innerText = rule.msg;
-                            input.closest(".felement").appendChild(msg);
-                        }
-                    } else {
-                        fitem.classList.remove("error-border");
-                        if (oldMsg) oldMsg.remove();
-                    }
-                }
-            }
-            
-            document.addEventListener("DOMContentLoaded", function() {
-                for (var id in rules) {
-                    var el = document.getElementById("id_" + id);
-                    if (el) {
-                        el.addEventListener("input", function(id) { return function() { validateField(id); }; }(id));
-                        el.addEventListener("blur", function(id) { return function() { validateField(id); }; }(id));
-                    }
-                }
-            });
-        })();
-        </script>
-        ');
+        $mform->addElement(
+            'select',
+            'copyright',
+            'Copyright',
+            [
+                'yes' => 'Yes',
+                'no' => 'No'
+            ]
+        );
+
+        /*
+         * =====================================================
+         * CLASSIFICATION
+         * =====================================================
+         */
+        $mform->addElement('header', 'classificationinfo', 'Classification');
+
+        // objective
+        $mform->addElement(
+            'select',
+            'objective',
+            'Objective',
+            [
+                'discipline' => 'Discipline',
+                'concept' => 'Concept',
+                'prerequisite' => 'Prerequisite',
+                'learning objective' => 'Learning Objective',
+                'accessibility restrictions' => 'Accessibility Restrictions',
+                'educational level' => 'Educational Level',
+                'proficiency level' => 'Proficiency Level',
+                'security level' => 'Security Level',
+                'competency' => 'Competency'
+            ]
+        );
+
+        // taxon_entry
+        $mform->addElement(
+            'text',
+            'taxon_entry',
+            'Taxon Entry'
+        );
+        $mform->setType('taxon_entry', PARAM_TEXT);
+
+        /*
+         * =====================================================
+         * LIFE CYCLE
+         * =====================================================
+         */
+        $mform->addElement('header', 'lifecycleinfo', 'Life Cycle');
+
+        $mform->addElement(
+            'select',
+            'role',
+            'Role',
+            [
+                'author' => 'Author',
+                'publisher' => 'Publisher',
+                'graphic designer' => 'Graphic Designer',
+                'instructional designer' => 'Instructional Designer',
+                'contributor' => 'Contributor',
+                'subject matter expert' => 'Subject Matter Expert',
+                'content provider' => 'Content Provider',
+                'technical implementer' => 'Technical Implementer',
+                'editor-in-chief' => 'Editor-in-Chief',
+                'validator' => 'Validator'
+            ]
+        );
+
+        $mform->addElement('text', 'entity', 'Contributor');
+        $mform->setType('entity', PARAM_TEXT);
+
+        $mform->addElement('date_selector', 'date', 'Date');
+
+        /*
+         * =====================================================
+         * RELATION
+         * =====================================================
+         */
+        $mform->addElement('header', 'relationinfo', 'Relation');
+
+        $mform->addElement(
+            'select',
+            'relation',
+            'Relation',
+            [
+                'is a part of' => 'Is A Part Of',
+                'contains' => 'Contains',
+                'is a version of' => 'Is A Version Of',
+                'requires' => 'Requires',
+                'is required by' => 'Is Required By',
+                'is associated with' => 'Is Associated With',
+                'is based on' => 'Is Based On',
+                'is a prerequisite for' => 'Is A Prerequisite For'
+            ]
+        );
+
+        /*
+         * =====================================================
+         * META-METADATA
+         * =====================================================
+         */
+        $mform->addElement('header', 'metainfo', 'Metadata');
+
+        $mform->addElement(
+            'select',
+            'metadata_accessibility',
+            'Metadata Accessibility',
+            [
+                'public access' => 'Public Access',
+                'restricted access' => 'Restricted Access',
+                'read-only' => 'Read Only'
+            ]
+        );
+
+        /*
+         * =====================================================
+         * FILE
+         * =====================================================
+         */
+        $mform->addElement(
+            'filepicker',
+            'resourcefile',
+            'Upload Resource File'
+        );
+
+        $this->add_action_buttons(
+            true,
+            'Upload Resource'
+        );
+    }
+
+    public function validation($data, $files) {
+        $errors = [];
+
+        if (strlen(trim($data['title'])) < 3) {
+            $errors['title'] =
+                'Title must contain at least 3 characters.';
+        }
+
+        if (!empty($data['description']) &&
+            strlen(trim($data['description'])) < 10) {
+            $errors['description'] =
+                'Description must contain at least 10 characters.';
+        }
+
+        return $errors;
     }
 }

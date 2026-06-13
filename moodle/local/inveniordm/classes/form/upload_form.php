@@ -21,7 +21,6 @@ class upload_form extends \moodleform {
         // title
         $mform->addElement('text', 'title', 'Title');
         $mform->setType('title', PARAM_TEXT);
-        $mform->addRule('title', 'Required', 'required');
 
         // description
         $mform->addElement(

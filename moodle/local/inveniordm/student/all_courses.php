@@ -54,11 +54,7 @@ foreach ($courses as $course) {
     );
 }
 
-/**
- * =========================
- * HERO SECTION
- * =========================
- */
+
 echo '
 <div class="hero-section">
     <h1>All Courses</h1>
@@ -66,11 +62,7 @@ echo '
 </div>
 ';
 
-/**
- * =========================
- * SEARCH BOX
- * =========================
- */
+
 echo '
 <form method="get" class="mb-4">
     <div class="input-group">
@@ -123,11 +115,7 @@ echo '
 </div>
 ';
 
-/**
- * =========================
- * EMPTY STATE
- * =========================
- */
+
 if (empty($courses)) {
 
     echo $OUTPUT->notification('No courses found', 'info');
@@ -136,11 +124,7 @@ if (empty($courses)) {
     exit;
 }
 
-/**
- * =========================
- * COURSE GRID
- * =========================
- */
+
 echo '<div class="course-grid">';
 
 foreach ($courses as $course) {

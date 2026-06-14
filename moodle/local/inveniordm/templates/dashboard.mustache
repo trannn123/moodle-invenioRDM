@@ -9,7 +9,24 @@
 
     {{#is_student}}
     <div class="row g-4">
-        <div class="col-md-6">
+        <div class="col-md-6 mb-4">
+                    <div class="dashboard-card">
+                        <div class="card-icon">
+                            📚
+                        </div>
+                        <h3>
+                            Courses
+                        </h3>
+                        <p>
+                            Search all courses.
+                        </p>
+                        <a class="btn btn-outline-success"
+                           href="{{wwwroot}}/local/inveniordm/student/all_courses.php">
+                            Find Courses
+                        </a>
+                    </div>
+                </div>
+        <div class="col-md-6 mb-4">
             <div class="dashboard-card">
                 <div class="card-icon">
                     📝
@@ -26,10 +43,10 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mb-4">
             <div class="dashboard-card">
                 <div class="card-icon">
-                    📚
+                    🎓
                 </div>
                 <h3>My Courses</h3>
                 <p>
@@ -41,7 +58,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mb-4">
             <div class="dashboard-card">
                 <div class="card-icon">
                     🔍
@@ -62,7 +79,7 @@
     {{#is_lecturer}}
     <div class="row g-4">
         {{#cancreatecourse}}
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 mb-4 col-xl-3">
             <div class="dashboard-card">
                 <div class="card-icon">➕</div>
                 <h3>Create Course</h3>
@@ -74,7 +91,7 @@
             </div>
         </div>
         {{/cancreatecourse}}
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 mb-4 col-xl-3">
             <div class="dashboard-card">
                 <div class="card-icon">📚</div>
                 <h3>Courses</h3>
@@ -85,7 +102,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 mb-4 col-xl-3">
             <div class="dashboard-card">
 
                 <div class="card-icon">
@@ -107,7 +124,7 @@
 
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 mb-4 col-xl-3">
             <div class="dashboard-card">
                 <div class="card-icon">⬆️</div>
                 <h3>Upload</h3>
@@ -118,7 +135,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 mb-4 col-xl-3">
             <div class="dashboard-card">
                 <div class="card-icon">📄</div>
                 <h3>Resources</h3>
@@ -129,7 +146,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-6 col-xl-3">
+        <div class="col-md-6 mb-4 col-xl-3">
             <div class="dashboard-card">
                 <div class="card-icon">🔍</div>
                 <h3>Search</h3>

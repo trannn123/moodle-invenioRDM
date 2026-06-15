@@ -1,0 +1,87 @@
+.hero-section {
+    background: linear-gradient(
+            135deg,
+            #0d6efd,
+            #4f8cff
+    );
+    color: white;
+    padding: 40px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+}
+
+.hero-section h1 {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.hero-section p {
+    margin-top: 10px;
+    opacity: .9;
+}
+
+.stats-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.stats-card h2 {
+    margin: 0;
+    font-size: 34px;
+    color: #0d6efd;
+    font-weight: 700;
+}
+
+.stats-card p {
+    margin-top: 8px;
+    color: #6c757d;
+}
+
+.search-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+
+.search-card .btn {
+    min-width: 120px;
+}
+
+.table-responsive {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.table th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.table td,
+.table th {
+    vertical-align: middle;
+}
+
+.badge {
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 20px;
+}
+
+.btn-sm {
+    min-width: 100px;
+}
+
+.gap-2 {
+    gap: 10px;
+}

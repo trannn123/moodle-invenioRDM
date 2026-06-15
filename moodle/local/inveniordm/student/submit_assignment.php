@@ -22,7 +22,11 @@ if (has_capability('local/inveniordm:upload', $context)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+    if (time() > $assignment->duedate) {
+        throw new moodle_exception(
+            'Assignment submission deadline has passed'
+        );
+    }
     if (empty($_FILES['submission']['name'])) {
         throw new moodle_exception('No file selected');
     }
@@ -30,98 +34,142 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $filename = $_FILES['submission']['name'];
     $tmpfile  = $_FILES['submission']['tmp_name'];
 
-    $client = new \local_inveniordm\api\invenio_client();
-
-    $fullname = fullname($USER);
-    $nameParts = explode(' ', trim($fullname));
-
-    $family_name = array_pop($nameParts);
-    $given_name = implode(' ', $nameParts);
-
-    if (empty($family_name)) {
-        $family_name = 'User';
-    }
-
-    if (empty($given_name)) {
-        $given_name = 'Unknown';
-    }
-
-    $recordpayload = [
-        'files' => ['enabled' => true],
-        'metadata' => [
-            'title' => $assignment->name . ' - ' . fullname($USER),
-            'description' => 'Submission for assignment',
-            'publication_date' => date('Y-m-d'),
-            'resource_type' => ['id' => 'publication-article'],
-            'creators' => [[
-                'person_or_org' => [
-                    'type' => 'personal',
-                    'given_name' => $given_name,
-                    'family_name' => $family_name
-                ]
-            ]]
-        ]
-    ];
-
-    $record = $client->create_record($recordpayload);
-    $recordid = $record['data']['id'] ?? null;
-
-    if (!$recordid) {
-        throw new moodle_exception('Create Invenio record failed');
-    }
-
-    $upload = $client->upload_file(
-        $recordid,
+    $existing = $DB->get_record(
+        'local_inveniordm_submissions',
         [
-            'name' => $filename,
-            'tmp_name' => $tmpfile
+            'assignmentid' => $assignmentid,
+            'studentid' => $USER->id
         ]
     );
 
-    if (!empty($upload['error'])) {
-        throw new moodle_exception('Upload file to Invenio failed');
+    if ($existing) {
+
+        $submissionid = $existing->id;
+
+    } else {
+
+        $submissionid = $DB->insert_record(
+            'local_inveniordm_submissions',
+            [
+                'assignmentid' => $assignmentid,
+                'studentid'    => $USER->id,
+                'filename'     => $filename,
+                'status'       => 'submitted',
+                'timecreated'  => time()
+            ]
+        );
     }
 
-    $publishurl =
-        'http://ctu-it-rdm-web-api-1:5000/api/records/' .
-        $recordid .
-        '/draft/actions/publish';
+    if ($existing) {
 
-    $ch = curl_init();
+        $existing->filename = $filename;
+        $existing->status = 'submitted';
 
-    curl_setopt_array($ch, [
-        CURLOPT_URL => $publishurl,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => [
-            'Accept: application/json',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $client->get_token()
-        ],
-        CURLOPT_POSTFIELDS => '{}'
-    ]);
-
-    $response = curl_exec($ch);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    $error = curl_error($ch);
-
-    curl_close($ch);
-
-    if ($error) {
-        throw new moodle_exception('CURL error: ' . $error);
+        $DB->update_record(
+            'local_inveniordm_submissions',
+            $existing
+        );
     }
 
-    if ($httpcode >= 300) {
-        throw new moodle_exception('Publish failed: ' . $response);
-    }
+    $fs = get_file_storage();
 
-    $DB->insert_record('local_inveniordm_submissions', [
-        'assignmentid' => $assignmentid,
-        'studentid'       => $USER->id,
-        'recordid'     => $recordid,
-        'filename'     => $filename,
-        'timecreated'  => time()
-    ]);
+    $fileinfo = [
+        'contextid' => $context->id,
+        'component' => 'local_inveniordm',
+        'filearea'  => 'submission',
+        'itemid'    => $submissionid,
+        'filepath'  => '/',
+        'filename'  => $filename
+    ];
+
+    $fs->create_file_from_pathname(
+        $fileinfo,
+        $tmpfile
+    );
+//    $client = new \local_inveniordm\api\invenio_client();
+//
+//    $fullname = fullname($USER);
+//    $nameParts = explode(' ', trim($fullname));
+//
+//    $family_name = array_pop($nameParts);
+//    $given_name = implode(' ', $nameParts);
+//
+//    if (empty($family_name)) {
+//        $family_name = 'User';
+//    }
+//
+//    if (empty($given_name)) {
+//        $given_name = 'Unknown';
+//    }
+//
+//    $recordpayload = [
+//        'files' => ['enabled' => true],
+//        'metadata' => [
+//            'title' => $assignment->name . ' - ' . fullname($USER),
+//            'description' => 'Submission for assignment',
+//            'publication_date' => date('Y-m-d'),
+//            'resource_type' => ['id' => 'publication-article'],
+//            'creators' => [[
+//                'person_or_org' => [
+//                    'type' => 'personal',
+//                    'given_name' => $given_name,
+//                    'family_name' => $family_name
+//                ]
+//            ]]
+//        ]
+//    ];
+//
+//    $record = $client->create_record($recordpayload);
+//    $recordid = $record['data']['id'] ?? null;
+//
+//    if (!$recordid) {
+//        throw new moodle_exception('Create Invenio record failed');
+//    }
+//
+//    $upload = $client->upload_file(
+//        $recordid,
+//        [
+//            'name' => $filename,
+//            'tmp_name' => $tmpfile
+//        ]
+//    );
+//
+//    if (!empty($upload['error'])) {
+//        throw new moodle_exception('Upload file to Invenio failed');
+//    }
+//
+//    $publishurl =
+//        'http://ctu-it-rdm-web-api-1:5000/api/records/' .
+//        $recordid .
+//        '/draft/actions/publish';
+//
+//    $ch = curl_init();
+//
+//    curl_setopt_array($ch, [
+//        CURLOPT_URL => $publishurl,
+//        CURLOPT_RETURNTRANSFER => true,
+//        CURLOPT_POST => true,
+//        CURLOPT_HTTPHEADER => [
+//            'Accept: application/json',
+//            'Content-Type: application/json',
+//            'Authorization: Bearer ' . $client->get_token()
+//        ],
+//        CURLOPT_POSTFIELDS => '{}'
+//    ]);
+//
+//    $response = curl_exec($ch);
+//    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//    $error = curl_error($ch);
+//
+//    curl_close($ch);
+//
+//    if ($error) {
+//        throw new moodle_exception('CURL error: ' . $error);
+//    }
+//
+//    if ($httpcode >= 300) {
+//        throw new moodle_exception('Publish failed: ' . $response);
+//    }
 
     redirect(
         new moodle_url('/local/inveniordm/student/assignments.php', [
@@ -152,6 +200,7 @@ $backurl = new moodle_url(
                 'courseid' => $assignment->courseid
         ]
 );
+$expired = time() > $assignment->duedate;
 echo '
 <div class="hero-section">
     <h1>Submit Assignment</h1>
@@ -170,10 +219,25 @@ echo '
     <h2>'.s($assignment->name).'</h2>
     <p>'.s($assignment->description).'</p>
     <p>
-        Due:
-        '.date('d/m/Y', $assignment->duedate).'
+        <strong>Due date:</strong>
+        '.userdate($assignment->duedate).'
     </p>
+';
+
+if ($expired) {
+
+    echo '
+        <div class="alert alert-danger">
+            <strong>Assignment closed.</strong><br>
+            The submission deadline has passed.
+        </div>
+    ';
+
+} else {
+
+    echo '
     <form method="post" enctype="multipart/form-data">
+
         <div class="upload-area">
             <input
                 type="file"
@@ -181,6 +245,7 @@ echo '
                 id="submission"
                 required
             >
+
             <label
                 for="submission"
                 class="upload-label"
@@ -193,30 +258,41 @@ echo '
                     PDF, DOCX, ZIP...
                 </div>
             </label>
+
             <div
                 id="selected-file"
                 class="selected-file"
             ></div>
+
         </div>
+
         <button
             class="btn btn-success"
             type="submit"
         >
             Submit
         </button>
+
     </form>
-</div>
-';
+    ';
+}
+
+echo '</div>';
 
 echo '
 <script>
-document.getElementById("submission").addEventListener("change", function () {
-    const file = this.files[0];
-    if (file) {
-        document.getElementById("selected-file").innerHTML =
-            "Selected: " + file.name;
-    }
-});
+const fileInput = document.getElementById("submission");
+
+if (fileInput) {
+    fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            document.getElementById("selected-file").innerHTML =
+                "Selected: " + file.name;
+        }
+    });
+}
 </script>
 ';
 

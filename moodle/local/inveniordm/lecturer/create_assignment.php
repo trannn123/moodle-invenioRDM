@@ -6,6 +6,18 @@ global $DB, $USER, $PAGE, $OUTPUT;
 
 $courseid = required_param('courseid', PARAM_INT);
 $recordid = required_param('recordid', PARAM_TEXT);
+if ($DB->record_exists(
+    'local_inveniordm_assignments',
+    [
+        'courseid' => $courseid,
+        'resource_recordid' => $recordid
+    ]
+)) {
+
+    throw new moodle_exception(
+        'Assignment already exists for this resource.'
+    );
+}
 $resourcerecordid = required_param(
     'recordid',
     PARAM_TEXT

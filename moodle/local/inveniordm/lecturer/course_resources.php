@@ -30,6 +30,27 @@ echo '
     </p>
 </div>
 ';
+$totalresources = count($resources);
+
+echo '
+<div class="row mb-4">
+
+    <div class="col-md-6">
+        <div class="stats-card">
+            <h2>'.$totalresources.'</h2>
+            <p>Resources</p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="stats-card">
+            <h2>'.$courseid.'</h2>
+            <p>Course ID</p>
+        </div>
+    </div>
+
+</div>
+';
 $searchurl = new moodle_url(
     '/local/inveniordm/lecturer/search_resources_to_attach.php',
     [
@@ -40,20 +61,33 @@ $searchurl = new moodle_url(
 $assignmentsurl = new moodle_url(
     '/local/inveniordm/lecturer/assignments.php',
     [
-        'courseid' => $courseid
+        'courseid'  => $courseid,
+        'returnurl' =>
+            '/local/inveniordm/lecturer/course_resources.php?courseid='
+            .$courseid
     ]
 );
 
+$backurl = new moodle_url(
+    '/local/inveniordm/lecturer/mycourses.php'
+);
+
 echo '
-<div class="mb-4">
+<div class="action-bar mb-4">
     <a class="btn btn-primary"
        href="'.$searchurl.'">
-        Search New Resource
+       Search New Resource
     </a>
 
     <a class="btn btn-secondary"
        href="'.$assignmentsurl.'">
-        Assignments
+       Assignments
+    </a>
+    
+    <a class="btn btn-outline-dark"
+       href="'.$backurl.'">
+       <i class="fa fa-arrow-left"></i>
+       Back
     </a>
 </div>
 ';
@@ -75,38 +109,38 @@ if (!$resources) {
                 'recordid' => $res->recordid
             ]
         );
-        $assignmenturl = new moodle_url(
-            '/local/inveniordm/lecturer/create_assignment.php',
-            [
-                'courseid' => $courseid,
-                'recordid' => $res->recordid
-            ]
-        );
         echo '
         <div class="resource-card">
+        
             <div class="resource-title">
                 '.s($res->title).'
             </div>
+        
             <div class="resource-info-row">
                 <strong>Record ID</strong>
                 <span>'.s($res->recordid).'</span>
             </div>
+        
+            <div class="resource-info-row">
+                <strong>Attached</strong>
+                <span>'.userdate($res->timecreated, "%d/%m/%Y").'</span>
+            </div>
+        
             <div class="resource-actions">
-                <a class="btn btn-primary"
+        
+                <a class="btn btn-outline-primary"
                    href="'.$viewurl.'">
                     View Metadata
                 </a>
-                <a class="btn btn-secondary"
+        
+                <a class="btn btn-outline-secondary"
                    href="'.$downloadurl.'">
                     Download
                 </a>
-                <a class="btn btn-success"
-                   href="'.$assignmenturl.'">
-                    Create Assignment
-                </a>
             </div>
+        
         </div>
-    ';
+        ';
     }
     echo '</div>';
 }

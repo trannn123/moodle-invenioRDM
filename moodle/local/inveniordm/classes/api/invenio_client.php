@@ -242,7 +242,49 @@ class invenio_client {
         ];
     }
 
+    public function publish_record(string $recordid): array {
+
+        $url =
+            $this->apiurl .
+            'records/' .
+            $recordid .
+            '/draft/actions/publish';
+
+        $ch = curl_init();
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => [
+                'Accept: application/json',
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $this->token
+            ],
+            CURLOPT_POSTFIELDS => '{}'
+        ]);
+
+        $response = curl_exec($ch);
+
+        $httpcode = curl_getinfo(
+            $ch,
+            CURLINFO_HTTP_CODE
+        );
+
+        $error = curl_error($ch);
+
+        curl_close($ch);
+
+        return [
+            'httpcode' => $httpcode,
+            'error' => $error,
+            'response' => $response
+        ];
+    }
+
     public function get_token(): string {
         return $this->token;
     }
+
+
 }

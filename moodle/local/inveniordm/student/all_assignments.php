@@ -67,20 +67,16 @@ foreach ($courses as $course) {
         continue;
     }
 
-    $modinfo = get_fast_modinfo($course);
+    $localassignments = $DB->get_records(
+        'local_inveniordm_assignments',
+        ['courseid' => $course->id]
+    );
 
-    foreach ($modinfo->instances['assign'] ?? [] as $cm) {
-
-        $instance = $cm->instance;
-
-        $assign = $DB->get_record('assign', ['id' => $instance]);
-
-        if (!$assign) {
-            continue;
-        }
+    foreach ($localassignments as $assignment) {
 
         if (!empty($search)) {
-            if (stripos($assign->name, $search) === false &&
+
+            if (stripos($assignment->name, $search) === false &&
                 stripos($course->fullname, $search) === false) {
                 continue;
             }
@@ -88,8 +84,7 @@ foreach ($courses as $course) {
 
         $assignments[] = [
             'course' => $course,
-            'cm' => $cm,
-            'assign' => $assign
+            'assignment' => $assignment
         ];
     }
 }
@@ -127,22 +122,20 @@ echo '<div class="course-grid">';
 foreach ($assignments as $item) {
 
     $course = $item['course'];
-    $assign = $item['assign'];
-    $cm = $item['cm'];
+    $assignment = $item['assignment'];
 
     $coursecontext = context_course::instance($course->id);
     $isenrolled = is_enrolled($coursecontext, $USER->id);
 
     $assignurl = new moodle_url(
-        '/mod/assign/view.php',
-        ['id' => $cm->id]
+        '/local/inveniordm/student/submit_assignment.php',
+        ['assignmentid' => $assignment->id]
     );
-
     echo '
     <div class="course-card">
 
         <div class="course-title">
-            '.format_string($assign->name).'
+            '.format_string($assignment->name).'
         </div>
 
         <div class="course-info-row">
@@ -157,7 +150,7 @@ foreach ($assignments as $item) {
 
         <div class="course-info-row">
             <strong>Due Date</strong>
-            <span>'.($assign->duedate ? date('Y-m-d H:i', $assign->duedate) : 'No due date').'</span>
+            <span>'.($assignment->duedate ? date('Y-m-d H:i', $assignment->duedate) : 'No due date').'</span>
         </div>
 
         <div class="course-info-row">

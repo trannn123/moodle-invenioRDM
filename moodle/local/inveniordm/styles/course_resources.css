@@ -59,3 +59,47 @@
     display: flex;
     gap: 10px;
 }
+
+.action-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.action-bar .btn {
+    min-width: 180px;
+}
+
+.stats-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.stats-card h2 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #0d6efd;
+    margin: 0;
+}
+
+.stats-card p {
+    margin-top: 8px;
+    color: #6c757d;
+}
+
+.resource-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.resource-actions .btn {
+    flex: 1;
+    min-width: 140px;
+}

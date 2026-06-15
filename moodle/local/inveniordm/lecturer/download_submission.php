@@ -21,26 +21,31 @@ $submission =
         '*',
         MUST_EXIST
     );
-$file =
-    $CFG->dataroot .
-    '/temp/inveniordm_submissions/' .
-    $submission->filename;
-if (!file_exists($file)) {
+$context = context_course::instance(
+    $DB->get_field(
+        'local_inveniordm_assignments',
+        'courseid',
+        ['id' => $submission->assignmentid]
+    )
+);
 
+$fs = get_file_storage();
+
+$file = $fs->get_file(
+    $context->id,
+    'local_inveniordm',
+    'submission',
+    $submission->assignmentid,
+    '/',
+    $submission->filename
+);
+
+if (!$file) {
     throw new moodle_exception(
         'File not found'
     );
 }
-header(
-    'Content-Type: application/octet-stream'
-);
 
-header(
-    'Content-Disposition: attachment; filename="' .
-    basename($submission->filename) .
-    '"'
-);
-
-readfile($file);
+send_stored_file($file,0,0,true);
 
 exit;

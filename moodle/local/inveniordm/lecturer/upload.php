@@ -103,30 +103,13 @@ if ($form->is_cancelled()) {
                     'tmp_name' => $filepath
                 ]
             );
-        $publishurl =
-            'http://ctu-it-rdm-web-api-1:5000/api/records/' .
-            $recordid .
-            '/draft/actions/publish';
-        $ch = curl_init();
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $publishurl,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => [
-                'Accept: application/json',
-                'Content-Type: application/json',
-                'Authorization: Bearer ' . $client->get_token()
-            ],
-            CURLOPT_POSTFIELDS => '{}'
-        ]);
-        $publishresponse = curl_exec($ch);
-        $curlerror = curl_error($ch);
-        $publishcode =
-            curl_getinfo(
-                $ch,
-                CURLINFO_HTTP_CODE
+        $publishresult =
+            $client->publish_record(
+                $recordid
             );
-        curl_close($ch);
+
+        $publishcode =
+            $publishresult['httpcode'];
         if ($publishcode >= 200 && $publishcode < 300) {
             echo $OUTPUT->notification(
                 'Upload resource successfully!',

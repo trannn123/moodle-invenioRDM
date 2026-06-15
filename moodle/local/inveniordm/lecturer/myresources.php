@@ -68,9 +68,10 @@ if (empty($records)) {
             $record['files']['count']
             ?? 0;
         $viewurl = new moodle_url(
-            '/local/inveniordm/student/view.php',
+            '/local/inveniordm/resource/view.php',
             [
-                'id' => $id
+                'id' => $id,
+                'returnurl' => qualified_me()
             ]
         );
         echo '

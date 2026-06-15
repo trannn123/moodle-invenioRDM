@@ -31,7 +31,7 @@ echo '
 </div>
 ';
 $searchurl = new moodle_url(
-    '/local/inveniordm/lecturer/search_resources.php',
+    '/local/inveniordm/lecturer/search_resources_to_attach.php',
     [
         'courseid' => $courseid
     ]
@@ -63,9 +63,10 @@ if (!$resources) {
     echo '<div class="resource-grid">';
     foreach ($resources as $res) {
         $viewurl = new moodle_url(
-            '/local/inveniordm/student/view.php',
+            '/local/inveniordm/resource/view.php',
             [
-                'id' => $res->recordid
+                'id' => $res->recordid,
+                'returnurl' => qualified_me()
             ]
         );
         $downloadurl = new moodle_url(

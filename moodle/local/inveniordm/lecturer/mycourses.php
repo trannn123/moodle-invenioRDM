@@ -6,7 +6,7 @@ global $USER, $PAGE, $OUTPUT, $DB;
 
 $PAGE->set_url(
     new moodle_url(
-        '/local/inveniordm/lecturer/mycourses.php'
+        '/local/inveniordm/lecturer/my_courses.php'
     )
 );
 $PAGE->set_context(
@@ -16,7 +16,7 @@ $PAGE->set_title('My Courses');
 $PAGE->set_heading('My Courses');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/mycourses.css'
+        '/local/inveniordm/styles/courses.css'
     )
 );
 echo $OUTPUT->header();

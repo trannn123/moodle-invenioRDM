@@ -1,14 +1,11 @@
 <?php
 
 require_once(__DIR__ . '/../../../config.php');
-
 require_login();
 require_sesskey();
-
 global $USER, $PAGE;
 
 $courseid = required_param('courseid', PARAM_INT);
-
 $course = get_course($courseid);
 $context = context_course::instance($courseid);
 
@@ -24,7 +21,6 @@ if (is_enrolled($context, $USER->id)) {
 }
 
 $instances = enrol_get_instances($courseid, true);
-
 $selfinstance = null;
 
 foreach ($instances as $instance) {
@@ -39,15 +35,13 @@ if (!$selfinstance) {
 }
 
 $plugin = enrol_get_plugin('self');
-
 $plugin->enrol_user(
     $selfinstance,
     $USER->id,
     5
 );
-
 core\notification::success('Enrolled successfully');
 
 redirect(
-    new moodle_url('/local/inveniordm/student/mycourses.php')
+    new moodle_url('/local/inveniordm/student/my_courses.php')
 );

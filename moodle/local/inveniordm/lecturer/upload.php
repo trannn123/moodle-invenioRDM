@@ -36,7 +36,7 @@ $PAGE->requires->css(
 );
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/upload_lecturer.css'
+        '/local/inveniordm/styles/upload.css'
     )
 );
 

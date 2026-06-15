@@ -42,7 +42,7 @@ if (!empty($attach)) {
     if ($exists) {
         redirect(
             new moodle_url(
-                '/local/inveniordm/lecturer/search_resources.php',
+                '/local/inveniordm/lecturer/search_resources_to_attach.php',
                 [
                     'courseid' => $courseid
                 ]
@@ -63,7 +63,7 @@ if (!empty($attach)) {
 
     redirect(
         new moodle_url(
-            '/local/inveniordm/lecturer/search_resources.php',
+            '/local/inveniordm/lecturer/search_resources_to_attach.php',
             [
                 'courseid' => $courseid
             ]
@@ -72,14 +72,14 @@ if (!empty($attach)) {
     );
 }
 
-$PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources.php',
+$PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources_to_attach.php',
     ['courseid' => $courseid]));
 $PAGE->set_context($context);
 $PAGE->set_title('Manage Course Resources');
 $PAGE->set_heading('Manage Course Resources');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/search_resources.css'
+        '/local/inveniordm/styles/search_resources_to_attah.css'
     )
 );
 echo $OUTPUT->header();
@@ -129,9 +129,10 @@ if (!empty($q)) {
             $r['metadata']['title']
             ?? 'No title';
         $viewurl = new moodle_url(
-            '/local/inveniordm/student/view.php',
+            '/local/inveniordm/resource/view.php',
             [
-                'id' => $id
+                'id' => $id,
+                'returnurl' => qualified_me()
             ]
         );
 

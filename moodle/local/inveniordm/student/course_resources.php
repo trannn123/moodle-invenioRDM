@@ -29,6 +29,19 @@ echo '
 </div>
 ';
 
+$backurl = new moodle_url(
+    '/local/inveniordm/student/all_courses.php'
+);
+echo '
+<div class="mb-4">
+    <a href="'.$backurl.'"
+       class="btn btn-outline-secondary">
+       <i class="fa fa-arrow-left"></i>
+        Back to All Courses
+    </a>
+</div>
+';
+
 $resources = $DB->get_records(
     'local_inveniordm_course_resources',
     ['courseid' => $courseid],
@@ -46,9 +59,10 @@ $client = new \local_inveniordm\api\invenio_client();
 echo '<div class="resource-grid">';
 foreach ($resources as $res) {
     $viewurl = new moodle_url(
-        '/local/inveniordm/student/view.php',
+        '/local/inveniordm/resource/view.php',
         [
-            'id' => $res->recordid
+            'id' => $res->recordid,
+            'returnurl' => qualified_me()
         ]
     );
     echo '

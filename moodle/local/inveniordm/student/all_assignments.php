@@ -10,7 +10,7 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title('All Assignments');
 
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/mycourses.css')
+    new moodle_url('/local/inveniordm/styles/courses_and_assignments.css')
 );
 
 echo $OUTPUT->header();
@@ -27,35 +27,40 @@ echo '
 </div>
 ';
 
-echo '
-<form method="get" class="mb-4">
-    <div class="input-group">
+$backurl = new moodle_url('/local/inveniordm/index.php');
 
+echo '
+<form method="get" class="search-card mb-4">
+    <div class="mb-3">
         <input type="text"
                name="search"
-               class="form-control"
+               class="form-control form-control-lg"
                placeholder="Search by assignment name or course..."
                value="'.s($search).'">
+    </div>
 
-        <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">
-                Search
-            </button>
+    <div class="d-flex flex-wrap gap-2">
+        <button class="btn btn-primary">
+            <i class="fa fa-search"></i>
+            Search
+        </button>
 
-            <a href="'.$PAGE->url.'" class="btn btn-secondary">
-                Reset
-            </a>
-        </div>
+        <a href="'.$PAGE->url.'"
+           class="btn btn-outline-secondary">
+            <i class="fa fa-refresh"></i>
+            Reset
+        </a>
 
+        <a href="'.$backurl.'"
+           class="btn btn-outline-dark">
+            <i class="fa fa-arrow-left"></i>
+            Back
+        </a>
     </div>
 </form>
 ';
-
 $assignments = [];
 
-/**
- * Duyệt từng course để lấy assignment
- */
 foreach ($courses as $course) {
 
     if ($course->id == SITEID) {
@@ -74,9 +79,6 @@ foreach ($courses as $course) {
             continue;
         }
 
-        /**
-         * Search filter
-         */
         if (!empty($search)) {
             if (stripos($assign->name, $search) === false &&
                 stripos($course->fullname, $search) === false) {
@@ -92,35 +94,24 @@ foreach ($courses as $course) {
     }
 }
 
-/**
- * Stats
- */
 $totalassignments = count($assignments);
 
 echo '
 <div class="row mb-4">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="stats-card">
             <h2>'.$totalassignments.'</h2>
             <p>Assignments</p>
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="stats-card">
             <h2>'.count($courses).'</h2>
             <p>Courses</p>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="stats-card">
-            <h2>Available</h2>
-            <p>Status</p>
-        </div>
-    </div>
-
 </div>
 ';
 

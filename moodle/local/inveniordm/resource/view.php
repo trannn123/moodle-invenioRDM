@@ -5,17 +5,22 @@ require_login();
 global $CFG, $PAGE, $OUTPUT;
 require_once(
     $CFG->dirroot .
-    '/local/inveniordm/classes/controller/student_controller.php'
+    '/local/inveniordm/classes/controller/resource_controller.php'
 );
 $id = required_param(
     'id',
     PARAM_TEXT
 );
+$returnurl = optional_param(
+    'returnurl',
+    '',
+    PARAM_LOCALURL
+);
 $context = context_system::instance();
 
 $PAGE->set_url(
     new moodle_url(
-        '/local/inveniordm/student/view.php',
+        '/local/inveniordm/resource/view.php',
         ['id' => $id]
     )
 );
@@ -30,12 +35,15 @@ $PAGE->requires->css(
 );
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/view_student.css'
+        '/local/inveniordm/styles/view.css'
     )
 );
 
 echo $OUTPUT->header();
 $controller =
-    new \local_inveniordm\controller\student_controller();
-echo $controller->view($id);
+    new \local_inveniordm\controller\resource_controller();
+echo $controller->view(
+    $id,
+    $returnurl
+);
 echo $OUTPUT->footer();

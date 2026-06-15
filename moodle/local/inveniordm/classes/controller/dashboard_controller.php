@@ -40,7 +40,7 @@ class dashboard_controller {
 
         echo $OUTPUT->header();
         echo $OUTPUT->render_from_template(
-            'local_inveniordm/dashboard',
+            'local_inveniordm/resource/dashboard',
             $data
         );
         echo $OUTPUT->footer();

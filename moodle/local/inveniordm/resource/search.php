@@ -28,10 +28,19 @@ $PAGE->requires->css(
 );
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/search_student.css'
+        '/local/inveniordm/styles/search.css'
     )
 );
 echo $OUTPUT->header();
+echo '
+<div class="mb-3">
+    <a href="' . new moodle_url('/local/inveniordm/index.php') . '"
+       class="btn btn-outline-secondary">
+       <i class="fa fa-arrow-left"></i>
+       Back to Dashboard
+    </a>
+</div>
+';
 $controller =
     new \local_inveniordm\controller\student_controller();
 echo $controller->search();

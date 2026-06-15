@@ -6,7 +6,7 @@ global $USER, $OUTPUT, $PAGE, $DB;
 
 $PAGE->set_url(
     new moodle_url(
-        '/local/inveniordm/student/mycourses.php'
+        '/local/inveniordm/student/my_courses.php'
     )
 );
 
@@ -18,7 +18,7 @@ $PAGE->set_title('My Courses');
 $PAGE->set_heading('My Courses');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/mycourses.css'
+        '/local/inveniordm/styles/courses.css'
     )
 );
 echo $OUTPUT->header();
@@ -50,25 +50,30 @@ echo '
     </p>
 </div>
 ';
-
+$backurl = new moodle_url(
+    '/local/inveniordm/index.php'
+);
+echo '
+<div class="mb-4">
+    <a href="'.$backurl.'"
+       class="btn btn-outline-secondary">
+        <i class="fa fa-arrow-left"></i>
+        Back to Dashboard
+    </a>
+</div>
+';
 echo '
 <div class="row mb-4">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="stats-card">
             <h2>'.$totalcourses.'</h2>
             <p>Courses</p>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="stats-card">
             <h2>'.$totalresources.'</h2>
             <p>Resources</p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="stats-card">
-            <h2>Online</h2>
-            <p>Repository</p>
         </div>
     </div>
 </div>

@@ -1,0 +1,73 @@
+.invenio-detail-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.invenio-detail-card .card-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 16px 24px;
+}
+
+.invenio-detail-card .card-header h5 {
+    margin: 0;
+    font-weight: 600;
+}
+
+.invenio-detail-card .card-body {
+    padding: 24px;
+}
+
+.invenio-detail-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #212529;
+}
+
+.invenio-detail-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.invenio-detail-value {
+    color: #212529;
+}
+
+.invenio-keyword {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.row {
+    align-items: center;
+}
+
+.btn {
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+
+    .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch !important;
+    }
+
+    .invenio-detail-title {
+        font-size: 24px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .invenio-detail-label {
+        margin-bottom: 6px;
+    }
+}

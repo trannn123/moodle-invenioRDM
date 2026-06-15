@@ -146,48 +146,78 @@ $PAGE->set_title('Submit Assignment');
 $PAGE->set_heading('Submit Assignment');
 
 echo $OUTPUT->header();
-?>
+$backurl = new moodle_url(
+        '/local/inveniordm/student/assignments.php',
+        [
+                'courseid' => $assignment->courseid
+        ]
+);
+echo '
+<div class="hero-section">
+    <h1>Submit Assignment</h1>
+    <p>Upload your work for review.</p>
+</div>
 
-    <div class="hero-section">
-        <h1>Submit Assignment</h1>
-        <p>Upload your work for review.</p>
-    </div>
+<div class="mb-4">
+    <a href="'.$backurl.'"
+       class="btn btn-outline-secondary">
+        <i class="fa fa-arrow-left"></i>
+        Back to Assignments
+    </a>
+</div>
 
-    <div class="submit-card">
-        <h2><?= s($assignment->name) ?></h2>
-        <p><?= s($assignment->description) ?></p>
-        <p>Due: <?= date('d/m/Y', $assignment->duedate) ?></p>
+<div class="submit-card">
+    <h2>'.s($assignment->name).'</h2>
+    <p>'.s($assignment->description).'</p>
+    <p>
+        Due:
+        '.date('d/m/Y', $assignment->duedate).'
+    </p>
+    <form method="post" enctype="multipart/form-data">
+        <div class="upload-area">
+            <input
+                type="file"
+                name="submission"
+                id="submission"
+                required
+            >
+            <label
+                for="submission"
+                class="upload-label"
+            >
+                <div class="upload-icon">📄</div>
+                <div class="upload-text">
+                    Click to select file
+                </div>
+                <div class="upload-subtext">
+                    PDF, DOCX, ZIP...
+                </div>
+            </label>
+            <div
+                id="selected-file"
+                class="selected-file"
+            ></div>
+        </div>
+        <button
+            class="btn btn-success"
+            type="submit"
+        >
+            Submit
+        </button>
+    </form>
+</div>
+';
 
-        <form method="post" enctype="multipart/form-data">
-            <div class="upload-area">
+echo '
+<script>
+document.getElementById("submission").addEventListener("change", function () {
+    const file = this.files[0];
+    if (file) {
+        document.getElementById("selected-file").innerHTML =
+            "Selected: " + file.name;
+    }
+});
+</script>
+';
 
-                <input type="file" name="submission" id="submission" required>
-
-                <label for="submission" class="upload-label">
-                    <div class="upload-icon">📄</div>
-                    <div class="upload-text">Click to select file</div>
-                    <div class="upload-subtext">PDF, DOCX, ZIP...</div>
-                </label>
-
-                <div id="selected-file" class="selected-file"></div>
-
-            </div>
-
-            <button class="btn btn-success" type="submit">
-                Submit
-            </button>
-        </form>
-    </div>
-
-    <script>
-        document.getElementById("submission").addEventListener("change", function () {
-            const file = this.files[0];
-            if (file) {
-                document.getElementById("selected-file").innerHTML =
-                    "Selected: " + file.name;
-            }
-        });
-    </script>
-
-<?php
 echo $OUTPUT->footer();

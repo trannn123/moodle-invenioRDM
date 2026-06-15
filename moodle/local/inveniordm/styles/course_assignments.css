@@ -56,3 +56,13 @@
     margin-bottom: 20px;
     font-weight: 500;
 }
+
+.page-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+.page-actions .btn {
+    min-width: 180px;
+}

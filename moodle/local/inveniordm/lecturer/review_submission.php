@@ -51,6 +51,12 @@ $PAGE->set_url(
     )
 );
 
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/review_submission.css'
+    )
+);
+
 $PAGE->set_context($context);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -88,54 +94,84 @@ $PAGE->set_title('Review Submission');
 $PAGE->set_heading('Review Submission');
 echo $OUTPUT->header();
 
+$backurl = new moodle_url(
+    '/local/inveniordm/lecturer/view_submissions.php',
+    [
+        'assignmentid' => $assignment->id
+    ]
+);
+
 echo '
-    <h2>Review Submission</h2>
-    <p>
-        <strong>Student:</strong>
-        '.fullname($student).'
-    </p>
+    <div class="hero-section">
+        <h1>Review Submission</h1>
+        <p>Evaluate student work and provide feedback.</p>
+    </div>
     
-    <p>
-        <strong>File:</strong>
-        '.s($submission->filename).'
-    </p>
+    <div class="mb-4">
+        <a href="'.$backurl.'" class="btn btn-outline-primary">
+            <i class="fa fa-arrow-left"></i>
+            Back to Submissions
+        </a>
+    </div>
     
-    <p>
-        <strong>Current Grade:</strong>
-        '.s($submission->grade ?: '-').'
-    </p>
+    <div class="review-card">
+        <div class="submission-info">
+            <div class="info-row">
+                <span class="info-label">Student</span>
+                <span>'.fullname($student).'</span>
+            </div>
     
-    <p>
-        <strong>Current Feedback:</strong>
-        '.s($submission->feedback ?: '-').'
-    </p>
+            <div class="info-row">
+                <span class="info-label">Assignment</span>
+                <span>'.s($assignment->name).'</span>
+            </div>
     
-    <form method="post"> 
-        <div class="mb-3">
-            <label class="form-label">Grade</label>
-            <input type="text" name="grade" class="form-control" value="'.s($submission->grade ?? '').'">
+            <div class="info-row">
+                <span class="info-label">File</span>
+                <span>'.s($submission->filename).'</span>
+            </div>
+    
+            <div class="info-row">
+                <span class="info-label">Current Grade</span>
+                <span>'.s($submission->grade ?: '-').'</span>
+            </div>
+    
+            <div class="info-row">
+                <span class="info-label">Current Feedback</span>
+                <span>'.s($submission->feedback ?: '-').'</span>
+            </div>
         </div>
     
-        <div class="mb-3">
-            <label class="form-label">Feedback</label>
-            <textarea name="feedback" class="form-control" rows="5">'.s($submission->feedback ?? '').'</textarea>
-        </div>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Grade</label>
+                <input type="text" name="grade" class="form-control" value="'.s($submission->grade ?? '').'">
+            </div>
     
-        <button type="submit" class="btn btn-outline-primary">Save Review</button>
+            <div class="mb-4">
+                <label class="form-label">Feedback</label>
+                <textarea name="feedback" class="form-control" rows="6">'.s($submission->feedback ?? '').'</textarea>
+            </div>
+    
+            <div class="action-buttons">
+                <button type="submit" class="btn btn-primary">Save Review</button>
 ';
 
 if (empty($submission->published_to_invenio)) {
-
     echo '
-        <a href="publish_submission.php?submissionid='.$submissionid.'" class="btn btn-primary">Publish to Invenio</a>
+        <a href="publish_submission.php?submissionid='.$submissionid.'" class="btn btn-outline-primary">Publish to Invenio</a>
     ';
 } else {
     echo '
-        <span class="badge bg-success">
+        <span class="badge bg-primary">
             Published to Invenio
         </span>
     ';
 }
 
-echo '</form>';
+echo '
+            </div>
+        </form>
+    </div>
+';
 echo $OUTPUT->footer();

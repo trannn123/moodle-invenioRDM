@@ -86,7 +86,7 @@ if (!$assignments) {
                 <div class="assignment-description">'.s($a->description).'</div>
                 <div class="assignment-due">Due:'.date('d/m/Y', $a->duedate).'</div>
                 <a class="btn btn-primary" href="'.$downloadurl.'">Download Assignment</a>   
-                <a class="btn btn-success" href="'.$submiturl.'">Submit Assignment</a>
+                <a class="btn btn-outline-primary" href="'.$submiturl.'">Submit Assignment</a>
             </div>
         ';
     }

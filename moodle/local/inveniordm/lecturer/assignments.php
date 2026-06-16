@@ -60,7 +60,7 @@ echo '
         <div class="d-flex flex-wrap gap-2">
             <button type="submit" class="btn btn-primary">Search</button>
             <a href="'.$reseturl.'" class="btn btn-outline-secondary">Reset</a>     
-            <a href="'.$createurl.'" class="btn btn-success">Create Assignment</a>
+            <a href="'.$createurl.'" class="btn btn-outline-primary">Create Assignment</a>
             <a href="'.$backurl.'" class="btn btn-outline-dark">
                 <i class="fa fa-arrow-left"></i>
                 Back

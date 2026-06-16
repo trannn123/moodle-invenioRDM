@@ -145,7 +145,7 @@ echo '
             <input type="date" name="duedate" class="form-control" required>
         </div>
     
-        <button type="submit" class="btn btn-success">Save Assignment</button>
+        <button type="submit" class="btn btn-primary">Save Assignment</button>
     </form>
 ';
 

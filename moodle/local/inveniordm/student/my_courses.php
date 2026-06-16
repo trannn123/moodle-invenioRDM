@@ -116,7 +116,7 @@ if (empty($courses)) {
                     <span>'.$resourcecount.'</span>
                 </div>       
                 <a class="btn btn-primary" href="'.$url.'">Open Resources</a>  
-                <a class="btn btn-success" href="'.$assignurl.'">Open Assignments</a>      
+                <a class="btn btn-outline-primary" href="'.$assignurl.'">Open Assignments</a>      
             </div>        
         ';
     }

@@ -137,9 +137,8 @@ if (!empty($q)) {
                 </div>    
                 
                 <div class="resource-actions">    
-                    <a class="btn btn-outline-primary" href="'.$viewurl.'" target="_blank">View Details</a>  
-                             
-                    <a class="btn btn-success" href="?courseid='.$courseid.'&attach='.urlencode($id).'">Attach Resource</a>            
+                    <a class="btn btn-primary" href="'.$viewurl.'" target="_blank">View Details</a>   
+                    <a class="btn btn-outline-primary" href="?courseid='.$courseid.'&attach='.urlencode($id).'">Attach Resource</a>            
                 </div>    
             </div>
         ';

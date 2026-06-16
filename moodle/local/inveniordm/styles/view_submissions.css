@@ -85,3 +85,9 @@
 .gap-2 {
     gap: 10px;
 }
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}

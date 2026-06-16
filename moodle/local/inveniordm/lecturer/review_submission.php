@@ -121,7 +121,7 @@ echo '
             <textarea name="feedback" class="form-control" rows="5">'.s($submission->feedback ?? '').'</textarea>
         </div>
     
-        <button type="submit" class="btn btn-success">Save Review</button>
+        <button type="submit" class="btn btn-outline-primary">Save Review</button>
 ';
 
 if (empty($submission->published_to_invenio)) {

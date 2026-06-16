@@ -71,7 +71,7 @@ foreach ($resources as $resource) {
 
     if (!$existingassignment) {
         echo '
-            <a href="'.$createurl.'" class="btn btn-success">
+            <a href="'.$createurl.'" class="btn btn-outline-primary">
                 Create Assignment
             </a>
         ';

@@ -159,7 +159,7 @@ foreach ($courses as $course) {
                     <span class="badge bg-primary-light p-2">Enrolled</span>
                 </div>
                 <a class="btn btn-primary" href="'.$resourceurl.'">Open Resources</a>
-                <a class="btn btn-success" href="'.$assignurl.'">Open Assignments</a>
+                <a class="btn btn-outline-primary" href="'.$assignurl.'">Open Assignments</a>
             ';
         }
     echo '</div>';

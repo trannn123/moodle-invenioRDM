@@ -174,7 +174,7 @@ foreach ($courses as $course) {
                 Manage Resources
             </a>
     
-            <a class="btn btn-success w-100" href="'.$assignurl.'">
+            <a class="btn btn-outline-primary w-100" href="'.$assignurl.'">
                 Open Assignments
             </a>
         </div>

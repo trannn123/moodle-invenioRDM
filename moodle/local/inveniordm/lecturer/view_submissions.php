@@ -191,8 +191,10 @@ if (!$students) {
             );
 
             $action = '
-                <a class="btn btn-sm btn-primary me-2" href="'.$downloadurl.'">Download</a>
-                <a class="btn btn-sm btn-success" href="'.$reviewurl.'">Review</a>
+                <div class="action-buttons">
+                    <a class="btn btn-sm btn-primary" href="'.$downloadurl.'">Download</a>
+                    <a class="btn btn-sm btn-outline-primary" href="'.$reviewurl.'">Review</a>
+                </div>
             ';
         } else {
             $action = '-';

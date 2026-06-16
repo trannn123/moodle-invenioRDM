@@ -142,7 +142,7 @@ if ($expired) {
                 <input type="file" name="submission" id="submission" required>
     
                 <label for="submission" class="upload-label">
-                    <div class="upload-icon">📄</div>
+                    <div class="upload-icon"><i class="fa fa-cloud-upload-alt"></i></div>
                     <div class="upload-text">Click to select file</div>
                     <div class="upload-subtext">PDF, DOCX, ZIP...</div>
                 </label>

@@ -1,143 +1,51 @@
 <div class="container mt-4">
-
-
 <div class="text-center mb-5">
-    <h1 class="display-5 fw-bold">
-        Academic Repository Portal
-    </h1>
-
-    <p class="text-muted">
-        Search research papers, books, theses and learning resources
-    </p>
+    <h1 class="display-5 fw-bold">Academic Repository Portal</h1>
+    <p class="text-muted">Search research papers, books, theses and learning resources</p>
 </div>
 
 <div class="invenio-search-section mb-5">
-
     <form method="get">
-
         <div class="input-group invenio-search-box">
-
-            <input
-                type="text"
-                name="q"
-                value="{{query}}"
-                class="form-control form-control-lg"
-                placeholder="Search resources..."
-            >
-
-            <button
-                type="submit"
-                class="btn btn-primary btn-lg"
-            >
-                Search
-            </button>
-
+            <input type="text" name="q" value="{{query}}" class="form-control form-control-lg" placeholder="Search resources...">
+            <button type="submit" class="btn btn-primary btn-lg">Search</button>
         </div>
 
         <div class="row mt-3 invenio-filter-section">
-
             <div class="col-md-6">
-
-                <select
-                    name="format"
-                    class="form-select"
-                >
-
-                    <option value="">
-                        All Formats
-                    </option>
-
-                    <option value="pdf">
-                        PDF
-                    </option>
-
-                    <option value="doc">
-                        DOC
-                    </option>
-
-                    <option value="docx">
-                        DOCX
-                    </option>
-
-                    <option value="ppt">
-                        PPT
-                    </option>
-
-                    <option value="pptx">
-                        PPTX
-                    </option>
-
-                    <option value="xls">
-                        XLS
-                    </option>
-
-                    <option value="xlsx">
-                        XLSX
-                    </option>
-
+                <select name="format" class="form-select">
+                    <option value="">All Formats</option>
+                    <option value="pdf">PDF</option>
+                    <option value="doc">DOC</option>
+                    <option value="docx">DOCX</option>
+                    <option value="ppt">PPT</option>
+                    <option value="pptx">PPTX</option>
+                    <option value="xls">XLS</option>
+                    <option value="xlsx">XLSX</option>
                 </select>
-
             </div>
 
             <div class="col-md-6">
-
-                <select
-                    name="level"
-                    class="form-select"
-                >
-
-                    <option value="">
-                        All Educational Levels
-                    </option>
-
-                    <option value="school education">
-                        School Education
-                    </option>
-
-                    <option value="higher education">
-                        Higher Education
-                    </option>
-
-                    <option value="bachelor's degree">
-                        Bachelor Degree
-                    </option>
-
-                    <option value="master's degree">
-                        Master Degree
-                    </option>
-
-                    <option value="doctorate">
-                        Doctorate
-                    </option>
-
+                <select name="level" class="form-select">
+                    <option value="">All Educational Levels</option>
+                    <option value="school education">School Education</option>
+                    <option value="higher education">Higher Education</option>
+                    <option value="bachelor's degree">Bachelor Degree</option>
+                    <option value="master's degree">Master Degree</option>
+                    <option value="doctorate">Doctorate</option>
                 </select>
-
             </div>
-
         </div>
-
     </form>
-
 </div>
-
-<h4 class="mb-4">
-    Search Results
-</h4>
-
+<h4 class="mb-4">Search Results</h4>
 {{#records}}
 
 <div class="card invenio-card mb-4">
-
     <div class="card-body">
-
-        <h3 class="invenio-title mb-3">
-            {{title}}
-        </h3>
-
+        <h3 class="invenio-title mb-3">{{title}}</h3>
         <div class="row">
-
             <div class="col-md-8">
-
                 <div class="mb-2">
                     <strong>Author:</strong>
                     {{author}}
@@ -152,13 +60,10 @@
                     <strong>Educational Level:</strong>
                     {{educationallevel}}
                 </div>
-
             </div>
 
             <div class="col-md-4 text-md-end">
-
-                <span
-                    class="bg-secondary text-white fw-bolder text-center"
+                <span class="bg-secondary text-white fw-bolder text-center"
                     style="
                         display:inline-block;
                         width:90px;
@@ -168,33 +73,20 @@
                 >
                     {{format}}
                 </span>
-
             </div>
-
         </div>
 
         <hr>
 
-        <a
-            href="{{viewurl}}"
-            class="btn btn-outline-primary"
-        >
-            View Details
-        </a>
-
+        <a href="{{viewurl}}" class="btn btn-outline-primary">View Details</a>
     </div>
-
 </div>
-
 {{/records}}
 
 {{^records}}
-
 <div class="alert alert-secondary">
     No records found.
 </div>
-
 {{/records}}
-
 
 </div>

@@ -2,7 +2,6 @@
 
 require_once(__DIR__ . '/../../../config.php');
 require_login();
-
 global $DB, $PAGE, $OUTPUT, $USER;
 
 $PAGE->set_url(new moodle_url('/local/inveniordm/student/all_courses.php'));
@@ -45,59 +44,55 @@ foreach ($courses as $course) {
     );
 }
 
-
 echo '
-<div class="hero-section">
-    <h1>All Courses</h1>
-    <p>Browse all available courses and their associated learning resources.</p>
-</div>
+    <div class="hero-section">
+        <h1>All Courses</h1>
+        <p>Browse all available courses and their associated learning resources.</p>
+    </div>
 ';
 
 $backurl = new moodle_url('/local/inveniordm/index.php');
 
 echo '
-<form method="get" class="search-card mb-4">
-    <div class="mb-3">
-        <input type="text"
-               name="search"
-               class="form-control form-control-lg"
-               placeholder="Search by course name, short name, or ID..."
-               value="'.s($search).'">
-    </div>
-    <div class="d-flex flex-wrap gap-2">
-        <button class="btn btn-primary">
-            <i class="fa fa-search"></i>
-            Search
-        </button>
-        <a href="'.$PAGE->url.'"
-           class="btn btn-outline-secondary">
-           <i class="fa fa-refresh"></i>
-           Reset
-        </a>
-        <a href="'.$backurl.'"
-           class="btn btn-outline-dark">
-           <i class="fa fa-arrow-left"></i>
-           Back
-        </a>
-    </div>
-</form>
+    <form method="get" class="search-card mb-4">
+        <div class="mb-3">
+            <input type="text" name="search" class="form-control form-control-lg" placeholder="Search by course name, short name, or ID..." value="'.s($search).'">
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary">
+                <i class="fa fa-search"></i>
+                Search
+            </button>
+            
+            <a href="'.$PAGE->url.'" class="btn btn-outline-secondary">
+               <i class="fa fa-refresh"></i>
+               Reset
+            </a>
+            
+            <a href="'.$backurl.'" class="btn btn-outline-dark">
+               <i class="fa fa-arrow-left"></i>
+               Back
+            </a>
+        </div>
+    </form>
 ';
 
 echo '
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="stats-card">
-            <h2>'.$totalcourses.'</h2>
-            <p>Courses</p>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="stats-card">
+                <h2>'.$totalcourses.'</h2>
+                <p>Courses</p>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="stats-card">
+                <h2>'.$totalresources.'</h2>
+                <p>Resources</p>
+            </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="stats-card">
-            <h2>'.$totalresources.'</h2>
-            <p>Resources</p>
-        </div>
-    </div>
-</div>
 ';
 
 if (empty($courses)) {
@@ -135,46 +130,39 @@ foreach ($courses as $course) {
     );
 
     echo '
-    <div class="course-card">  
-        <div class="course-title">
-            '.format_string($course->fullname).'
-        </div>  
-        <div class="course-info-row">
-            <strong>Course ID</strong>
-            <span>'.$course->id.'</span>
-        </div>   
-        <div class="course-info-row">
-            <strong>Short Name</strong>
-            <span>'.s($course->shortname).'</span>
-        </div>   
-        <div class="course-info-row">
-            <strong>Resources</strong>
-            <span>'.$resourcecount.'</span>
-        </div>';
+        <div class="course-card">  
+            <div class="course-title">
+                '.format_string($course->fullname).'
+            </div>  
+            
+            <div class="course-info-row">
+                <strong>Course ID</strong>
+                <span>'.$course->id.'</span>
+            </div>   
+            
+            <div class="course-info-row">
+                <strong>Short Name</strong>
+                <span>'.s($course->shortname).'</span>
+            </div>   
+            
+            <div class="course-info-row">
+                <strong>Resources</strong>
+                <span>'.$resourcecount.'</span>
+            </div>
+    ';
+
         if (!$isenrolled) {
-            echo '
-        <a class="btn btn-info text-white"
-           href="'.$enrolurl.'">
-            Join Course
-        </a>';
+            echo '<a class="btn btn-info text-white" href="'.$enrolurl.'">Join Course</a>';
         } else {
             echo '
-        <div class="mb-2">
-            <span class="badge bg-primary-light p-2">
-                ✓ Enrolled
-            </span>
-        </div>
-        <a class="btn btn-primary"
-           href="'.$resourceurl.'">
-            Open Resources
-        </a>
-        <a class="btn btn-success"
-           href="'.$assignurl.'">
-            Open Assignments
-        </a>';
+                <div class="mb-2">
+                    <span class="badge bg-primary-light p-2">Enrolled</span>
+                </div>
+                <a class="btn btn-primary" href="'.$resourceurl.'">Open Resources</a>
+                <a class="btn btn-success" href="'.$assignurl.'">Open Assignments</a>
+            ';
         }
-    echo '
-    </div>';
+    echo '</div>';
 }
 
 echo '</div>';

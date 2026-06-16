@@ -1,9 +1,7 @@
 <?php
 
 require_once(__DIR__.'/../../../config.php');
-
 require_login();
-
 global $DB, $PAGE, $OUTPUT;
 
 $courseid = required_param(
@@ -19,11 +17,7 @@ $course = $DB->get_record(
 );
 
 $context = context_course::instance($courseid);
-
-require_capability(
-    'local/inveniordm:upload',
-    $context
-);
+require_capability('local/inveniordm:upload', $context);
 
 $PAGE->set_url(
     new moodle_url(
@@ -35,11 +29,11 @@ $PAGE->set_url(
 );
 
 $PAGE->set_context($context);
-
 $PAGE->set_title('Select Resource');
 $PAGE->set_heading('Select Resource');
 
 echo $OUTPUT->header();
+
 $resources = $DB->get_records(
     'local_inveniordm_course_resources',
     [
@@ -47,6 +41,7 @@ $resources = $DB->get_records(
     ],
     'timecreated DESC'
 );
+
 echo '<h3>Select Resource For Assignment</h3>';
 
 foreach ($resources as $resource) {
@@ -57,6 +52,7 @@ foreach ($resources as $resource) {
             'resource_recordid' => $resource->recordid
         ]
     );
+
     $createurl = new moodle_url(
         '/local/inveniordm/lecturer/create_assignment.php',
         [
@@ -66,41 +62,27 @@ foreach ($resources as $resource) {
     );
 
     echo '
-    <div style="
-        border:1px solid #ddd;
-        padding:15px;
-        margin-bottom:10px;
-    ">
-        <strong>
-            '.s($resource->title).'
-        </strong>
-
-        <br>
-
-        Record:
-        '.s($resource->recordid).'
-
-        <br><br>
-    </div>
+        <div style=" border:1px solid #ddd; padding:15px; margin-bottom:10px;">
+            <strong>'.s($resource->title).'</strong>
+            <br>Record:'.s($resource->recordid).'<br>
+            <br>
+        </div>
     ';
-    if (!$existingassignment) {
 
+    if (!$existingassignment) {
         echo '
-        <a
-            href="'.$createurl.'"
-            class="btn btn-success"
-        >
-            Create Assignment
-        </a>
+            <a href="'.$createurl.'" class="btn btn-success">
+                Create Assignment
+            </a>
         ';
 
     } else {
-
         echo '
-        <span class="badge bg-secondary">
-            Assignment Already Exists
-        </span>
+            <span class="badge bg-secondary">
+                Assignment Already Exists
+            </span>
         ';
     }
 }
+
 echo $OUTPUT->footer();

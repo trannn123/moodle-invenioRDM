@@ -7,7 +7,6 @@ require_once(
     '/local/inveniordm/classes/api/invenio_client.php'
 );
 require_login();
-
 global $DB;
 
 $submissionid = required_param(
@@ -60,10 +59,9 @@ if (empty($files)) {
 
 $file = reset($files);
 $tempfile = tempnam(sys_get_temp_dir(), 'inv_');
-
 $file->copy_content_to($tempfile);
-
 $client = new \local_inveniordm\api\invenio_client();
+
 $student = $DB->get_record(
     'user',
     [
@@ -71,25 +69,19 @@ $student = $DB->get_record(
     ],
     '*',
     MUST_EXIST
-);$recordpayload = [
-    'files' => [
-        'enabled' => true
-    ],
+);
+
+$recordpayload = [
+    'files' => ['enabled' => true],
     'metadata' => [
         'title' => $assignment->name . ' - ' . fullname($student),
-
         'description' =>
             "Assignment submission\n" .
             "Student: " . fullname($student) . "\n" .
             "Grade: " . $submission->grade . "\n" .
             "Feedback: " . $submission->feedback,
-
         'publication_date' => date('Y-m-d'),
-
-        'resource_type' => [
-            'id' => 'publication-article'
-        ],
-
+        'resource_type' => ['id' => 'publication-article'],
         'creators' => [[
             'person_or_org' => [
                 'type' => 'personal',
@@ -99,14 +91,9 @@ $student = $DB->get_record(
         ]]
     ]
 ];
-//$record = $client->create_record(
-//    $recordpayload
-//);
 
 $result = $client->create_record($recordpayload);
-
 $recordid = $result['data']['id'] ?? null;
-
 $uploadresult = $client->upload_file(
     $recordid,
     [
@@ -135,19 +122,11 @@ curl_setopt_array($ch, [
 ]);
 
 $response = curl_exec($ch);
-
-$httpcode = curl_getinfo(
-    $ch,
-    CURLINFO_HTTP_CODE
-);
-
+$httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 $error = curl_error($ch);
-
 curl_close($ch);
 
-
 if (!empty($submission->published_to_invenio)) {
-
     throw new moodle_exception(
         'Already published to Invenio'
     );
@@ -171,10 +150,6 @@ $check = $DB->get_record(
     'local_inveniordm_submissions',
     ['id' => $submissionid]
 );
-
-echo '<pre>';
-print_r($check);
-die();
 
 redirect(
     new moodle_url(

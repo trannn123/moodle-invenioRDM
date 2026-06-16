@@ -3,7 +3,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
-
     $settings = new admin_settingpage(
         'local_inveniordm',
         'InvenioRDM'
@@ -22,6 +21,5 @@ if ($hassiteconfig) {
         'Invenio API Token',
         ''
     ));
-
     $ADMIN->add('localplugins', $settings);
 }

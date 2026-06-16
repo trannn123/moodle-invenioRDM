@@ -1,57 +1,26 @@
 <?php
 
 namespace local_inveniordm\form;
-
 defined('MOODLE_INTERNAL') || die();
-
 require_once($GLOBALS['CFG']->libdir . '/formslib.php');
 
 class upload_form extends \moodleform {
-
     public function definition() {
         $mform = $this->_form;
-
-        /*
-         * =====================================================
-         * GENERAL
-         * =====================================================
-         */
         $mform->addElement('header', 'generalinfo', 'General Information');
 
-        // title
         $mform->addElement('text', 'title', 'Title');
         $mform->setType('title', PARAM_TEXT);
 
-        // description
-        $mform->addElement(
-            'textarea',
-            'description',
-            'Description',
-            ['rows' => 5, 'cols' => 60]
-        );
+        $mform->addElement('textarea', 'description', 'Description', ['rows' => 5, 'cols' => 60]);
         $mform->setType('description', PARAM_TEXT);
 
-        // free_keyword
         $mform->addElement('text', 'free_keyword', 'Keywords');
         $mform->setType('free_keyword', PARAM_TEXT);
 
-        // language
-        $mform->addElement(
-            'select',
-            'language',
-            'Language',
-            [
-                'vi' => 'Vietnamese',
-                'en' => 'English',
-                'fr' => 'French'
-            ]
-        );
+        $mform->addElement('select', 'language', 'Language', ['vi' => 'Vietnamese', 'en' => 'English', 'fr' => 'French']);
 
-        // documentary_type
-        $mform->addElement(
-            'select',
-            'documentary_type',
-            'Documentary Type',
+        $mform->addElement('select', 'documentary_type', 'Documentary Type',
             [
                 'collection' => 'Collection',
                 'dataset' => 'Dataset',
@@ -68,18 +37,9 @@ class upload_form extends \moodleform {
             ]
         );
 
-        /*
-         * =====================================================
-         * TECHNICAL
-         * =====================================================
-         */
         $mform->addElement('header', 'technicalinfo', 'Technical Information');
 
-        // format
-        $mform->addElement(
-            'select',
-            'format',
-            'Format',
+        $mform->addElement('select', 'format', 'Format',
             [
                 'pdf' => 'PDF',
                 'doc' => 'DOC',
@@ -97,22 +57,11 @@ class upload_form extends \moodleform {
         );
         $mform->setType('format', PARAM_TEXT);
 
-        // location
-        $mform->addElement(
-            'text',
-            'location',
-            'Location URL'
-        );
+        $mform->addElement('text', 'location', 'Location URL');
         $mform->setType('location', PARAM_URL);
 
-        /*
-         * =====================================================
-         * EDUCATIONAL
-         * =====================================================
-         */
         $mform->addElement('header', 'educationalinfo', 'Educational Information');
 
-        // learning_resource_type
         $mform->addElement(
             'select',
             'learning_resource_type',
@@ -139,11 +88,7 @@ class upload_form extends \moodleform {
             ]
         );
 
-        // target_audience
-        $mform->addElement(
-            'select',
-            'target_audience',
-            'Target Audience',
+        $mform->addElement('select', 'target_audience', 'Target Audience',
             [
                 'teacher' => 'Teacher',
                 'author' => 'Author',
@@ -152,11 +97,7 @@ class upload_form extends \moodleform {
             ]
         );
 
-        // educational_level
-        $mform->addElement(
-            'select',
-            'educational_level',
-            'Educational Level',
+        $mform->addElement('select', 'educational_level', 'Educational Level',
             [
                 'school education' => 'School Education',
                 'higher education' => 'Higher Education',
@@ -171,11 +112,7 @@ class upload_form extends \moodleform {
             ]
         );
 
-        // induced_activity
-        $mform->addElement(
-            'select',
-            'induced_activity',
-            'Induced Activity',
+        $mform->addElement('select', 'induced_activity', 'Induced Activity',
             [
                 'facilitate' => 'Facilitate',
                 'learn' => 'Learn',
@@ -199,35 +136,13 @@ class upload_form extends \moodleform {
             ]
         );
 
-        /*
-         * =====================================================
-         * RIGHTS
-         * =====================================================
-         */
         $mform->addElement('header', 'rightsinfo', 'Rights');
 
-        $mform->addElement(
-            'select',
-            'copyright',
-            'Copyright',
-            [
-                'yes' => 'Yes',
-                'no' => 'No'
-            ]
-        );
+        $mform->addElement('select', 'copyright', 'Copyright', ['yes' => 'Yes', 'no' => 'No']);
 
-        /*
-         * =====================================================
-         * CLASSIFICATION
-         * =====================================================
-         */
         $mform->addElement('header', 'classificationinfo', 'Classification');
 
-        // objective
-        $mform->addElement(
-            'select',
-            'objective',
-            'Objective',
+        $mform->addElement('select', 'objective', 'Objective',
             [
                 'discipline' => 'Discipline',
                 'concept' => 'Concept',
@@ -241,25 +156,12 @@ class upload_form extends \moodleform {
             ]
         );
 
-        // taxon_entry
-        $mform->addElement(
-            'text',
-            'taxon_entry',
-            'Taxon Entry'
-        );
+        $mform->addElement('text', 'taxon_entry', 'Taxon Entry');
         $mform->setType('taxon_entry', PARAM_TEXT);
 
-        /*
-         * =====================================================
-         * LIFE CYCLE
-         * =====================================================
-         */
         $mform->addElement('header', 'lifecycleinfo', 'Life Cycle');
 
-        $mform->addElement(
-            'select',
-            'role',
-            'Role',
+        $mform->addElement('select', 'role', 'Role',
             [
                 'author' => 'Author',
                 'publisher' => 'Publisher',
@@ -279,17 +181,9 @@ class upload_form extends \moodleform {
 
         $mform->addElement('date_selector', 'date', 'Date');
 
-        /*
-         * =====================================================
-         * RELATION
-         * =====================================================
-         */
         $mform->addElement('header', 'relationinfo', 'Relation');
 
-        $mform->addElement(
-            'select',
-            'relation',
-            'Relation',
+        $mform->addElement('select', 'relation', 'Relation',
             [
                 'is a part of' => 'Is A Part Of',
                 'contains' => 'Contains',
@@ -302,17 +196,9 @@ class upload_form extends \moodleform {
             ]
         );
 
-        /*
-         * =====================================================
-         * META-METADATA
-         * =====================================================
-         */
         $mform->addElement('header', 'metainfo', 'Metadata');
 
-        $mform->addElement(
-            'select',
-            'metadata_accessibility',
-            'Metadata Accessibility',
+        $mform->addElement('select', 'metadata_accessibility', 'Metadata Accessibility',
             [
                 'public access' => 'Public Access',
                 'restricted access' => 'Restricted Access',
@@ -320,24 +206,11 @@ class upload_form extends \moodleform {
             ]
         );
 
-        /*
-         * =====================================================
-         * FILE
-         * =====================================================
-         */
-        $mform->addElement(
-            'filepicker',
-            'resourcefile',
-            'Upload Resource File'
-        );
+        $mform->addElement('filepicker', 'resourcefile', 'Upload Resource File');
 
-        $this->add_action_buttons(
-            true,
-            'Upload Resource'
-        );
+        $this->add_action_buttons(true, 'Upload Resource');
 
-        // CSS + JS realtime validation (không trùng lặp)
-        // JS realtime validation
+        // js realtime validation
         $mform->addElement('html', '
         <style>
             .error-border input, .error-border textarea {
@@ -396,23 +269,18 @@ class upload_form extends \moodleform {
         })();
         </script>
         ');
-
     }
 
     public function validation($data, $files) {
         $errors = [];
 
         if (strlen(trim($data['title'])) < 3) {
-            $errors['title'] =
-                'Title must contain at least 3 characters.';
+            $errors['title'] = 'Title must contain at least 3 characters.';
         }
 
-        if (!empty($data['description']) &&
-            strlen(trim($data['description'])) < 10) {
-            $errors['description'] =
-                'Description must contain at least 10 characters.';
+        if (!empty($data['description']) && strlen(trim($data['description'])) < 10) {
+            $errors['description'] = 'Description must contain at least 10 characters.';
         }
-
         return $errors;
     }
 }

@@ -40,8 +40,7 @@ $plugin->enrol_user(
     $USER->id,
     5
 );
+
 core\notification::success('Enrolled successfully');
 
-redirect(
-    new moodle_url('/local/inveniordm/student/my_courses.php')
-);
+redirect(new moodle_url('/local/inveniordm/student/my_courses.php'));

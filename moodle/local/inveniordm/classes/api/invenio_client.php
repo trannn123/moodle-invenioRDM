@@ -3,6 +3,7 @@
 namespace local_inveniordm\api;
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
+
 // Load thư viện xử lý file của Moodle
 require_once($CFG->libdir . '/filelib.php');
 require_once($CFG->dirroot . '/local/inveniordm/locallib.php');
@@ -23,6 +24,7 @@ class invenio_client {
             'Accept: application/json',
             'Host: localhost'
         ];
+
         if (!empty($this->token)) {
             $headers[] = 'Authorization: Bearer ' . $this->token;
         }
@@ -39,7 +41,7 @@ class invenio_client {
 
         // Gửi request
         $response = curl_exec($ch);
-        $httpcode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($response === false) {
             debugging('cURL Error: ' . curl_error($ch));
@@ -120,6 +122,7 @@ class invenio_client {
     public function get_records(string $query = ''): array {
         // Không tìm kiếm, vd: GET /api/records
         $url = $this->apiurl . 'records';
+
         if (!empty($query)) {
             // Có tìm kiếm, vd: GET /api/records?q=vlan
             $url .= '?q=' . urlencode($query);
@@ -243,7 +246,6 @@ class invenio_client {
     }
 
     public function publish_record(string $recordid): array {
-
         $url =
             $this->apiurl .
             'records/' .
@@ -265,14 +267,8 @@ class invenio_client {
         ]);
 
         $response = curl_exec($ch);
-
-        $httpcode = curl_getinfo(
-            $ch,
-            CURLINFO_HTTP_CODE
-        );
-
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $error = curl_error($ch);
-
         curl_close($ch);
 
         return [
@@ -285,6 +281,4 @@ class invenio_client {
     public function get_token(): string {
         return $this->token;
     }
-
-
 }

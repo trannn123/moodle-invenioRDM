@@ -3,19 +3,19 @@
 require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $CFG, $PAGE, $OUTPUT;
-require_once(
-    $CFG->dirroot .
-    '/local/inveniordm/classes/controller/resource_controller.php'
-);
+require_once($CFG->dirroot.'/local/inveniordm/classes/controller/resource_controller.php');
+
 $id = required_param(
     'id',
     PARAM_TEXT
 );
+
 $returnurl = optional_param(
     'returnurl',
     '',
     PARAM_LOCALURL
 );
+
 $context = context_system::instance();
 
 $PAGE->set_url(
@@ -40,10 +40,6 @@ $PAGE->requires->css(
 );
 
 echo $OUTPUT->header();
-$controller =
-    new \local_inveniordm\controller\resource_controller();
-echo $controller->view(
-    $id,
-    $returnurl
-);
+$controller = new \local_inveniordm\controller\resource_controller();
+echo $controller->view($id, $returnurl);
 echo $OUTPUT->footer();

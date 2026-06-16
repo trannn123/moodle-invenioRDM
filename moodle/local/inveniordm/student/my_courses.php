@@ -10,10 +10,7 @@ $PAGE->set_url(
     )
 );
 
-$PAGE->set_context(
-    context_system::instance()
-);
-
+$PAGE->set_context(context_system::instance());
 $PAGE->set_title('My Courses');
 $PAGE->set_heading('My Courses');
 $PAGE->requires->css(
@@ -21,17 +18,19 @@ $PAGE->requires->css(
         '/local/inveniordm/styles/courses_and_assignments.css'
     )
 );
+
 echo $OUTPUT->header();
-$courses = enrol_get_users_courses(
-    $USER->id,
-    true
-);
+
+$courses = enrol_get_users_courses($USER->id, true);
+
 $totalcourses = 0;
 $totalresources = 0;
+
 foreach ($courses as $course) {
     if ($course->id == SITEID) {
         continue;
     }
+
     $totalcourses++;
     $totalresources += $DB->count_records(
         'local_inveniordm_course_resources',
@@ -42,42 +41,37 @@ foreach ($courses as $course) {
 }
 
 echo '
-<div class="hero-section">
-    <h1>My Learning Resources</h1>
-    <p>
-        Access digital learning resources attached
-        to your enrolled courses.
-    </p>
-</div>
-';
-$backurl = new moodle_url(
-    '/local/inveniordm/index.php'
-);
-echo '
-<div class="mb-4">
-    <a href="'.$backurl.'"
-       class="btn btn-outline-secondary">
-        <i class="fa fa-arrow-left"></i>
-        Back to Dashboard
-    </a>
-</div>
-';
-echo '
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="stats-card">
-            <h2>'.$totalcourses.'</h2>
-            <p>Courses</p>
-        </div>
+    <div class="hero-section">
+        <h1>My Learning Resources</h1>
+        <p>Access digital learning resources attached to your enrolled courses.</p>
     </div>
-    <div class="col-md-6">
-        <div class="stats-card">
-            <h2>'.$totalresources.'</h2>
-            <p>Resources</p>
-        </div>
-    </div>
-</div>
+';
 
+$backurl = new moodle_url('/local/inveniordm/index.php');
+
+echo '
+    <div class="mb-4">
+        <a href="'.$backurl.'" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left"></i>
+            Back to Dashboard
+        </a>
+    </div>
+';
+echo '
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="stats-card">
+                <h2>'.$totalcourses.'</h2>
+                <p>Courses</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="stats-card">
+                <h2>'.$totalresources.'</h2>
+                <p>Resources</p>
+            </div>
+        </div>
+    </div>
 ';
 
 if (empty($courses)) {
@@ -107,27 +101,23 @@ if (empty($courses)) {
             '/local/inveniordm/student/assignments.php',
             ['courseid' => $course->id]
         );
+
         echo '
-        <div class="course-card"> 
-            <div class="course-title">
-                '.format_string($course->fullname).'
-            </div>       
-            <div class="course-info-row">
-                <strong>Course ID</strong>
-                <span>'.$course->id.'</span>
-            </div>            
-            <div class="course-info-row">
-                <strong>Resources</strong>
-                <span>'.$resourcecount.'</span>
-            </div>       
-            <a class="btn btn-primary"
-               href="'.$url.'">
-                Open Resources
-            </a>  
-            <a class="btn btn-success" href="'.$assignurl.'">
-                Open Assignments
-            </a>      
-        </div>        
+            <div class="course-card"> 
+                <div class="course-title">
+                    '.format_string($course->fullname).'
+                </div>       
+                <div class="course-info-row">
+                    <strong>Course ID</strong>
+                    <span>'.$course->id.'</span>
+                </div>            
+                <div class="course-info-row">
+                    <strong>Resources</strong>
+                    <span>'.$resourcecount.'</span>
+                </div>       
+                <a class="btn btn-primary" href="'.$url.'">Open Resources</a>  
+                <a class="btn btn-success" href="'.$assignurl.'">Open Assignments</a>      
+            </div>        
         ';
     }
     echo '</div>';

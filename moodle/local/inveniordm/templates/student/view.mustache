@@ -1,274 +1,148 @@
 <div class="container mt-4">
-
     <div class="d-flex justify-content-between align-items-center mb-3">
-
-        <a
-            href="{{backurl}}"
-            class="btn btn-outline-secondary"
-        >
+        <a href="{{backurl}}" class="btn btn-outline-secondary">
             <i class="fa fa-arrow-left"></i>
             Back
         </a>
 
-        <a
-            href="{{location}}"
-            class="btn btn-primary"
-        >
+        <a href="{{location}}" class="btn btn-primary">
             <i class="fa fa-download"></i>
             Download Resource
         </a>
-
     </div>
 
     <div class="card invenio-detail-card mb-4">
-
         <div class="card-body p-4">
-
-            <h1 class="invenio-detail-title">
-                {{title}}
-            </h1>
-
+            <h1 class="invenio-detail-title">{{title}}</h1>
             <div class="text-muted mb-3">
                 Created by
                 <strong>{{author}}</strong>
             </div>
-
         </div>
-
     </div>
 
     <div class="card invenio-detail-card mb-4">
-
         <div class="card-header">
-            <h5 class="mb-0">
-                General Information
-            </h5>
+            <h5 class="mb-0">General Information</h5>
         </div>
 
         <div class="card-body">
-
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Identifier
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{identifier}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Identifier</div>
+                <div class="col-md-9 invenio-detail-value">{{identifier}}</div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Publication Date
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{publicationdate}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Publication Date</div>
+                <div class="col-md-9 invenio-detail-value">{{publicationdate}}</div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Language
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{language}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Language</div>
+                <div class="col-md-9 invenio-detail-value">{{language}}</div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Format
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{format}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Format</div>
+                <div class="col-md-9 invenio-detail-value">{{format}}</div>
             </div>
 
             <div class="row">
-                <div class="col-md-3 invenio-detail-label">
-                    Document Type
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{documenttype}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Document Type</div>
+                <div class="col-md-9 invenio-detail-value">{{documenttype}}</div>
             </div>
-
         </div>
-
     </div>
 
     <div class="card invenio-detail-card mb-4">
-
         <div class="card-header">
-            <h5 class="mb-0">
-                Educational Information
-            </h5>
+            <h5 class="mb-0">Educational Information</h5>
         </div>
 
         <div class="card-body">
-
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Educational Level
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{educationallevel}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Educational Level</div>
+                <div class="col-md-9 invenio-detail-value">{{educationallevel}}</div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Target Audience
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{targetaudience}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Target Audience</div>
+                <div class="col-md-9 invenio-detail-value">{{targetaudience}}</div>
             </div>
 
             <div class="row">
-                <div class="col-md-3 invenio-detail-label">
-                    Learning Resource Type
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{learningresourcetype}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Learning Resource Type</div>
+                <div class="col-md-9 invenio-detail-value">{{learningresourcetype}}</div>
             </div>
-
         </div>
-
     </div>
 
     <div class="card invenio-detail-card mb-4">
-
         <div class="card-header">
-            <h5 class="mb-0">
-                Classification
-            </h5>
+            <h5 class="mb-0">Classification</h5>
         </div>
 
         <div class="card-body">
-
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Discipline
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{discipline}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Discipline</div>
+                <div class="col-md-9 invenio-detail-value">{{discipline}}</div>
             </div>
 
             <div class="row">
-                <div class="col-md-3 invenio-detail-label">
-                    Objective
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{objective}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Objective</div>
+                <div class="col-md-9 invenio-detail-value">{{objective}}</div>
             </div>
-
         </div>
-
     </div>
 
     <div class="card invenio-detail-card mb-4">
-
         <div class="card-header">
-            <h5 class="mb-0">
-                Rights & Relation
-            </h5>
+            <h5 class="mb-0">Rights & Relation</h5>
         </div>
 
         <div class="card-body">
-
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Copyright
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{copyright}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Copyright</div>
+                <div class="col-md-9 invenio-detail-value">{{copyright}}</div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">
-                    Relation
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{relation}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Relation</div>
+                <div class="col-md-9 invenio-detail-value">{{relation}}</div>
             </div>
 
             <div class="row">
-                <div class="col-md-3 invenio-detail-label">
-                    Role
-                </div>
-
-                <div class="col-md-9 invenio-detail-value">
-                    {{role}}
-                </div>
+                <div class="col-md-3 invenio-detail-label">Role</div>
+                <div class="col-md-9 invenio-detail-value">{{role}}</div>
             </div>
-
         </div>
-
     </div>
 
     <div class="card invenio-detail-card mb-4">
-
         <div class="card-header">
-            <h5 class="mb-0">
-                Keywords
-            </h5>
+            <h5 class="mb-0">Keywords</h5>
         </div>
 
         <div class="card-body">
-
             {{#keywords}}
-
-                <span
-                    class="badge bg-primary invenio-keyword me-2 mb-2"
-                >
+                <span class="badge bg-primary invenio-keyword me-2 mb-2">
                     {{name}}
                 </span>
-
             {{/keywords}}
 
             {{^keywords}}
-
                 <span class="text-muted">
                     No keywords available
                 </span>
-
             {{/keywords}}
-
         </div>
-
     </div>
 
     <div class="card invenio-detail-card">
-
         <div class="card-header">
-            <h5 class="mb-0">
-                Description
-            </h5>
+            <h5 class="mb-0">Description</h5>
         </div>
 
-        <div class="card-body">
-
-            {{description}}
-
-        </div>
-
+        <div class="card-body">{{description}}</div>
     </div>
-
 </div>

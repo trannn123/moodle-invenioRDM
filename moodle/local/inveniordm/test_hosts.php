@@ -5,7 +5,6 @@ global $OUTPUT;
 echo $OUTPUT->header();
 echo "<h2>Testing different API endpoints</h2>";
 
-// Các URL cần test
 $urls = [
     'http://host.docker.internal:5000/api/records?q=*',
     'http://host.docker.internal/api/records?q=*',

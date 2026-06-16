@@ -32,17 +32,11 @@ class dashboard_controller {
             'is_lecturer' => ($role === 'lecturer'),
             'is_admin' => ($role === 'admin'),
             'wwwroot' => $CFG->wwwroot,
-            'cancreatecourse' => has_capability(
-                'local/inveniordm:createcourse',
-                $context
-            )
+            'cancreatecourse' => has_capability('local/inveniordm:createcourse', $context)
         ];
 
         echo $OUTPUT->header();
-        echo $OUTPUT->render_from_template(
-            'local_inveniordm/resource/dashboard',
-            $data
-        );
+        echo $OUTPUT->render_from_template('local_inveniordm/resource/dashboard', $data);
         echo $OUTPUT->footer();
     }
 }

@@ -28,6 +28,7 @@ $contenturl = str_replace(
     'http://host.docker.internal:5001',
     $contenturl
 );
+
 $ch = curl_init();
 curl_setopt_array($ch, [
     CURLOPT_URL => $contenturl,
@@ -40,15 +41,10 @@ curl_setopt_array($ch, [
         'Authorization: Bearer ' . $client->get_token()
     ]
 ]);
+
 $content = curl_exec($ch);
 curl_close($ch);
-header(
-    'Content-Type: application/octet-stream'
-);
-header(
-    'Content-Disposition: attachment; filename="' .
-    $file['key'] .
-    '"'
-);
+header('Content-Type: application/octet-stream');
+header('Content-Disposition: attachment; filename="'.$file['key'].'"');
 echo $content;
 exit;

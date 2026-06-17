@@ -4,7 +4,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class dashboard_controller {
     public function index() {
-        global $PAGE, $CFG, $OUTPUT;
+        global $PAGE, $CFG, $OUTPUT, $DB;
         require_login();
         $context = context_system::instance();
 
@@ -26,7 +26,16 @@ class dashboard_controller {
             $role = 'lecturer';
         }
 
+        $resourcecount = $DB->count_records('local_inveniordm_course_resources');
+        $coursecount = $DB->count_records('course');
+        $assignmentcount = $DB->count_records('local_inveniordm_assignments');
+        $submissioncount = $DB->count_records('local_inveniordm_submissions');
+
         $data = [
+            'resourcecount' => $resourcecount,
+            'coursecount' => $coursecount,
+            'assignmentcount' => $assignmentcount,
+            'submissioncount' => $submissioncount,
             'role' => $role,
             'is_student' => ($role === 'student'),
             'is_lecturer' => ($role === 'lecturer'),

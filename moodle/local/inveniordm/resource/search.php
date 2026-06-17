@@ -3,7 +3,7 @@
 require_once(__DIR__ . '/../../../config.php');
 global $CFG, $PAGE, $OUTPUT;
 require_login();
-require_once($CFG->dirroot.'/local/inveniordm/classes/controller/student_controller.php');
+require_once($CFG->dirroot.'/local/inveniordm/classes/controller/resource_controller.php');
 $context = context_system::instance();
 
 $PAGE->set_url(
@@ -37,6 +37,6 @@ echo '
     </div>
 ';
 
-$controller = new \local_inveniordm\controller\student_controller();
+$controller = new \local_inveniordm\controller\resource_controller();
 echo $controller->search();
 echo $OUTPUT->footer();

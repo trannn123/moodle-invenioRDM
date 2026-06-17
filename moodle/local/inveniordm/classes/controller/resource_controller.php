@@ -96,7 +96,7 @@ class resource_controller {
         } else {
             $backurl = (
                 new \moodle_url(
-                    '/local/inveniordm/student/search.php'
+                    '/local/inveniordm/resource/search.php'
                 )
             )->out(false);
         }
@@ -113,6 +113,12 @@ class resource_controller {
         $client = new invenio_client();
 
         $query = optional_param('q', '', PARAM_TEXT);
+
+        global $USER;
+        if (!empty($query)) {
+            log_service::add($USER->id, 'SEARCH_RESOURCE');
+        }
+
         $format = optional_param('format', '', PARAM_TEXT);
         $discipline = optional_param('discipline', '', PARAM_TEXT);
         $level = optional_param('level', '', PARAM_TEXT);

@@ -27,7 +27,7 @@ $resources = $DB->get_records(
 );
 
 $backurl = new moodle_url(
-    '/local/inveniordm/lecturer/mycourses.php'
+    '/local/inveniordm/lecturer/my_courses.php'
 );
 
 $searchurl = new moodle_url(

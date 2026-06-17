@@ -2,6 +2,7 @@
 
 use local_inveniordm\api\invenio_client;
 use local_inveniordm\service\file_service;
+
 require_once(__DIR__ . '/../../../config.php');
 global $CFG;
 $courseid = required_param('courseid', PARAM_INT);
@@ -9,8 +10,18 @@ $attach   = optional_param('attach', '', PARAM_TEXT);
 require_login();
 $context = context_course::instance($courseid);
 require_capability('local/inveniordm:upload', $context);
-global $DB, $PAGE, $OUTPUT;
-require_once($CFG->dirroot . '/local/inveniordm/classes/api/invenio_client.php');
+global $DB, $PAGE, $OUTPUT, $USER;
+
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/api/invenio_client.php'
+);
+
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/service/log_service.php'
+);
+
 $client = new invenio_client();
 
 if (!empty($attach)) {
@@ -64,6 +75,8 @@ if (!empty($attach)) {
             'timecreated' => time()
         ]
     );
+
+    \local_inveniordm\service\log_service::add($USER->id, 'ATTACH_RESOURCE', $attach, $courseid);
 
     redirect(
         new moodle_url(

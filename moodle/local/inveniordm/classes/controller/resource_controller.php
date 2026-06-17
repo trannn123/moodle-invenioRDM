@@ -4,6 +4,7 @@ namespace local_inveniordm\controller;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../api/invenio_client.php');
 use local_inveniordm\api\invenio_client;
+use local_inveniordm\service\log_service;
 
 class resource_controller {
     public function view($id, $returnurl = '') {
@@ -14,6 +15,9 @@ class resource_controller {
         if (!$record || !isset($record['metadata'])) {
             return $OUTPUT->notification('Record not found or API error', 'error');
         }
+
+        global $USER;
+        log_service::add($USER->id, 'VIEW_RESOURCE', $id);
 
         $metadata = $record['metadata'] ?? [];
         $customfields = $record['custom_fields'] ?? [];

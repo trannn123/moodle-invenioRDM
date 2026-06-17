@@ -52,20 +52,22 @@ $search = optional_param('search', '', PARAM_TEXT);
 
 echo '
     <form method="get" class="search-card mb-4">
+        <div class="mb-3">
+            <a href="'.$backurl.'" class="btn btn-outline-dark">
+                <i class="fa fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
         <input type="hidden" name="courseid" value="'.$courseid.'">
         <div class="mb-3">
             <input type="text" name="search" class="form-control form-control-lg" placeholder="Search assignments..." value="'.s($search).'">
         </div>
     
-        <div class="d-flex flex-wrap gap-2">
+        <div class="d-flex flex-wrap align-items-center gap-2">
             <button type="submit" class="btn btn-primary">Search</button>
             <a href="'.$reseturl.'" class="btn btn-outline-secondary">Reset</a>     
-            <a href="'.$createurl.'" class="btn btn-outline-primary">Create Assignment</a>
-            <a href="'.$backurl.'" class="btn btn-outline-dark">
-                <i class="fa fa-arrow-left"></i>
-                Back
-            </a>
-        </div>  
+            <a href="'.$createurl.'" class="btn btn-outline-primary ms-auto">Create Assignment</a> 
+        </div>
     </form>
 ';
 

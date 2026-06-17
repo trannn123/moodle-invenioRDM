@@ -26,6 +26,41 @@ $resources = $DB->get_records(
     'timecreated DESC'
 );
 
+$backurl = new moodle_url(
+    '/local/inveniordm/lecturer/mycourses.php'
+);
+
+$searchurl = new moodle_url(
+    '/local/inveniordm/lecturer/search_resources_to_attach.php',
+    [
+        'courseid' => $courseid
+    ]
+);
+
+$assignmentsurl = new moodle_url(
+    '/local/inveniordm/lecturer/assignments.php',
+    [
+        'courseid'  => $courseid,
+        'returnurl' =>'/local/inveniordm/lecturer/course_resources.php?courseid='.$courseid
+    ]
+);
+
+echo '
+    <div class="action-bar mb-4">
+        <a class="btn btn-outline-dark" href="'.$backurl.'">
+           <i class="fa fa-arrow-left"></i>
+           Back
+        </a>
+        
+        <a class="btn btn-primary" href="'.$searchurl.'">
+           Search New Resource
+        </a>
+    
+        <a class="btn btn-secondary" href="'.$assignmentsurl.'">
+           Assignments
+        </a>
+    </div>
+';
 echo '
     <div class="hero-section">
         <h1>Course Resources</h1>
@@ -50,42 +85,6 @@ echo '
                 <p>Course ID</p>
             </div>
         </div>
-    </div>
-';
-
-$searchurl = new moodle_url(
-    '/local/inveniordm/lecturer/search_resources_to_attach.php',
-    [
-        'courseid' => $courseid
-    ]
-);
-
-$assignmentsurl = new moodle_url(
-    '/local/inveniordm/lecturer/assignments.php',
-    [
-        'courseid'  => $courseid,
-        'returnurl' =>'/local/inveniordm/lecturer/course_resources.php?courseid='.$courseid
-    ]
-);
-
-$backurl = new moodle_url(
-    '/local/inveniordm/lecturer/mycourses.php'
-);
-
-echo '
-    <div class="action-bar mb-4">
-        <a class="btn btn-primary" href="'.$searchurl.'">
-           Search New Resource
-        </a>
-    
-        <a class="btn btn-secondary" href="'.$assignmentsurl.'">
-           Assignments
-        </a>
-        
-        <a class="btn btn-outline-dark" href="'.$backurl.'">
-           <i class="fa fa-arrow-left"></i>
-           Back
-        </a>
     </div>
 ';
 

@@ -108,7 +108,7 @@ echo '
     </div>
     
     <div class="mb-4">
-        <a href="'.$backurl.'" class="btn btn-outline-primary">
+        <a href="'.$backurl.'" class="btn btn-outline-dark">
             <i class="fa fa-arrow-left"></i>
             Back to Submissions
         </a>

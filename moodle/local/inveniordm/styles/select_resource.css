@@ -1,0 +1,47 @@
+.hero-section {
+    background: linear-gradient(
+            135deg,
+            #0f6cbf,
+            #4f8fd6
+    );
+    color: white;
+    padding: 40px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+}
+
+.resource-card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+.resource-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.resource-meta {
+    margin-bottom: 20px;
+}
+
+.meta-label {
+    font-weight: 600;
+    color: #495057;
+    display: inline-block;
+    min-width: 120px;
+}
+
+.status-badge {
+    margin-bottom: 20px;
+}
+
+.resource-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}

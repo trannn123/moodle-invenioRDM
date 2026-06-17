@@ -71,27 +71,62 @@ $student = $DB->get_record(
     MUST_EXIST
 );
 
+$course = $DB->get_record(
+    'course',
+    [
+        'id' => $assignment->courseid
+    ],
+    '*',
+    MUST_EXIST
+);
+
 $recordpayload = [
     'files' => ['enabled' => true],
     'metadata' => [
-        'title' => $assignment->name . ' - ' . fullname($student),
+        'title' => $assignment->name.' - '.fullname($student),
         'description' =>
-            "Assignment submission\n" .
-            "Student: " . fullname($student) . "\n" .
-            "Grade: " . $submission->grade . "\n" .
-            "Feedback: " . $submission->feedback,
+            "Student assignment submission\n\n" .
+            "Course: ".$course->fullname."\n" .
+            "Assignment: ".$assignment->name."\n" .
+            "Student: ".fullname($student)."\n" .
+            "Grade: ".($submission->grade ?: 'Not graded')."\n".
+            "Feedback: ".($submission->feedback ?: 'No feedback'),
         'publication_date' => date('Y-m-d'),
         'resource_type' => ['id' => 'publication-article'],
         'creators' => [[
             'person_or_org' => [
                 'type' => 'personal',
+                'name' => $student->lastname.', '.$student->firstname,
                 'given_name' => $student->firstname,
                 'family_name' => $student->lastname
             ]
         ]]
+    ],
+    'custom_fields' => [
+        'moodle:identifier' => 'submission-'.$submission->id,
+        'moodle:free_keyword' => [
+            'assignment',
+            'submission',
+            $course->fullname
+        ],
+        'moodle:language' => 'vi',
+        'moodle:documentary_type' => 'text',
+        'moodle:format' => strtolower(pathinfo($file->get_filename(), PATHINFO_EXTENSION)),
+        'moodle:location' => '#',
+        'moodle:learning_resource_type' => 'assessment',
+        'moodle:target_audience' => 'learner',
+        'moodle:educational_level' => "bachelor’s degree",
+        'moodle:induced_activity' => 'assess',
+        'moodle:copyright' => 'yes',
+        'moodle:objective' => 'discipline',
+        'moodle:taxon_entry' => $course->fullname,
+        'moodle:role' => 'author',
+        'moodle:entity' => fullname($student),
+        'moodle:date' => date('Y-m-d'),
+        'moodle:relation' => 'is based on',
+        'moodle:metadata_accessibility' => 'public access'
     ]
 ];
-
 $result = $client->create_record($recordpayload);
 $recordid = $result['data']['id'] ?? null;
 $uploadresult = $client->upload_file(

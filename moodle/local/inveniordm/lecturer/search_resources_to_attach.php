@@ -83,11 +83,27 @@ $PAGE->set_title('Manage Course Resources');
 $PAGE->set_heading('Manage Course Resources');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/search_resources_to_attah.css'
+        '/local/inveniordm/styles/search_resources_to_attach.css'
     )
 );
 
 echo $OUTPUT->header();
+
+$backurl = new moodle_url(
+    '/local/inveniordm/lecturer/course_resources.php',
+    [
+        'courseid' => $courseid
+    ]
+);
+
+echo '
+    <div class="mb-4">
+        <a href="'.$backurl.'" class="btn btn-outline-dark">
+            <i class="fa fa-arrow-left"></i>
+            Back to Course Resources
+        </a>
+    </div>
+';
 
 echo '
     <div class="hero-section">

@@ -2,6 +2,7 @@
 
 require_once(__DIR__ . '/../../../config.php');
 use local_inveniordm\api\invenio_client;
+use local_inveniordm\service\log_service;
 require_login();
 global $CFG;
 
@@ -10,10 +11,15 @@ require_once(
     '/local/inveniordm/classes/api/invenio_client.php'
 );
 
-$recordid = required_param(
-    'recordid',
-    PARAM_TEXT
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/service/log_service.php'
 );
+
+$recordid = required_param('recordid', PARAM_TEXT);
+
+global $USER;
+log_service::add($USER->id, 'DOWNLOAD_RESOURCE', $recordid);
 
 $client = new invenio_client();
 $record = $client->get_record($recordid);

@@ -90,4 +90,132 @@
         </div>
     </div>
     {{/is_lecturer}}
+
+    {{#is_admin}}
+        <div class="admin-dashboard">
+            {{^is_admin}}
+            <div class="hero-section">
+                <h1>Learning Resource Management System</h1>
+                <p>
+                    A digital repository integrated with Moodle and InvenioRDM for managing,
+                    sharing, and accessing learning resources across courses.
+                </p>
+            </div>
+            {{/is_admin}}
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fa fa-folder-open"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">{{resourcecount}}</div>
+                        <div class="stat-label">Resources</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fa fa-book"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">{{coursecount}}</div>
+                        <div class="stat-label">Courses</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fa fa-tasks"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">{{assignmentcount}}</div>
+                        <div class="stat-label">Assignments</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fa fa-upload"></i>
+                    </div>
+                    <div class="stat-content">
+                        <div class="stat-number">{{submissioncount}}</div>
+                        <div class="stat-label">Submissions</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-4 mt-2">
+                <div class="col-lg-6">
+                    <div class="admin-module-card">
+                        <div class="module-header">
+                            <i class="fa fa-cogs"></i>
+                            <h3>System Management</h3>
+                        </div>
+                        <p class="module-description">
+                            Configure repository integration and manage cache settings.
+                        </p>
+                        <div class="module-actions">
+                            <a href="#" class="module-link">
+                                <i class="fa fa-sliders"></i>
+                                Repository Settings
+                            </a>
+                            <a href="#" class="module-link">
+                                <i class="fa fa-database"></i>
+                                Cache Management
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="admin-module-card">
+                        <div class="module-header">
+                            <i class="fa fa-chart-line"></i>
+                            <h3>Monitoring & Analytics</h3>
+                        </div>
+                        <p class="module-description">
+                            Monitor system health and review repository activity.
+                        </p>
+                        <div class="module-actions">
+                            <a href="#" class="module-link">
+                                <i class="fa fa-chart-bar"></i>
+                                Analytics Dashboard
+                            </a>
+                            <a href="#" class="module-link">
+                                <i class="fa fa-heartbeat"></i>
+                                System Monitoring
+                            </a>
+                            <a href="#" class="module-link">
+                                <i class="fa fa-file-alt"></i>
+                                Activity Reports
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="repository-management">
+                <div class="repository-header">
+                    <i class="fa fa-folder-open"></i>
+                    <h3>Repository Management</h3>
+                </div>
+                <p>
+                    Access repository entities and review learning resource relationships.
+                </p>
+                <div class="repo-grid">
+                    <a href="{{wwwroot}}/local/inveniordm/resource/search.php" class="repo-card">
+                        <i class="fa fa-file"></i>
+                        <span>Resources</span>
+                    </a>
+                    <a href="#" class="repo-card">
+                        <i class="fa fa-book"></i>
+                        <span>Courses</span>
+                    </a>
+                    <a href="#" class="repo-card">
+                        <i class="fa fa-tasks"></i>
+                        <span>Assignments</span>
+                    </a>
+                    <a href="#" class="repo-card">
+                        <i class="fa fa-users"></i>
+                        <span>User Activity</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {{/is_admin}}
 </div>

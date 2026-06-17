@@ -19,6 +19,11 @@ require_once(
     '/local/inveniordm/classes/service/invenio_mapper.php'
 );
 
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/service/log_service.php'
+);
+
 $context = context_system::instance();
 
 $PAGE->set_url(
@@ -93,7 +98,9 @@ if ($form->is_cancelled()) {
         $publishresult = $client->publish_record($recordid);
         $publishcode = $publishresult['httpcode'];
 
+
         if ($publishcode >= 200 && $publishcode < 300) {
+            \local_inveniordm\service\log_service::add($USER->id, 'UPLOAD_RESOURCE', $recordid);
             echo $OUTPUT->notification('Upload resource successfully!', 'success');
             echo '
                 <a href="'.$CFG->wwwroot.'/local/inveniordm/lecturer/upload.php" class="btn btn-primary">

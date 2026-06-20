@@ -3,6 +3,12 @@
 require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $DB, $PAGE, $OUTPUT, $CFG, $USER;
+
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/service/log_service.php'
+);
+
 $assignmentid = required_param('assignmentid', PARAM_INT);
 
 $assignment = $DB->get_record(
@@ -70,6 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     $fs->create_file_from_pathname($fileinfo, $tmpfile);
+
+    \local_inveniordm\service\log_service::add($USER->id, 'SUBMIT_ASSIGNMENT', $assignment->recordid, $assignment->courseid);
 
     redirect(
         new moodle_url('/local/inveniordm/student/assignments.php', [

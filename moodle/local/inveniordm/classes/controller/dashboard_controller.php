@@ -10,8 +10,6 @@ class dashboard_controller {
 
         $PAGE->set_url(new moodle_url('/local/inveniordm/index.php'));
         $PAGE->set_context($context);
-        $PAGE->set_title('InvenioRDM Dashboard');
-        $PAGE->set_heading('InvenioRDM Integration');
         $PAGE->requires->css(
             new moodle_url(
                 '/local/inveniordm/styles/dashboard.css'

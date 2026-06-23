@@ -73,20 +73,47 @@ if (!$assignments) {
             ]
         );
 
-        $downloadurl = new moodle_url(
-            '/local/inveniordm/student/download.php',
+        $submission = $DB->get_record(
+            'local_inveniordm_submissions',
             [
-                'recordid' => $a->resource_recordid
+                'assignmentid' => $a->id,
+                'studentid' => $USER->id
             ]
         );
+
+        $submitted = !empty($submission);
+
+        $statusbadge = $submitted
+            ? '<span class="badge bg-success">Submitted</span>'
+            : '<span class="badge bg-warning text-dark">Not Submitted</span>';
 
         echo '
             <div class="assignment-card">
                 <div class="assignment-title">'.s($a->name).'</div>
-                <div class="assignment-description">'.s($a->description).'</div>
+                <div class="mb-2">'.$statusbadge.'</div>
                 <div class="assignment-due">Due:'.date('d/m/Y', $a->duedate).'</div>
-                <a class="btn btn-primary" href="'.$downloadurl.'">Download Assignment</a>   
-                <a class="btn btn-outline-primary" href="'.$submiturl.'">Submit Assignment</a>
+        ';
+
+        if ($submitted) {
+            $submissioninfo = '
+                <div class="mt-2 text-success">
+                    <strong>Submitted file:</strong>
+                    <span class="submission-file">
+                        '.s($submission->filename).'
+                    </span>
+                </div>
+            ';
+                } else {
+                    $submissioninfo = '';
+                }
+                echo $submissioninfo;
+                echo '
+                <div class="mt-3 submit-btn">
+                    <a class="btn btn-outline-primary w-100"
+                       href="'.$submiturl.'">
+                        Submit Assignment
+                    </a>
+                </div>
             </div>
         ';
     }

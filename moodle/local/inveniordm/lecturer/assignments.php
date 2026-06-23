@@ -3,14 +3,11 @@
 require_once(__DIR__.'/../../../config.php');
 global $DB, $PAGE, $OUTPUT;
 $courseid = required_param('courseid', PARAM_INT);
-$returnurl = optional_param('returnurl', '/local/inveniordm/lecturer/mycourses.php',PARAM_LOCALURL);
 $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
 $context = context_course::instance($course->id);
 require_login($course);
 require_capability('local/inveniordm:upload', $context);
-if (!has_capability('local/inveniordm:upload', $context)) {
-    throw new moodle_exception('nopermission', 'error');
-}
+
 $PAGE->set_url(
     new moodle_url(
         '/local/inveniordm/lecturer/assignments.php',
@@ -35,7 +32,7 @@ echo '
         <p>Manage assignments and review student submissions.</p>
     </div>
 ';
-$backurl = new moodle_url($returnurl);
+$backurl = new moodle_url('/local/inveniordm/lecturer/my_courses.php');
 $reseturl = new moodle_url(
     '/local/inveniordm/lecturer/assignments.php',
     [
@@ -43,7 +40,7 @@ $reseturl = new moodle_url(
     ]
 );
 $createurl = new moodle_url(
-    '/local/inveniordm/lecturer/select_resource_for_assignment.php',
+    '/local/inveniordm/lecturer/create_assignment.php',
     [
         'courseid' => $courseid
     ]
@@ -120,6 +117,13 @@ if (empty($assignments)) {
 echo '<div class="course-grid">';
 
 foreach ($assignments as $a) {
+    $resources = $DB->get_records(
+        'local_inveniordm_assignment_resources',
+        [
+            'assignmentid' => $a->id
+        ]
+    );
+
     $submissionsurl = new moodle_url(
         '/local/inveniordm/lecturer/view_submissions.php',
         [
@@ -129,7 +133,12 @@ foreach ($assignments as $a) {
 
     $isoverdue = ($a->duedate > 0 && $a->duedate < time());
     $status = $isoverdue ? 'Overdue' : 'Active';
-
+    $resourcecount = $DB->count_records(
+        'local_inveniordm_assignment_resources',
+        [
+            'assignmentid' => $a->id
+        ]
+    );
     if (!$isoverdue && $a->duedate > 0) {
         $daysleft = ceil(($a->duedate - time()) / 86400);
         $remainingtext = $daysleft.' day(s) remaining';
@@ -147,10 +156,10 @@ foreach ($assignments as $a) {
                 <strong>Assignment ID</strong>
                 <span>'.$a->id.'</span>
             </div>
-    
+            
             <div class="course-info-row">
-                <strong>Resource ID</strong>
-                <span>'.s($a->resource_recordid).'</span>
+                <strong>Resources</strong>
+                <span>'.$resourcecount.'</span>
             </div>
     
             <div class="course-info-row">
@@ -167,9 +176,32 @@ foreach ($assignments as $a) {
                 <strong>Timeline</strong>
                 <span>'.$remainingtext.'</span>
             </div>
-    
+        ';
+
+        echo '
+            <div class="course-info-row">
+                <strong>Resources</strong>
+                <span>'.count($resources).' attached</span>
+            </div>
+        ';
+
+        if (!empty($resources)) {
+            echo '<div class="mt-2 mb-3">';
+            echo '<strong>Attached Resources</strong>';
+            echo '<ul class="mt-2">';
+            foreach ($resources as $resource) {
+                echo '
+            <li>
+                '.s($resource->title).'
+            </li>';
+            }
+            echo '</ul>';
+            echo '</div>';
+        }
+
+        echo '
             <div class="mt-3 mb-3">
-                '.(!empty($a->description) ? format_text($a->description, FORMAT_HTML) : '<em>No description</em>').'
+                '.(!empty($a->instructions) ? format_text($a->instructions, FORMAT_HTML) : '<em>No instructions</em>').'
             </div>
     
             <a class="btn btn-primary w-100" href="'.$submissionsurl.'">View Submissions</a>

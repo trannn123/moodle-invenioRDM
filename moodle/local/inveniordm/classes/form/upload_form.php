@@ -7,6 +7,18 @@ require_once($GLOBALS['CFG']->libdir . '/formslib.php');
 class upload_form extends \moodleform {
     public function definition() {
         $mform = $this->_form;
+
+
+        $backurl = new \moodle_url('/local/inveniordm/index.php');
+        $mform->addElement('html', '
+            <div style="margin-bottom:20px;">
+                <a href="'.$backurl->out(false).'" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left"></i>
+                    Back
+                </a>
+            </div>
+        ');
+
         $mform->addElement('header', 'generalinfo', 'General Information');
 
         $mform->addElement('text', 'title', 'Title');

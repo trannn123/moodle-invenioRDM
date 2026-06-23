@@ -37,14 +37,6 @@ $searchurl = new moodle_url(
     ]
 );
 
-$assignmentsurl = new moodle_url(
-    '/local/inveniordm/lecturer/assignments.php',
-    [
-        'courseid'  => $courseid,
-        'returnurl' =>'/local/inveniordm/lecturer/course_resources.php?courseid='.$courseid
-    ]
-);
-
 echo '
     <div class="action-bar mb-4">
         <a class="btn btn-outline-dark" href="'.$backurl.'">
@@ -54,10 +46,6 @@ echo '
         
         <a class="btn btn-primary" href="'.$searchurl.'">
            Search New Resource
-        </a>
-    
-        <a class="btn btn-secondary" href="'.$assignmentsurl.'">
-           Assignments
         </a>
     </div>
 ';

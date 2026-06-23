@@ -103,7 +103,7 @@ class resource_controller {
         $context['backurl'] = $backurl;
 
         return $OUTPUT->render_from_template(
-            'local_inveniordm/student/view',
+            'local_inveniordm/resource/view',
             $context
         );
     }

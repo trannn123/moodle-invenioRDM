@@ -20,6 +20,15 @@ $assignment = $DB->get_record(
 
 $context = context_course::instance($assignment->courseid);
 
+$existing = $DB->get_record(
+        'local_inveniordm_submissions',
+        [
+                'assignmentid' => $assignmentid,
+                'studentid' => $USER->id
+        ]
+);
+$buttontext = $existing ? 'Resubmit Assignment' : 'Submit Assignment';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (time() > $assignment->duedate) {
         throw new moodle_exception('Assignment submission deadline has passed');
@@ -73,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $fs->create_file_from_pathname($fileinfo, $tmpfile);
 
-    \local_inveniordm\service\log_service::add($USER->id, 'SUBMIT_ASSIGNMENT', $assignment->recordid, $assignment->courseid);
+    \local_inveniordm\service\log_service::add($USER->id, 'SUBMIT_ASSIGNMENT', null, $assignment->courseid);
 
     redirect(
         new moodle_url('/local/inveniordm/student/assignments.php', [
@@ -117,11 +126,76 @@ $expired = time() > $assignment->duedate;
 
     <div class="submit-card">
         <h2><?php echo s($assignment->name); ?></h2>
-        <p><?php echo s($assignment->description); ?></p>
+        <div class="assignment-instructions">
+            <?php echo format_text($assignment->instructions, FORMAT_HTML); ?>
+        </div>
         <p>
             <strong>Due date:</strong>
             <?php echo userdate($assignment->duedate); ?>
         </p>
+
+        <?php if ($existing): ?>
+            <div class="alert alert-success">
+                <strong>Submission received.</strong>
+                <br>
+                Current file:
+                <?php echo s($existing->filename); ?>
+                <br>
+                Submitted at:
+                <?php echo userdate($existing->timecreated); ?>
+            </div>
+
+        <?php endif; ?>
+
+        <?php
+        $resources = $DB->get_records(
+                'local_inveniordm_assignment_resources',
+                [
+                        'assignmentid' => $assignmentid
+                ]
+        );
+        ?>
+
+        <?php if (!empty($resources)): ?>
+            <div class="attached-resources">
+                <h4>Attached Resources</h4>
+
+                <?php foreach ($resources as $resource): ?>
+
+                    <?php
+                    $resourceurl = new moodle_url(
+                            '/local/inveniordm/resource/view.php',
+                            [
+                                    'id' => $resource->recordid,
+                                    'returnurl' =>
+                                            '/local/inveniordm/student/submit_assignment.php?assignmentid=' .
+                                            $assignmentid
+                            ]
+                    );
+                    ?>
+
+                    <div class="resource-card">
+                        <div>
+                            <strong>
+                                <?php echo s($resource->title); ?>
+                            </strong>
+                            <br>
+                            <small>
+                                Resource ID:
+                                <?php echo s($resource->recordid); ?>
+                            </small>
+                        </div>
+
+                        <a
+                                href="<?php echo $resourceurl; ?>"
+                                class="btn btn-sm btn-outline-primary">
+                            View Resource
+                        </a>
+                    </div>
+
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
 
         <?php if ($expired): ?>
             <div class="alert alert-danger">
@@ -140,7 +214,9 @@ $expired = time() > $assignment->duedate;
                     </label>
                     <div id="selected-file" class="selected-file"></div>
                 </div>
-                <button class="btn btn-outline-primary" type="submit">Submit</button>
+                <button class="btn btn-outline-primary" type="submit">
+                    <?php echo $buttontext; ?>
+                </button>
             </form>
         <?php endif; ?>
 

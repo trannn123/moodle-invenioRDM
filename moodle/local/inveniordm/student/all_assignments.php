@@ -8,7 +8,7 @@ $PAGE->set_url(new moodle_url('/local/inveniordm/student/all_assignments.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('All Assignments');
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/courses_and_assignments.css')
+    new moodle_url('/local/inveniordm/styles/assignments.css')
 );
 
 echo $OUTPUT->header();
@@ -101,49 +101,74 @@ if (empty($assignments)) {
     exit;
 }
 
-echo '<div class="course-grid">';
+echo '<div class="row">';
 
 foreach ($assignments as $item) {
     $course = $item['course'];
     $assignment = $item['assignment'];
     $coursecontext = context_course::instance($course->id);
     $isenrolled = is_enrolled($coursecontext, $USER->id);
+    $submission = $DB->get_record(
+        'local_inveniordm_submissions',
+        [
+            'assignmentid' => $assignment->id,
+            'studentid' => $USER->id
+        ]
+    );
 
-    $assignurl = new moodle_url(
+    $submitted = !empty($submission);
+
+    $submiturl = new moodle_url(
         '/local/inveniordm/student/submit_assignment.php',
         ['assignmentid' => $assignment->id]
     );
 
+    $statusbadge = $submitted
+        ? '<span class="badge bg-success">Submitted</span>'
+        : '<span class="badge bg-warning text-dark">Not Submitted</span>';
+
     echo '
-        <div class="course-card">
-            <div class="course-title">
-                '.format_string($assignment->name).'
+        <div class="col-12 col-md-6 col-xl-4 mb-4">
+            <div class="assignment-card">
+                <div class="assignment-title">
+                    '.format_string($assignment->name).'
+                </div>
+                <div class="assignment-content">
+                    <div class="mb-2">
+                        '.$statusbadge.'
+                    </div>
+                    <div class="assignment-description">
+                        '.format_string($course->fullname).'
+                    </div>
+    ';
+            if ($submitted) {
+                echo '
+                    <div class="mt-2 text-success">
+                        <strong>Submitted file:</strong>
+                        <span class="submission-file">
+                            '.s($submission->filename).'
+                        </span>
+                    </div>
+                ';
+            }
+
+                echo '
+                    <div class="assignment-due">
+                        Due:
+                        '.(
+                    $assignment->duedate
+                        ? date('d/m/Y', $assignment->duedate)
+                        : 'No due date'
+                    ).'
+                    </div>
+                </div>
+            
+                <div class="submit-btn">
+                    <a class="btn btn-outline-primary w-100" href="'.$submiturl.'">
+                        Submit Assignment
+                    </a>
+                </div>
             </div>
-    
-            <div class="course-info-row">
-                <strong>Course</strong>
-                <span>'.format_string($course->fullname).'</span>
-            </div>
-    
-            <div class="course-info-row">
-                <strong>Course ID</strong>
-                <span>'.$course->id.'</span>
-            </div>
-    
-            <div class="course-info-row">
-                <strong>Due Date</strong>
-                <span>'.($assignment->duedate ? date('Y-m-d H:i', $assignment->duedate) : 'No due date').'</span>
-            </div>
-    
-            <div class="course-info-row">
-                <strong>Status</strong>
-                <span>'.($isenrolled ? 'Enrolled' : 'Not enrolled').'</span>
-            </div>
-    
-            <a class="btn btn-primary"
-               href="'.$assignurl.'">
-                Open Assignment
-            </a>
         </div>
     ';
 }

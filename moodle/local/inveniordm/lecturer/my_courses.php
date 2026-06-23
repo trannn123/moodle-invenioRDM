@@ -133,8 +133,7 @@ foreach ($courses as $course) {
     $assignurl = new moodle_url(
         '/local/inveniordm/lecturer/assignments.php',
         [
-            'courseid'  => $course->id,
-            'returnurl' => '/local/inveniordm/lecturer/mycourses.php'
+            'courseid'  => $course->id
         ]
     );
 

@@ -73,17 +73,46 @@ echo '
     </div>
 ';
 
+echo '
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>Instructions</h5>
+        '.format_text(
+        $assignment->instructions,
+        FORMAT_HTML
+    ).'
+    </div>
+</div>
+';
+
+$resources = $DB->get_records(
+    'local_inveniordm_assignment_resources',
+    [
+        'assignmentid' => $assignmentid
+    ]
+);
+
+if ($resources) {
+    echo '
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5>Attached Resources</h5>
+            <ul>
+    ';
+    foreach ($resources as $resource) {
+        echo '<li>'.s($resource->title).'</li>';
+    }
+    echo '
+            </ul>
+        </div>
+    </div>
+    ';
+}
+
 $backurl = new moodle_url(
     '/local/inveniordm/lecturer/assignments.php',
     [
         'courseid' => $assignment->courseid
-    ]
-);
-
-$reviewurl = new moodle_url(
-    '/local/inveniordm/lecturer/review_submission.php',
-    [
-        'submissionid' => $submission->id
     ]
 );
 
@@ -189,7 +218,12 @@ if (!$students) {
                     'submissionid' => $submission->id
                 ]
             );
-
+            $reviewurl = new moodle_url(
+                '/local/inveniordm/lecturer/review_submission.php',
+                [
+                    'submissionid' => $submission->id
+                ]
+            );
             $action = '
                 <div class="action-buttons">
                     <a class="btn btn-sm btn-primary" href="'.$downloadurl.'">Download</a>

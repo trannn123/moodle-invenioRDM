@@ -1,0 +1,88 @@
+.assignment-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow:
+            0 4px 12px
+            rgba(0,0,0,.05);
+    transition: .2s;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+}
+
+.assignment-content {
+    flex: 1;
+}
+
+.submit-btn {
+    margin-top: auto;
+}
+
+.assignment-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    min-height: 60px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.assignment-description {
+    color: #6c757d;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.assignment-due {
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+.submission-file {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
+.stats-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+
+    padding: 28px 24px;
+
+    text-align: center;
+
+    box-shadow:
+            0 4px 12px
+            rgba(0,0,0,.05);
+
+    transition: .2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+}
+
+.stats-card h2 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #0d6efd;
+
+    margin-bottom: 8px;
+}
+
+.stats-card p {
+    margin: 0;
+
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}

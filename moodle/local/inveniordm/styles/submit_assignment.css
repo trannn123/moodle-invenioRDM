@@ -67,3 +67,21 @@
     font-weight: 600;
     color: #0f6cbf;
 }
+
+.attached-resources {
+    margin: 20px 0;
+}
+
+.resource-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 12px 16px;
+    margin-bottom: 10px;
+
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+
+    background: #f8f9fa;
+}

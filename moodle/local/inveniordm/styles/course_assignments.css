@@ -35,6 +35,9 @@
             rgba(0,0,0,.05);
 
     transition: .2s;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
 }
 
 .assignment-card:hover {
@@ -45,6 +48,9 @@
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 10px;
+    min-height: 58px;
+    display: flex;
+    align-items: flex-start;
 }
 
 .assignment-description {
@@ -66,3 +72,29 @@
 .page-actions .btn {
     min-width: 180px;
 }
+
+.submit-btn {
+    margin-top: auto;
+}
+
+.assignment-title {
+    min-height: 60px;
+}
+
+.submission-file {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
+.assignment-description {
+    min-height: 24px;
+}
+
+.assignment-due {
+    min-height: 24px;
+}
+

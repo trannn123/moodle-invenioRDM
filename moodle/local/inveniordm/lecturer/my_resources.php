@@ -20,6 +20,7 @@ $PAGE->requires->css(
 );
 $client = new invenio_client();
 $result = $client->get_records();
+$backurl = new moodle_url('/local/inveniordm/index.php');
 
 echo $OUTPUT->header();
 
@@ -32,7 +33,12 @@ echo '
 
 $records = $result['hits']['hits'] ?? [];
 $totalresources = count($records);
-
+echo '
+    <a href="'.$backurl.'" class="btn btn-outline-dark">
+       <i class="fa fa-arrow-left"></i>
+       Back
+    </a>
+';
 echo '
     <div class="row mb-4">
         <div class="col-md-6">

@@ -1,0 +1,5 @@
+.secondary-navigation,
+.page-header-headings,
+.breadcrumb-nav {
+    display: none !important;
+}

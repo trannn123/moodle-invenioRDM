@@ -15,7 +15,7 @@ $PAGE->set_title('My Courses');
 $PAGE->set_heading('My Courses');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/courses_and_assignments.css'
+        '/local/inveniordm/styles/courses.css'
     )
 );
 

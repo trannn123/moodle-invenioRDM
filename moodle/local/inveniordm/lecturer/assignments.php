@@ -21,7 +21,7 @@ $PAGE->set_title('Assignments');
 $PAGE->set_heading('Assignments');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/courses_and_assignments.css'
+        '/local/inveniordm/styles/assignments.css'
     )
 );
 
@@ -114,7 +114,7 @@ if (empty($assignments)) {
     exit;
 }
 
-echo '<div class="course-grid">';
+echo '<div class="row">';
 
 foreach ($assignments as $a) {
     $resources = $DB->get_records(
@@ -133,12 +133,7 @@ foreach ($assignments as $a) {
 
     $isoverdue = ($a->duedate > 0 && $a->duedate < time());
     $status = $isoverdue ? 'Overdue' : 'Active';
-    $resourcecount = $DB->count_records(
-        'local_inveniordm_assignment_resources',
-        [
-            'assignmentid' => $a->id
-        ]
-    );
+
     if (!$isoverdue && $a->duedate > 0) {
         $daysleft = ceil(($a->duedate - time()) / 86400);
         $remainingtext = $daysleft.' day(s) remaining';
@@ -147,43 +142,40 @@ foreach ($assignments as $a) {
     }
 
     echo '
-        <div class="course-card">
-            <div class="course-title">
-                '.format_string($a->name).'
-            </div>
+        <div class="col-12 col-md-6 col-xl-4 mb-4 d-flex">
+            <div class="assignment-card w-100">
+                <div class="assignment-title">
+                    '.format_string($a->name).'
+                </div>
+                
+                <div class="assignment-content">
+                    <div class="course-info-row">
+                        <strong>Assignment ID</strong>
+                        <span>'.$a->id.'</span>
+                    </div>
+                
+                    <div class="course-info-row">
+                        <strong>Status</strong>
+                        <span>'.$status.'</span>
+                    </div>
             
-            <div class="course-info-row">
-                <strong>Assignment ID</strong>
-                <span>'.$a->id.'</span>
-            </div>
+                    <div class="course-info-row">
+                        <strong>Due Date</strong>
+                        <span>'.($a->duedate ? date('d/m/Y H:i', $a->duedate) : 'No due date').'</span>
+                    </div>
             
-            <div class="course-info-row">
-                <strong>Resources</strong>
-                <span>'.$resourcecount.'</span>
-            </div>
-    
-            <div class="course-info-row">
-                <strong>Status</strong>
-                <span>'.$status.'</span>
-            </div>
-    
-            <div class="course-info-row">
-                <strong>Due Date</strong>
-                <span>'.($a->duedate ? date('d/m/Y H:i', $a->duedate) : 'No due date').'</span>
-            </div>
-    
-            <div class="course-info-row">
-                <strong>Timeline</strong>
-                <span>'.$remainingtext.'</span>
-            </div>
-        ';
+                    <div class="course-info-row">
+                        <strong>Timeline</strong>
+                        <span>'.$remainingtext.'</span>
+                    </div>
+    ';
 
-        echo '
-            <div class="course-info-row">
-                <strong>Resources</strong>
-                <span>'.count($resources).' attached</span>
-            </div>
-        ';
+                echo '
+                    <div class="course-info-row">
+                        <strong>Resources</strong>
+                        <span>'.count($resources).' attached</span>
+                    </div>
+                ';
 
         if (!empty($resources)) {
             echo '<div class="mt-2 mb-3">';
@@ -199,12 +191,18 @@ foreach ($assignments as $a) {
             echo '</div>';
         }
 
-        echo '
-            <div class="mt-3 mb-3">
-                '.(!empty($a->instructions) ? format_text($a->instructions, FORMAT_HTML) : '<em>No instructions</em>').'
+            echo '
+                <div class="mt-3 mb-3">
+                    '.(!empty($a->instructions) ? format_text($a->instructions, FORMAT_HTML) : '<em>No instructions</em>').'
+                </div>
             </div>
-    
-            <a class="btn btn-primary w-100" href="'.$submissionsurl.'">View Submissions</a>
+            
+                <div class="submit-btn">
+                    <a class="btn btn-primary w-100" href="'.$submissionsurl.'">
+                        View Submissions
+                    </a>
+                </div>
+            </div>
         </div>
     ';
 }

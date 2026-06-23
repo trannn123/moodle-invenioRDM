@@ -10,10 +10,13 @@
     display: flex;
     flex-direction: column;
     min-height: 320px;
+    width: 100%;
+    height: 100%;
 }
 
 .assignment-content {
     flex: 1;
+    min-height: 160px;
 }
 
 .submit-btn {
@@ -53,11 +56,8 @@
     background: white;
     border: 1px solid #e9ecef;
     border-radius: 16px;
-
     padding: 28px 24px;
-
     text-align: center;
-
     box-shadow:
             0 4px 12px
             rgba(0,0,0,.05);
@@ -73,16 +73,31 @@
     font-size: 42px;
     font-weight: 700;
     color: #0d6efd;
-
     margin-bottom: 8px;
 }
 
 .stats-card p {
     margin: 0;
-
     color: #6c757d;
     font-size: 16px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: .5px;
+}
+
+.course-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.course-info-row strong {
+    color: #495057;
+}
+
+.course-info-row span {
+    color: #6c757d;
+    text-align: right;
+    max-width: 60%;
+    word-break: break-word;
 }

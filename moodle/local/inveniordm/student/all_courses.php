@@ -8,7 +8,7 @@ $PAGE->set_url(new moodle_url('/local/inveniordm/student/all_courses.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('All Courses');
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/courses_and_assignments.css')
+    new moodle_url('/local/inveniordm/styles/courses.css')
 );
 
 echo $OUTPUT->header();

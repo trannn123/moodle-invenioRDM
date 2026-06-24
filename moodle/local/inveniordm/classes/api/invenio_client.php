@@ -119,13 +119,19 @@ class invenio_client {
         return $decoded;
     }
 
-    public function get_records(string $query = ''): array {
+    public function get_records(string $query = '', array $params = []): array {
+        if (!empty($query)) {
+            $params['q'] = $query;
+        }
+
+        $params['allversions'] = 0;
+
         // Không tìm kiếm, vd: GET /api/records
         $url = $this->apiurl . 'records';
 
-        if (!empty($query)) {
+        if (!empty($params)) {
             // Có tìm kiếm, vd: GET /api/records?q=vlan
-            $url .= '?q=' . urlencode($query);
+            $url .= '?' . http_build_query($params);
         }
         return $this->make_request($url);
     }

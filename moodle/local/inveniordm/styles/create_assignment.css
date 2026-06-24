@@ -1,5 +1,226 @@
-.secondary-navigation,
-.page-header-headings,
-.breadcrumb-nav {
-    display: none !important;
+/* =========================
+   Page Layout
+========================= */
+
+.container {
+    max-width: 1400px;
+}
+
+h2 {
+    font-weight: 700;
+    color: #212529;
+}
+
+/* =========================
+   Cards
+========================= */
+
+.card {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,.06);
+}
+
+.card-header {
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
+    padding: 1rem 1.25rem;
+    border-bottom: none;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* =========================
+   Form Controls
+========================= */
+
+.form-label {
+    font-weight: 600;
+    margin-bottom: .5rem;
+}
+
+.form-control {
+    border-radius: 12px;
+    min-height: 45px;
+}
+
+textarea.form-control {
+    min-height: 140px;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 .15rem rgba(13,110,253,.25);
+}
+
+/* =========================
+   Resource Search
+========================= */
+
+.input-group .form-control {
+    border-radius: 12px 0 0 12px;
+}
+
+.input-group .btn {
+    border-radius: 0 12px 12px 0;
+}
+
+/* =========================
+   Resource Item
+========================= */
+
+.resource-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    padding: 14px;
+    margin-bottom: 12px;
+
+    border: 1px solid #e9ecef;
+    border-radius: 14px;
+
+    background: white;
+
+    transition: all .2s ease;
+}
+
+.resource-item:hover {
+    border-color: #0d6efd;
+    background: #f8fbff;
+    transform: translateY(-1px);
+}
+
+.resource-item input[type="checkbox"] {
+    margin-top: 6px;
+    transform: scale(1.2);
+}
+
+.resource-item strong {
+    display: block;
+    color: #212529;
+    font-size: 15px;
+    margin-bottom: 3px;
+}
+
+.resource-item small {
+    color: #6c757d;
+}
+
+/* =========================
+   Selected Resources
+========================= */
+
+#selected-resources {
+    min-height: 140px;
+}
+
+.selected-resource {
+    background: #f8fbff;
+    border: 1px solid #d6e7ff;
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    color: #0d6efd;
+    font-weight: 500;
+}
+
+/* =========================
+   Badges
+========================= */
+
+.badge.bg-primary {
+    font-size: .9rem;
+    padding: .55rem .85rem;
+    border-radius: 10px;
+}
+
+/* =========================
+   Buttons
+========================= */
+
+.btn-primary {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.btn-outline-dark,
+.btn-outline-primary {
+    border-radius: 12px;
+}
+
+/* =========================
+   Pagination
+========================= */
+
+.assignment-pagination {
+    margin-top: 25px;
+}
+
+.assignment-pagination .pagination {
+    gap: 6px;
+}
+
+.assignment-pagination .page-link {
+    border: none;
+    border-radius: 12px;
+
+    min-width: 44px;
+    text-align: center;
+
+    background: #f8f9fa;
+    color: #0d6efd;
+    font-weight: 600;
+
+    transition: all .2s ease;
+}
+
+.assignment-pagination .page-link:hover {
+    background: #0d6efd;
+    color: white;
+}
+
+.assignment-pagination .page-item.active .page-link {
+    background: #0d6efd;
+    color: white;
+    box-shadow: 0 4px 12px rgba(13,110,253,.3);
+}
+
+/* =========================
+   Save Button Area
+========================= */
+
+.text-end.mt-4 {
+    margin-top: 30px !important;
+}
+
+/* =========================
+   Mobile
+========================= */
+
+@media (max-width: 768px) {
+
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .resource-item {
+        padding: 12px;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
+}
+
+.save-btn {
+    min-width: 220px;
+    border-radius: 12px;
+    font-weight: 600;
 }

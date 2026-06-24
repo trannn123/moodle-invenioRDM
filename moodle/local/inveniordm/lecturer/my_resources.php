@@ -15,7 +15,7 @@ $PAGE->set_title('My Resources');
 $PAGE->set_heading('My Resources');
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/myresources.css'
+        '/local/inveniordm/styles/my_resources.css'
     )
 );
 $client = new invenio_client();

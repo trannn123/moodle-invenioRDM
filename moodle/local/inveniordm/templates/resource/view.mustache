@@ -1,148 +1,144 @@
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="detail-actions mb-4">
         <a href="{{backurl}}" class="btn btn-outline-secondary">
             <i class="fa fa-arrow-left"></i>
             Back
         </a>
-
         <a href="{{location}}" class="btn btn-primary">
             <i class="fa fa-download"></i>
             Download Resource
         </a>
     </div>
 
-    <div class="card invenio-detail-card mb-4">
-        <div class="card-body p-4">
-            <h1 class="invenio-detail-title">{{title}}</h1>
-            <div class="text-muted mb-3">
-                Created by
-                <strong>{{author}}</strong>
-            </div>
-        </div>
-    </div>
-
-    <div class="card invenio-detail-card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">General Information</h5>
-        </div>
-
+    <div class="detail-hero card invenio-detail-card mb-4">
         <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Identifier</div>
-                <div class="col-md-9 invenio-detail-value">{{identifier}}</div>
-            </div>
+            <h1 class="detail-title">{{title}}</h1>
+            <p class="detail-author">
+                <i class="fa fa-user-circle"></i>Created by <strong>{{author}}</strong>
+            </p>
+        </div>
+    </div>
 
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Publication Date</div>
-                <div class="col-md-9 invenio-detail-value">{{publicationdate}}</div>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card invenio-detail-card h-100">
+                <div class="card-header">
+                    <h5><i class="fa fa-info-circle me-2"></i>General Information</h5>
+                </div>
+                <div class="card-body detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Identifier</span>
+                        <span class="detail-value">{{identifier}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Publication Date</span>
+                        <span class="detail-value">{{publicationdate}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Language</span>
+                        <span class="detail-value">{{language}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Format</span>
+                        <span class="detail-value">{{format}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Document Type</span>
+                        <span class="detail-value">{{documenttype}}</span>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Language</div>
-                <div class="col-md-9 invenio-detail-value">{{language}}</div>
+        <div class="col-lg-6">
+            <div class="card invenio-detail-card h-100">
+                <div class="card-header">
+                    <h5><i class="fa fa-graduation-cap me-2"></i>Educational Information</h5>
+                </div>
+                <div class="card-body detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Educational Level</span>
+                        <span class="detail-value">{{educationallevel}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Target Audience</span>
+                        <span class="detail-value">{{targetaudience}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Learning Resource Type</span>
+                        <span class="detail-value">{{learningresourcetype}}</span>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Format</div>
-                <div class="col-md-9 invenio-detail-value">{{format}}</div>
+        <div class="col-lg-6">
+            <div class="card invenio-detail-card h-100">
+                <div class="card-header">
+                    <h5><i class="fa fa-tags me-2"></i>Classification</h5>
+                </div>
+                <div class="card-body detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Discipline</span>
+                        <span class="detail-value">{{discipline}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Objective</span>
+                        <span class="detail-value">{{objective}}</span>
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-3 invenio-detail-label">Document Type</div>
-                <div class="col-md-9 invenio-detail-value">{{documenttype}}</div>
+        <div class="col-lg-6">
+            <div class="card invenio-detail-card h-100">
+                <div class="card-header">
+                    <h5><i class="fa fa-balance-scale me-2"></i>Rights & Relation</h5>
+                </div>
+                <div class="card-body detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Copyright</span>
+                        <span class="detail-value">{{copyright}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Relation</span>
+                        <span class="detail-value">{{relation}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Role</span>
+                        <span class="detail-value">{{role}}</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="card invenio-detail-card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">Educational Information</h5>
-        </div>
-
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Educational Level</div>
-                <div class="col-md-9 invenio-detail-value">{{educationallevel}}</div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Target Audience</div>
-                <div class="col-md-9 invenio-detail-value">{{targetaudience}}</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3 invenio-detail-label">Learning Resource Type</div>
-                <div class="col-md-9 invenio-detail-value">{{learningresourcetype}}</div>
+    <div class="row g-4 mt-2">
+        <div class="col-12">
+            <div class="card invenio-detail-card">
+                <div class="card-header">
+                    <h5><i class="fa fa-key me-2"></i>Keywords</h5>
+                </div>
+                <div class="card-body">
+                    {{#keywords}}
+                        <span class="invenio-keyword">{{name}}</span>
+                    {{/keywords}}
+                    {{^keywords}}
+                        <span class="text-muted">No keywords available</span>
+                    {{/keywords}}
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="card invenio-detail-card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">Classification</h5>
-        </div>
-
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Discipline</div>
-                <div class="col-md-9 invenio-detail-value">{{discipline}}</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3 invenio-detail-label">Objective</div>
-                <div class="col-md-9 invenio-detail-value">{{objective}}</div>
+        <div class="col-12">
+            <div class="card invenio-detail-card">
+                <div class="card-header">
+                    <h5><i class="fa fa-align-left me-2"></i>Description</h5>
+                </div>
+                <div class="card-body">
+                    {{description}}
+                </div>
             </div>
         </div>
-    </div>
-
-    <div class="card invenio-detail-card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">Rights & Relation</h5>
-        </div>
-
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Copyright</div>
-                <div class="col-md-9 invenio-detail-value">{{copyright}}</div>
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-3 invenio-detail-label">Relation</div>
-                <div class="col-md-9 invenio-detail-value">{{relation}}</div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-3 invenio-detail-label">Role</div>
-                <div class="col-md-9 invenio-detail-value">{{role}}</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card invenio-detail-card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0">Keywords</h5>
-        </div>
-
-        <div class="card-body">
-            {{#keywords}}
-                <span class="badge bg-primary invenio-keyword me-2 mb-2">
-                    {{name}}
-                </span>
-            {{/keywords}}
-
-            {{^keywords}}
-                <span class="text-muted">
-                    No keywords available
-                </span>
-            {{/keywords}}
-        </div>
-    </div>
-
-    <div class="card invenio-detail-card">
-        <div class="card-header">
-            <h5 class="mb-0">Description</h5>
-        </div>
-
-        <div class="card-body">{{description}}</div>
     </div>
 </div>

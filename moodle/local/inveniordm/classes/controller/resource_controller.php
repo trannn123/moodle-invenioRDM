@@ -108,7 +108,14 @@ class resource_controller {
         );
     }
 
-    public function search() {
+    public function search($backurl = '') {
+        if (empty($backurl)) {
+            $backurl = optional_param('backurl', '', PARAM_URL);
+            if (empty($backurl)) {
+                $backurl = (new \moodle_url('/local/inveniordm/dashboard.php'))->out(false);
+            }
+        }
+
         global $OUTPUT;
         $client = new invenio_client();
 
@@ -181,7 +188,8 @@ class resource_controller {
             'selected_pdf' => $format === 'pdf',
             'selected_doc' => $format === 'doc',
             'selected_bachelor' => $level === "bachelor's degree",
-            'selected_master' => $level === "master's degree"
+            'selected_master' => $level === "master's degree",
+            'backurl' => $backurl
         ];
 
         return $OUTPUT->render_from_template(

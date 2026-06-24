@@ -8,7 +8,7 @@ $context = context_system::instance();
 
 $PAGE->set_url(
     new moodle_url(
-        '/local/inveniordm/student/search.php'
+        '/local/inveniordm/resource/search.php'
     )
 );
 
@@ -27,16 +27,13 @@ $PAGE->requires->css(
     )
 );
 
+$backurl = optional_param('returnurl', '', PARAM_URL);
+if (empty($backurl)) {
+    $backurl = (new \moodle_url('/local/inveniordm/index.php'))->out(false);
+}
+
 echo $OUTPUT->header();
-echo '
-    <div class="mb-3">
-        <a href="' . new moodle_url('/local/inveniordm/index.php') . '" class="btn btn-outline-secondary">
-           <i class="fa fa-arrow-left"></i>
-           Back to Dashboard
-        </a>
-    </div>
-';
 
 $controller = new \local_inveniordm\controller\resource_controller();
-echo $controller->search();
+echo $controller->search($backurl);
 echo $OUTPUT->footer();

@@ -11,6 +11,7 @@ $PAGE->set_url(
         ['courseid' => $courseid]
     )
 );
+
 $PAGE->set_context($context);
 $PAGE->set_title('Course Resources');
 $PAGE->set_heading('Course Resources');

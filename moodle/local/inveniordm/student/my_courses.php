@@ -18,7 +18,6 @@ echo $OUTPUT->header();
 
 echo '<div class="container">';
 
-// Hero
 echo '
 <div class="courses-hero">
     <div class="courses-hero-content">
@@ -43,33 +42,32 @@ foreach ($courses as $course) {
     $totalresources += $DB->count_records('local_inveniordm_course_resources', ['courseid' => $course->id]);
 }
 
-// Stats – đã thêm margin-top: 24px và giữ margin-bottom
 echo '
-<div class="stats-grid" style="margin-top: 24px; margin-bottom: 32px;">
-    <div class="stat-card">
-        <div class="stat-icon"><i class="fa fa-book"></i></div>
-        <div>
-            <div class="stat-number">' . $totalcourses . '</div>
-            <div class="stat-label">Courses</div>
+    <div class="stats-grid" style="margin-top: 24px; margin-bottom: 32px;">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-book"></i></div>
+            <div>
+                <div class="stat-number">' . $totalcourses . '</div>
+                <div class="stat-label">Courses</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
+            <div>
+                <div class="stat-number">' . $totalresources . '</div>
+                <div class="stat-label">Resources</div>
+            </div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
-        <div>
-            <div class="stat-number">' . $totalresources . '</div>
-            <div class="stat-label">Resources</div>
-        </div>
-    </div>
-</div>
 ';
 
 if (empty($courses)) {
     echo '
-    <div class="alert-info-custom">
-        <i class="fa fa-info-circle fa-3x"></i>
-        <p>No courses found</p>
-        <div class="text-muted">You are not enrolled in any courses.</div>
-    </div>
+        <div class="alert-info-custom">
+            <i class="fa fa-info-circle fa-3x"></i>
+            <p>No courses found</p>
+            <div class="text-muted">You are not enrolled in any courses.</div>
+        </div>
     ';
 } else {
     echo '<div class="course-grid">';
@@ -80,26 +78,26 @@ if (empty($courses)) {
         $assignurl = new moodle_url('/local/inveniordm/student/assignments.php', ['courseid' => $course->id]);
 
         echo '
-        <div class="course-card">
-            <div class="course-card-header">
-                <span class="course-title">' . format_string($course->fullname) . '</span>
-                <span class="badge-teaching">Enrolled</span>
-            </div>
-            <div class="course-card-body">
-                <div class="course-info-row">
-                    <span class="course-info-label">Course ID</span>
-                    <span class="course-info-value">' . $course->id . '</span>
+            <div class="course-card">
+                <div class="course-card-header">
+                    <span class="course-title">' . format_string($course->fullname) . '</span>
+                    <span class="badge-teaching">Enrolled</span>
                 </div>
-                <div class="course-info-row">
-                    <span class="course-info-label">Resources</span>
-                    <span class="course-info-value">' . $resourcecount . '</span>
+                <div class="course-card-body">
+                    <div class="course-info-row">
+                        <span class="course-info-label">Course ID</span>
+                        <span class="course-info-value">' . $course->id . '</span>
+                    </div>
+                    <div class="course-info-row">
+                        <span class="course-info-label">Resources</span>
+                        <span class="course-info-value">' . $resourcecount . '</span>
+                    </div>
+                </div>
+                <div class="course-card-actions">
+                    <a class="btn btn-primary" href="' . $url . '"><i class="fa fa-folder-open"></i> Open Resources</a>
+                    <a class="btn btn-outline-primary" href="' . $assignurl . '"><i class="fa fa-tasks"></i> Open Assignments</a>
                 </div>
             </div>
-            <div class="course-card-actions">
-                <a class="btn btn-primary" href="' . $url . '"><i class="fa fa-folder-open"></i> Open Resources</a>
-                <a class="btn btn-outline-primary" href="' . $assignurl . '"><i class="fa fa-tasks"></i> Open Assignments</a>
-            </div>
-        </div>
         ';
     }
     echo '</div>';

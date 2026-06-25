@@ -25,35 +25,31 @@ $PAGE->set_context($context);
 $PAGE->set_title('Assignments');
 $PAGE->set_heading('Assignments');
 
-// Load the main CSS that contains all the styles (same as courses page)
 $PAGE->requires->css(
     new moodle_url('/local/inveniordm/styles/courses.css')
 );
 
 echo $OUTPUT->header();
 
-// Start container
 echo '<div class="container">';
 
-// Hero Section
 $backurl = new moodle_url('/local/inveniordm/student/all_courses.php');
 echo '
-<div class="courses-hero">
-    <div class="courses-hero-content">
-        <h1>
-            <i class="fa fa-tasks"></i> Assignments
-        </h1>
-        <p>View and submit course assignments.</p>
+    <div class="courses-hero">
+        <div class="courses-hero-content">
+            <h1>
+                <i class="fa fa-tasks"></i> Assignments
+            </h1>
+            <p>View and submit course assignments.</p>
+        </div>
+        <div class="courses-hero-actions">
+            <a href="' . $backurl . '" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back to All Courses
+            </a>
+        </div>
     </div>
-    <div class="courses-hero-actions">
-        <a href="' . $backurl . '" class="btn btn-outline-secondary">
-            <i class="fa fa-arrow-left"></i> Back to All Courses
-        </a>
-    </div>
-</div>
 ';
 
-// Fetch assignments
 $assignments = $DB->get_records(
     'local_inveniordm_assignments',
     ['courseid' => $courseid],
@@ -62,18 +58,17 @@ $assignments = $DB->get_records(
 
 if (!$assignments) {
     echo '
-    <div class="alert-info-custom">
-        <i class="fa fa-info-circle fa-3x"></i>
-        <p>No assignments found</p>
-        <div class="text-muted">This course currently has no assignments.</div>
-    </div>
+        <div class="alert-info-custom">
+            <i class="fa fa-info-circle fa-3x"></i>
+            <p>No assignments found</p>
+            <div class="text-muted">This course currently has no assignments.</div>
+        </div>
     ';
-    echo '</div>'; // close container
+    echo '</div>';
     echo $OUTPUT->footer();
     exit;
 }
 
-// Assignment grid (uses same card layout as courses/resources)
 echo '<div class="course-grid">';
 
 foreach ($assignments as $a) {
@@ -92,44 +87,43 @@ foreach ($assignments as $a) {
 
     $submitted = !empty($submission);
     $statuslabel = $submitted ? 'Submitted' : 'Not Submitted';
-    // Use the badge-teaching class (defined in CSS) for the status tag
     $badgeclass = $submitted ? 'badge-teaching' : 'badge-teaching'; // both use same style, but you could add a modifier if needed
 
     echo '
-    <div class="course-card">
-        <div class="course-card-header">
-            <span class="course-title">' . s($a->name) . '</span>
-            <span class="badge-teaching">' . $statuslabel . '</span>
-        </div>
-        <div class="course-card-body">
-            <div class="course-info-row">
-                <span class="course-info-label">Due Date</span>
-                <span class="course-info-value">' . userdate($a->duedate, get_string('strftimedate', 'langconfig')) . '</span>
+        <div class="course-card">
+            <div class="course-card-header">
+                <span class="course-title">' . s($a->name) . '</span>
+                <span class="badge-teaching">' . $statuslabel . '</span>
             </div>
-            ' . (isset($a->description) && trim($a->description) ? '
-            <div class="course-info-row">
-                <span class="course-info-label">Description</span>
-                <span class="course-info-value">' . s($a->description) . '</span>
+            <div class="course-card-body">
+                <div class="course-info-row">
+                    <span class="course-info-label">Due Date</span>
+                    <span class="course-info-value">' . userdate($a->duedate, get_string('strftimedate', 'langconfig')) . '</span>
+                </div>
+                ' . (isset($a->description) && trim($a->description) ? '
+                <div class="course-info-row">
+                    <span class="course-info-label">Description</span>
+                    <span class="course-info-value">' . s($a->description) . '</span>
+                </div>
+                ' : '') . '
+                ' . ($submitted ? '
+                <div class="course-info-row">
+                    <span class="course-info-label">Submitted File</span>
+                    <span class="course-info-value">' . s($submission->filename) . '</span>
+                </div>
+                ' : '') . '
             </div>
-            ' : '') . '
-            ' . ($submitted ? '
-            <div class="course-info-row">
-                <span class="course-info-label">Submitted File</span>
-                <span class="course-info-value">' . s($submission->filename) . '</span>
+            <div class="course-card-actions">
+                <a class="btn ' . ($submitted ? 'btn-outline-primary' : 'btn-primary') . '" href="' . $submiturl . '">
+                    <i class="fa ' . ($submitted ? 'fa-eye' : 'fa-upload') . '"></i>
+                    ' . ($submitted ? 'View Submission' : 'Submit Assignment') . '
+                </a>
             </div>
-            ' : '') . '
         </div>
-        <div class="course-card-actions">
-            <a class="btn ' . ($submitted ? 'btn-outline-primary' : 'btn-primary') . '" href="' . $submiturl . '">
-                <i class="fa ' . ($submitted ? 'fa-eye' : 'fa-upload') . '"></i>
-                ' . ($submitted ? 'View Submission' : 'Submit Assignment') . '
-            </a>
-        </div>
-    </div>
     ';
 }
 
-echo '</div>'; // end course-grid
-echo '</div>'; // end container
+echo '</div>';
+echo '</div>';
 
 echo $OUTPUT->footer();

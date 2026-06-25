@@ -24,21 +24,21 @@ $backurl = new moodle_url('/local/inveniordm/index.php');
 echo $OUTPUT->header();
 
 echo '
-<div class="courses-hero mb-4">
-    <div class="courses-hero-content">
-        <h1>
-            <i class="fa fa-database"></i> 
-            My Repository Resources
-        </h1>
-        <p>Browse and manage resources available in InvenioRDM repository.</p>
+    <div class="courses-hero mb-4">
+        <div class="courses-hero-content">
+            <h1>
+                <i class="fa fa-database"></i> 
+                My Repository Resources
+            </h1>
+            <p>Browse and manage resources available in InvenioRDM repository.</p>
+        </div>
+        <div class="courses-hero-actions">
+            <a href="'.$backurl.'" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> 
+                Back
+            </a>
+        </div>
     </div>
-    <div class="courses-hero-actions">
-        <a href="'.$backurl.'" class="btn btn-outline-secondary">
-            <i class="fa fa-arrow-left"></i> 
-            Back
-        </a>
-    </div>
-</div>
 ';
 
 $records = $result['hits']['hits'] ?? [];

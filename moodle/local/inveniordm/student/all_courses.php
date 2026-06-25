@@ -44,62 +44,58 @@ foreach ($courses as $course) {
     );
 }
 
-// Start container
 echo '<div class="container">';
 
-// Hero Section
 echo '
-<div class="courses-hero">
-    <div class="courses-hero-content">
-        <h1>
-            <i class="fa fa-graduation-cap"></i> All Courses
-        </h1>
-        <p>Browse all available courses and their associated learning resources.</p>
-    </div>
-    <div class="courses-hero-actions">
-        <a href="' . new moodle_url('/local/inveniordm/index.php') . '" class="btn btn-outline-secondary">
-            <i class="fa fa-arrow-left"></i> Back
-        </a>
-    </div>
-</div>
-';
-
-// Search Card - thêm margin-top: 24px để tạo khoảng cách với hero
-$backurl = new moodle_url('/local/inveniordm/index.php');
-echo '
-<div class="search-card mb-4" style="margin-top: 24px;">
-    <form method="get" class="search-form" action="' . $PAGE->url . '">
-        <div class="search-input-group">
-            <input type="text" name="search" class="form-control" placeholder="Search by course name, short name, or ID..." value="' . s($search) . '">
-            <button class="btn btn-primary" type="submit">
-                <i class="fa fa-search"></i> Search
-            </button>
-            <a href="' . $PAGE->url . '" class="btn btn-outline-secondary">
-                <i class="fa fa-refresh"></i> Reset
+    <div class="courses-hero">
+        <div class="courses-hero-content">
+            <h1>
+                <i class="fa fa-graduation-cap"></i> All Courses
+            </h1>
+            <p>Browse all available courses and their associated learning resources.</p>
+        </div>
+        <div class="courses-hero-actions">
+            <a href="' . new moodle_url('/local/inveniordm/index.php') . '" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back
             </a>
         </div>
-    </form>
-</div>
+    </div>
 ';
 
-// Stats
+$backurl = new moodle_url('/local/inveniordm/index.php');
 echo '
-<div class="stats-grid mb-4">
-    <div class="stat-card">
-        <div class="stat-icon"><i class="fa fa-book"></i></div>
-        <div>
-            <div class="stat-number">' . $totalcourses . '</div>
-            <div class="stat-label">Courses</div>
+    <div class="search-card mb-4" style="margin-top: 24px;">
+        <form method="get" class="search-form" action="' . $PAGE->url . '">
+            <div class="search-input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search by course name, short name, or ID..." value="' . s($search) . '">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i> Search
+                </button>
+                <a href="' . $PAGE->url . '" class="btn btn-outline-secondary">
+                    <i class="fa fa-refresh"></i> Reset
+                </a>
+            </div>
+        </form>
+    </div>
+';
+
+echo '
+    <div class="stats-grid mb-4">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-book"></i></div>
+            <div>
+                <div class="stat-number">' . $totalcourses . '</div>
+                <div class="stat-label">Courses</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
+            <div>
+                <div class="stat-number">' . $totalresources . '</div>
+                <div class="stat-label">Resources</div>
+            </div>
         </div>
     </div>
-    <div class="stat-card">
-        <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
-        <div>
-            <div class="stat-number">' . $totalresources . '</div>
-            <div class="stat-label">Resources</div>
-        </div>
-    </div>
-</div>
 ';
 
 if (empty($courses)) {
@@ -109,7 +105,6 @@ if (empty($courses)) {
     exit;
 }
 
-// Course Grid
 echo '<div class="course-grid">';
 
 foreach ($courses as $course) {
@@ -139,26 +134,26 @@ foreach ($courses as $course) {
     );
 
     echo '
-    <div class="course-card">
-        <div class="course-card-header">
-            <span class="course-title">' . format_string($course->fullname) . '</span>
-            <span class="badge-teaching">' . ($isenrolled ? 'Enrolled' : 'Open') . '</span>
-        </div>
-        <div class="course-card-body">
-            <div class="course-info-row">
-                <span class="course-info-label">Course ID</span>
-                <span class="course-info-value">' . $course->id . '</span>
+        <div class="course-card">
+            <div class="course-card-header">
+                <span class="course-title">' . format_string($course->fullname) . '</span>
+                <span class="badge-teaching">' . ($isenrolled ? 'Enrolled' : 'Open') . '</span>
             </div>
-            <div class="course-info-row">
-                <span class="course-info-label">Short Name</span>
-                <span class="course-info-value">' . s($course->shortname) . '</span>
+            <div class="course-card-body">
+                <div class="course-info-row">
+                    <span class="course-info-label">Course ID</span>
+                    <span class="course-info-value">' . $course->id . '</span>
+                </div>
+                <div class="course-info-row">
+                    <span class="course-info-label">Short Name</span>
+                    <span class="course-info-value">' . s($course->shortname) . '</span>
+                </div>
+                <div class="course-info-row">
+                    <span class="course-info-label">Resources</span>
+                    <span class="course-info-value">' . $resourcecount . '</span>
+                </div>
             </div>
-            <div class="course-info-row">
-                <span class="course-info-label">Resources</span>
-                <span class="course-info-value">' . $resourcecount . '</span>
-            </div>
-        </div>
-        <div class="course-card-actions">
+            <div class="course-card-actions">
     ';
 
     if (!$isenrolled) {
@@ -176,7 +171,7 @@ foreach ($courses as $course) {
     ';
 }
 
-echo '</div>'; // end course-grid
-echo '</div>'; // end container
+echo '</div>';
+echo '</div>';
 
 echo $OUTPUT->footer();

@@ -20,28 +20,25 @@ $PAGE->requires->css(
 
 echo $OUTPUT->header();
 
-// Start container
 echo '<div class="container">';
 
-// Hero Section
 $backurl = new moodle_url('/local/inveniordm/student/all_courses.php');
 echo '
-<div class="courses-hero">
-    <div class="courses-hero-content">
-        <h1>
-            <i class="fa fa-folder-open"></i> Course Resources
-        </h1>
-        <p>Browse learning resources attached to this course.</p>
+    <div class="courses-hero">
+        <div class="courses-hero-content">
+            <h1>
+                <i class="fa fa-folder-open"></i> Course Resources
+            </h1>
+            <p>Browse learning resources attached to this course.</p>
+        </div>
+        <div class="courses-hero-actions">
+            <a href="' . $backurl . '" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back to All Courses
+            </a>
+        </div>
     </div>
-    <div class="courses-hero-actions">
-        <a href="' . $backurl . '" class="btn btn-outline-secondary">
-            <i class="fa fa-arrow-left"></i> Back to All Courses
-        </a>
-    </div>
-</div>
 ';
 
-// Fetch resources
 $resources = $DB->get_records(
     'local_inveniordm_course_resources',
     ['courseid' => $courseid],
@@ -59,9 +56,8 @@ if (!$resources) {
     exit;
 }
 
-// Resource Grid
-$client = new \local_inveniordm\api\invenio_client(); // (if needed later)
-echo '<div class="course-grid">'; // using course-grid because it has same card layout
+$client = new \local_inveniordm\api\invenio_client();
+echo '<div class="course-grid">';
 
 foreach ($resources as $res) {
     $viewurl = new moodle_url(
@@ -73,30 +69,30 @@ foreach ($resources as $res) {
     );
 
     echo '
-    <div class="resource-card">
-        <div class="resource-card-header">
-            <span class="resource-title">' . s($res->title) . '</span>
-        </div>
-        <div class="resource-card-body">
-            <div class="resource-info-row">
-                <span class="resource-info-label">Record ID</span>
-                <span class="resource-info-value">' . s($res->recordid) . '</span>
+        <div class="resource-card">
+            <div class="resource-card-header">
+                <span class="resource-title">' . s($res->title) . '</span>
             </div>
-            <div class="resource-info-row">
-                <span class="resource-info-label">Added</span>
-                <span class="resource-info-value">' . userdate($res->timecreated) . '</span>
+            <div class="resource-card-body">
+                <div class="resource-info-row">
+                    <span class="resource-info-label">Record ID</span>
+                    <span class="resource-info-value">' . s($res->recordid) . '</span>
+                </div>
+                <div class="resource-info-row">
+                    <span class="resource-info-label">Added</span>
+                    <span class="resource-info-value">' . userdate($res->timecreated) . '</span>
+                </div>
+            </div>
+            <div class="resource-card-actions">
+                <a class="btn btn-primary" href="' . $viewurl . '">
+                    <i class="fa fa-eye"></i> View Metadata
+                </a>
             </div>
         </div>
-        <div class="resource-card-actions">
-            <a class="btn btn-primary" href="' . $viewurl . '">
-                <i class="fa fa-eye"></i> View Metadata
-            </a>
-        </div>
-    </div>
     ';
 }
 
-echo '</div>'; // end grid
-echo '</div>'; // end container
+echo '</div>';
+echo '</div>';
 
 echo $OUTPUT->footer();

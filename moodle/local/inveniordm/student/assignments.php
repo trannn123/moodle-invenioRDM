@@ -1,7 +1,8 @@
 <?php
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 global $DB, $PAGE, $OUTPUT, $USER;
+
 $courseid = required_param('courseid', PARAM_INT);
 $course = $DB->get_record('course', ['id' => $courseid]);
 if (!$course) {
@@ -17,106 +18,118 @@ if (!is_enrolled($context, $USER)) {
 $PAGE->set_url(
     new moodle_url(
         '/local/inveniordm/student/assignments.php',
-        [
-            'courseid' => $courseid
-        ]
+        ['courseid' => $courseid]
     )
 );
 $PAGE->set_context($context);
 $PAGE->set_title('Assignments');
 $PAGE->set_heading('Assignments');
+
+// Load the main CSS that contains all the styles (same as courses page)
 $PAGE->requires->css(
-    new moodle_url(
-        '/local/inveniordm/styles/course_assignments.css'
-    )
+    new moodle_url('/local/inveniordm/styles/courses.css')
 );
 
 echo $OUTPUT->header();
 
+// Start container
+echo '<div class="container">';
+
+// Hero Section
+$backurl = new moodle_url('/local/inveniordm/student/all_courses.php');
+echo '
+<div class="courses-hero">
+    <div class="courses-hero-content">
+        <h1>
+            <i class="fa fa-tasks"></i> Assignments
+        </h1>
+        <p>View and submit course assignments.</p>
+    </div>
+    <div class="courses-hero-actions">
+        <a href="' . $backurl . '" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left"></i> Back to All Courses
+        </a>
+    </div>
+</div>
+';
+
+// Fetch assignments
 $assignments = $DB->get_records(
     'local_inveniordm_assignments',
-    [
-        'courseid' => $courseid
-    ],
+    ['courseid' => $courseid],
     'duedate ASC'
 );
 
-echo '
-    <div class="hero-section">
-        <h1>Assignments</h1>
-        <p>View and submit course assignments.</p>
-    </div>
-';
-
-$backurl = new moodle_url('/local/inveniordm/student/all_courses.php');
-
-echo '
-    <div class="mb-4">
-        <a href="'.$backurl.'" class="btn btn-outline-secondary">
-           <i class="fa fa-arrow-left"></i>
-           Back to All Courses
-        </a>
-    </div>
-';
-
 if (!$assignments) {
-    echo $OUTPUT->notification('No assignments found', 'info');
-
-} else {
-    echo '<div class="assignment-grid">';
-
-    foreach ($assignments as $a) {
-        $submiturl = new moodle_url(
-            '/local/inveniordm/student/submit_assignment.php',
-            [
-                'assignmentid' => $a->id
-            ]
-        );
-
-        $submission = $DB->get_record(
-            'local_inveniordm_submissions',
-            [
-                'assignmentid' => $a->id,
-                'studentid' => $USER->id
-            ]
-        );
-
-        $submitted = !empty($submission);
-
-        $statusbadge = $submitted
-            ? '<span class="badge bg-success">Submitted</span>'
-            : '<span class="badge bg-warning text-dark">Not Submitted</span>';
-
-        echo '
-            <div class="assignment-card">
-                <div class="assignment-title">'.s($a->name).'</div>
-                <div class="mb-2">'.$statusbadge.'</div>
-                <div class="assignment-due">Due:'.date('d/m/Y', $a->duedate).'</div>
-        ';
-
-        if ($submitted) {
-            $submissioninfo = '
-                <div class="mt-2 text-success">
-                    <strong>Submitted file:</strong>
-                    <span class="submission-file">
-                        '.s($submission->filename).'
-                    </span>
-                </div>
-            ';
-                } else {
-                    $submissioninfo = '';
-                }
-                echo $submissioninfo;
-                echo '
-                <div class="mt-3 submit-btn">
-                    <a class="btn btn-outline-primary w-100"
-                       href="'.$submiturl.'">
-                        Submit Assignment
-                    </a>
-                </div>
-            </div>
-        ';
-    }
-    echo '</div>';
+    echo '
+    <div class="alert-info-custom">
+        <i class="fa fa-info-circle fa-3x"></i>
+        <p>No assignments found</p>
+        <div class="text-muted">This course currently has no assignments.</div>
+    </div>
+    ';
+    echo '</div>'; // close container
+    echo $OUTPUT->footer();
+    exit;
 }
+
+// Assignment grid (uses same card layout as courses/resources)
+echo '<div class="course-grid">';
+
+foreach ($assignments as $a) {
+    $submiturl = new moodle_url(
+        '/local/inveniordm/student/submit_assignment.php',
+        ['assignmentid' => $a->id]
+    );
+
+    $submission = $DB->get_record(
+        'local_inveniordm_submissions',
+        [
+            'assignmentid' => $a->id,
+            'studentid' => $USER->id
+        ]
+    );
+
+    $submitted = !empty($submission);
+    $statuslabel = $submitted ? 'Submitted' : 'Not Submitted';
+    // Use the badge-teaching class (defined in CSS) for the status tag
+    $badgeclass = $submitted ? 'badge-teaching' : 'badge-teaching'; // both use same style, but you could add a modifier if needed
+
+    echo '
+    <div class="course-card">
+        <div class="course-card-header">
+            <span class="course-title">' . s($a->name) . '</span>
+            <span class="badge-teaching">' . $statuslabel . '</span>
+        </div>
+        <div class="course-card-body">
+            <div class="course-info-row">
+                <span class="course-info-label">Due Date</span>
+                <span class="course-info-value">' . userdate($a->duedate, get_string('strftimedate', 'langconfig')) . '</span>
+            </div>
+            ' . (isset($a->description) && trim($a->description) ? '
+            <div class="course-info-row">
+                <span class="course-info-label">Description</span>
+                <span class="course-info-value">' . s($a->description) . '</span>
+            </div>
+            ' : '') . '
+            ' . ($submitted ? '
+            <div class="course-info-row">
+                <span class="course-info-label">Submitted File</span>
+                <span class="course-info-value">' . s($submission->filename) . '</span>
+            </div>
+            ' : '') . '
+        </div>
+        <div class="course-card-actions">
+            <a class="btn ' . ($submitted ? 'btn-outline-primary' : 'btn-primary') . '" href="' . $submiturl . '">
+                <i class="fa ' . ($submitted ? 'fa-eye' : 'fa-upload') . '"></i>
+                ' . ($submitted ? 'View Submission' : 'Submit Assignment') . '
+            </a>
+        </div>
+    </div>
+    ';
+}
+
+echo '</div>'; // end course-grid
+echo '</div>'; // end container
+
 echo $OUTPUT->footer();

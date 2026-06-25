@@ -44,63 +44,72 @@ foreach ($courses as $course) {
     );
 }
 
+// Start container
+echo '<div class="container">';
+
+// Hero Section
 echo '
-    <div class="hero-section">
-        <h1>All Courses</h1>
+<div class="courses-hero">
+    <div class="courses-hero-content">
+        <h1>
+            <i class="fa fa-graduation-cap"></i> All Courses
+        </h1>
         <p>Browse all available courses and their associated learning resources.</p>
     </div>
+    <div class="courses-hero-actions">
+        <a href="' . new moodle_url('/local/inveniordm/index.php') . '" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left"></i> Back
+        </a>
+    </div>
+</div>
 ';
 
+// Search Card - thêm margin-top: 24px để tạo khoảng cách với hero
 $backurl = new moodle_url('/local/inveniordm/index.php');
-
 echo '
-    <form method="get" class="search-card mb-4">
-        <div class="mb-3">
-            <input type="text" name="search" class="form-control form-control-lg" placeholder="Search by course name, short name, or ID..." value="'.s($search).'">
-        </div>
-        <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-primary">
-                <i class="fa fa-search"></i>
-                Search
+<div class="search-card mb-4" style="margin-top: 24px;">
+    <form method="get" class="search-form" action="' . $PAGE->url . '">
+        <div class="search-input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search by course name, short name, or ID..." value="' . s($search) . '">
+            <button class="btn btn-primary" type="submit">
+                <i class="fa fa-search"></i> Search
             </button>
-            
-            <a href="'.$PAGE->url.'" class="btn btn-outline-secondary">
-               <i class="fa fa-refresh"></i>
-               Reset
-            </a>
-            
-            <a href="'.$backurl.'" class="btn btn-outline-dark">
-               <i class="fa fa-arrow-left"></i>
-               Back
+            <a href="' . $PAGE->url . '" class="btn btn-outline-secondary">
+                <i class="fa fa-refresh"></i> Reset
             </a>
         </div>
     </form>
+</div>
 ';
 
+// Stats
 echo '
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="stats-card">
-                <h2>'.$totalcourses.'</h2>
-                <p>Courses</p>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="stats-card">
-                <h2>'.$totalresources.'</h2>
-                <p>Resources</p>
-            </div>
+<div class="stats-grid mb-4">
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa fa-book"></i></div>
+        <div>
+            <div class="stat-number">' . $totalcourses . '</div>
+            <div class="stat-label">Courses</div>
         </div>
     </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
+        <div>
+            <div class="stat-number">' . $totalresources . '</div>
+            <div class="stat-label">Resources</div>
+        </div>
+    </div>
+</div>
 ';
 
 if (empty($courses)) {
-    echo $OUTPUT->notification('No courses found', 'info');
+    echo '<div class="alert alert-info">No courses found</div>';
+    echo '</div>'; // close container
     echo $OUTPUT->footer();
     exit;
 }
 
+// Course Grid
 echo '<div class="course-grid">';
 
 foreach ($courses as $course) {
@@ -130,40 +139,44 @@ foreach ($courses as $course) {
     );
 
     echo '
-        <div class="course-card">  
-            <div class="course-title">
-                '.format_string($course->fullname).'
-            </div>  
-            
+    <div class="course-card">
+        <div class="course-card-header">
+            <span class="course-title">' . format_string($course->fullname) . '</span>
+            <span class="badge-teaching">' . ($isenrolled ? 'Enrolled' : 'Open') . '</span>
+        </div>
+        <div class="course-card-body">
             <div class="course-info-row">
-                <strong>Course ID</strong>
-                <span>'.$course->id.'</span>
-            </div>   
-            
-            <div class="course-info-row">
-                <strong>Short Name</strong>
-                <span>'.s($course->shortname).'</span>
-            </div>   
-            
-            <div class="course-info-row">
-                <strong>Resources</strong>
-                <span>'.$resourcecount.'</span>
+                <span class="course-info-label">Course ID</span>
+                <span class="course-info-value">' . $course->id . '</span>
             </div>
+            <div class="course-info-row">
+                <span class="course-info-label">Short Name</span>
+                <span class="course-info-value">' . s($course->shortname) . '</span>
+            </div>
+            <div class="course-info-row">
+                <span class="course-info-label">Resources</span>
+                <span class="course-info-value">' . $resourcecount . '</span>
+            </div>
+        </div>
+        <div class="course-card-actions">
     ';
 
-        if (!$isenrolled) {
-            echo '<a class="btn btn-info text-white" href="'.$enrolurl.'">Join Course</a>';
-        } else {
-            echo '
-                <div class="mb-2">
-                    <span class="badge bg-primary-light p-2">Enrolled</span>
-                </div>
-                <a class="btn btn-primary" href="'.$resourceurl.'">Open Resources</a>
-                <a class="btn btn-outline-primary" href="'.$assignurl.'">Open Assignments</a>
-            ';
-        }
-    echo '</div>';
+    if (!$isenrolled) {
+        echo '<a class="btn btn-primary" href="' . $enrolurl . '"><i class="fa fa-user-plus"></i> Join Course</a>';
+    } else {
+        echo '
+            <a class="btn btn-primary" href="' . $resourceurl . '"><i class="fa fa-folder-open"></i> Open Resources</a>
+            <a class="btn btn-outline-primary" href="' . $assignurl . '"><i class="fa fa-tasks"></i> Open Assignments</a>
+        ';
+    }
+
+    echo '
+        </div>
+    </div>
+    ';
 }
 
-echo '</div>';
+echo '</div>'; // end course-grid
+echo '</div>'; // end container
+
 echo $OUTPUT->footer();

@@ -1,23 +1,27 @@
 <div class="container mt-4">
-    <div class="detail-actions mb-4">
-        <a href="{{backurl}}" class="btn btn-outline-secondary">
-            <i class="fa fa-arrow-left"></i>
-            Back
-        </a>
-        <a href="{{location}}" class="btn btn-primary">
-            <i class="fa fa-download"></i>
-            Download Resource
-        </a>
-    </div>
-
-    <div class="detail-hero card invenio-detail-card mb-4">
-        <div class="card-body">
-            <h1 class="detail-title">{{title}}</h1>
-            <p class="detail-author">
-                <i class="fa fa-user-circle"></i>Created by <strong>{{author}}</strong>
-            </p>
+    <div class="detail-actions card invenio-detail-card mb-3">
+        <div class="card-body detail-hero">
+            <div class="hero-wrapper">
+                <div class="hero-content">
+                    <h1 class="detail-title">{{title}}</h1>
+                    <p class="detail-author">
+                        <i class="fa fa-user-circle"></i>Created by <strong>{{author}}</strong>
+                    </p>
+                </div>
+                <div class="hero-actions">
+                    <a href="{{backurl}}" class="btn btn-outline-secondary">
+                        <i class="fa fa-arrow-left"></i>
+                        Back
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
+
+    <a href="{{location}}" class="btn btn-primary">
+        <i class="fa fa-download"></i>
+        Download Resource
+    </a>
 
     <div class="row g-4">
         <div class="col-lg-6">

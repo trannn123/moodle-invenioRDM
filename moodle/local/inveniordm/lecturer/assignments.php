@@ -11,14 +11,11 @@ require_capability('local/inveniordm:upload', $context);
 $PAGE->set_url(
     new moodle_url(
         '/local/inveniordm/lecturer/assignments.php',
-        [
-            'courseid' => $courseid
-        ]
+        ['courseid' => $courseid]
     )
 );
 $PAGE->set_context($context);
 $PAGE->set_title('Assignments');
-$PAGE->set_heading('Assignments');
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/assignments.css'
@@ -26,53 +23,59 @@ $PAGE->requires->css(
 );
 
 echo $OUTPUT->header();
-echo '
-    <div class="hero-section">
-        <h1>'.format_string($course->fullname).'</h1>
-        <p>Manage assignments and review student submissions.</p>
-    </div>
-';
+
 $backurl = new moodle_url('/local/inveniordm/lecturer/my_courses.php');
 $reseturl = new moodle_url(
     '/local/inveniordm/lecturer/assignments.php',
-    [
-        'courseid' => $courseid
-    ]
+    ['courseid' => $courseid]
 );
 $createurl = new moodle_url(
     '/local/inveniordm/lecturer/create_assignment.php',
-    [
-        'courseid' => $courseid
-    ]
+    ['courseid' => $courseid]
 );
 $search = optional_param('search', '', PARAM_TEXT);
 
 echo '
-    <form method="get" class="search-card mb-4">
-        <div class="mb-3">
-            <a href="'.$backurl.'" class="btn btn-outline-dark">
-                <i class="fa fa-arrow-left"></i>
+    <div class="courses-hero mb-4">
+        <div class="courses-hero-content">
+            <h1><i class="fa fa-tasks"></i> '.format_string($course->fullname).'</h1>
+            <p>Manage assignments and review student submissions.</p>
+        </div>
+        <div class="courses-hero-actions">
+            <a href="'.$backurl.'" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> 
                 Back
             </a>
         </div>
-        <input type="hidden" name="courseid" value="'.$courseid.'">
-        <div class="mb-3">
-            <input type="text" name="search" class="form-control form-control-lg" placeholder="Search assignments..." value="'.s($search).'">
-        </div>
-    
-        <div class="d-flex flex-wrap align-items-center gap-2">
-            <button type="submit" class="btn btn-primary">Search</button>
-            <a href="'.$reseturl.'" class="btn btn-outline-secondary">Reset</a>     
-            <a href="'.$createurl.'" class="btn btn-outline-primary ms-auto">Create Assignment</a> 
-        </div>
-    </form>
+    </div>
+';
+
+echo '
+    <div class="search-card mb-4">
+        <form method="get" class="search-form">
+            <input type="hidden" name="courseid" value="'.$courseid.'">
+            <div class="search-input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search assignments by name or ID..." value="'.s($search).'">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i> 
+                    Search
+                </button>
+                <a href="'.$reseturl.'" class="btn btn-outline-secondary">
+                    <i class="fa fa-refresh"></i> 
+                    Reset
+                </a>
+                <a href="'.$createurl.'" class="btn btn-success">
+                    <i class="fa fa-plus"></i> 
+                    Create Assignment
+                </a>
+            </div>
+        </form>
+    </div>
 ';
 
 $assignments = $DB->get_records(
     'local_inveniordm_assignments',
-    [
-        'courseid' => $courseid
-    ],
+    ['courseid' => $courseid],
     'duedate ASC'
 );
 
@@ -91,48 +94,52 @@ if (!empty($search)) {
 $totalassignments = count($assignments);
 
 echo '
-<div class="row mb-4">
-    <div class="col-md-6">
-        <div class="stats-card">
-            <h2>'.$totalassignments.'</h2>
-            <p>Assignments</p>
+    <div class="stats-grid mb-4">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-tasks"></i></div>
+            <div class="stat-content">
+                <div class="stat-number">'.$totalassignments.'</div>
+                <div class="stat-label">Assignments</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-hashtag"></i></div>
+            <div class="stat-content">
+                <div class="stat-number">'.$course->id.'</div>
+                <div class="stat-label">Course ID</div>
+            </div>
         </div>
     </div>
-
-    <div class="col-md-6">
-        <div class="stats-card">
-            <h2>'.$course->id.'</h2>
-            <p>Course ID</p>
-        </div>
-    </div>
-</div>
 ';
 
 if (empty($assignments)) {
-    echo $OUTPUT->notification('No assignments found.', 'info');
+    echo '
+        <div class="no-resources">
+            <i class="fa fa-inbox fa-2x"></i>
+            <p>No assignments found</p>
+            <span class="text-muted">Create a new assignment to get started.</span>
+        </div>
+    ';
     echo $OUTPUT->footer();
     exit;
 }
 
-echo '<div class="row">';
+echo '<div class="assignment-grid">';
 
 foreach ($assignments as $a) {
     $resources = $DB->get_records(
         'local_inveniordm_assignment_resources',
-        [
-            'assignmentid' => $a->id
-        ]
+        ['assignmentid' => $a->id]
     );
 
     $submissionsurl = new moodle_url(
         '/local/inveniordm/lecturer/view_submissions.php',
-        [
-            'assignmentid' => $a->id
-        ]
+        ['assignmentid' => $a->id]
     );
 
     $isoverdue = ($a->duedate > 0 && $a->duedate < time());
     $status = $isoverdue ? 'Overdue' : 'Active';
+    $statusClass = $isoverdue ? 'status-overdue' : 'status-active';
 
     if (!$isoverdue && $a->duedate > 0) {
         $daysleft = ceil(($a->duedate - time()) / 86400);
@@ -142,66 +149,54 @@ foreach ($assignments as $a) {
     }
 
     echo '
-        <div class="col-12 col-md-6 col-xl-4 mb-4 d-flex">
-            <div class="assignment-card w-100">
-                <div class="assignment-title">
-                    '.format_string($a->name).'
+        <div class="assignment-card">
+            <div class="assignment-card-header">
+                <h3 class="assignment-title">'.format_string($a->name).'</h3>
+                <span class="badge-status '.$statusClass.'">'.$status.'</span>
+            </div>
+            <div class="assignment-card-body">
+                <div class="assignment-info-row">
+                    <span class="info-label">Assignment ID</span>
+                    <span class="info-value">'.$a->id.'</span>
                 </div>
-                
-                <div class="assignment-content">
-                    <div class="course-info-row">
-                        <strong>Assignment ID</strong>
-                        <span>'.$a->id.'</span>
-                    </div>
-                
-                    <div class="course-info-row">
-                        <strong>Status</strong>
-                        <span>'.$status.'</span>
-                    </div>
-            
-                    <div class="course-info-row">
-                        <strong>Due Date</strong>
-                        <span>'.($a->duedate ? date('d/m/Y H:i', $a->duedate) : 'No due date').'</span>
-                    </div>
-            
-                    <div class="course-info-row">
-                        <strong>Timeline</strong>
-                        <span>'.$remainingtext.'</span>
-                    </div>
+                <div class="assignment-info-row">
+                    <span class="info-label">Due Date</span>
+                    <span class="info-value">'.($a->duedate ? date('d/m/Y H:i', $a->duedate) : 'No due date').'</span>
+                </div>
+                <div class="assignment-info-row">
+                    <span class="info-label">Timeline</span>
+                    <span class="info-value">'.$remainingtext.'</span>
+                </div>
+                <div class="assignment-info-row">
+                    <span class="info-label">Resources</span>
+                    <span class="info-value">'.count($resources).' attached</span>
+                </div>
     ';
 
-                echo '
-                    <div class="course-info-row">
-                        <strong>Resources</strong>
-                        <span>'.count($resources).' attached</span>
-                    </div>
-                ';
-
-        if (!empty($resources)) {
-            echo '<div class="mt-2 mb-3">';
-            echo '<strong>Attached Resources</strong>';
-            echo '<ul class="mt-2">';
-            foreach ($resources as $resource) {
-                echo '
-            <li>
-                '.s($resource->title).'
-            </li>';
-            }
-            echo '</ul>';
-            echo '</div>';
+    if (!empty($resources)) {
+        echo '<div class="attached-resources">';
+        echo '<strong>Attached Resources</strong>';
+        echo '<ul class="resource-list">';
+        foreach ($resources as $resource) {
+            echo '<li>'.s($resource->title).'</li>';
         }
+        echo '</ul>';
+        echo '</div>';
+    }
 
-            echo '
-                <div class="mt-3 mb-3">
-                    '.(!empty($a->instructions) ? format_text($a->instructions, FORMAT_HTML) : '<em>No instructions</em>').'
-                </div>
+    if (!empty($a->instructions)) {
+        echo '<div class="assignment-instructions">';
+        echo format_text($a->instructions, FORMAT_HTML);
+        echo '</div>';
+    }
+
+    echo '
             </div>
-            
-                <div class="submit-btn">
-                    <a class="btn btn-primary w-100" href="'.$submissionsurl.'">
-                        View Submissions
-                    </a>
-                </div>
+            <div class="assignment-card-actions">
+                <a class="btn btn-primary w-100" href="'.$submissionsurl.'">
+                    <i class="fa fa-users"></i> 
+                    View Submissions
+                </a>
             </div>
         </div>
     ';

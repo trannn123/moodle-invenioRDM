@@ -83,7 +83,7 @@ class resource_controller {
             'keywords' => $keywords,
             'location' => (
                 new \moodle_url(
-                    '/local/inveniordm/student/download.php',
+                    '/local/inveniordm/resource/download.php',
                     [
                         'recordid' => $id
                     ]

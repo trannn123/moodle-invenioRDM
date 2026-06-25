@@ -5,12 +5,12 @@ require_login();
 global $USER, $PAGE, $OUTPUT, $DB;
 $PAGE->set_url(
     new moodle_url(
-        '/local/inveniordm/lecturer/mycourses.php'
+        '/local/inveniordm/lecturer/my_courses.php'
     )
 );
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('My Teaching Courses');
-$PAGE->set_heading('My Teaching Courses');
 
 $PAGE->requires->css(
     new moodle_url(
@@ -56,62 +56,69 @@ foreach ($courses as $course) {
     );
 }
 
-echo '
-    <div class="hero-section">
-        <h1>My Teaching Courses</h1>
-        <p>Manage course resources and repository content for your teaching courses.</p>
-    </div>
-';
-
 $backurl = new moodle_url(
     '/local/inveniordm/index.php'
 );
 
 echo '
-    <form method="get" class="search-card mb-4">
-        <div class="mb-3">
-            <input type="text" name="search" class="form-control form-control-lg" placeholder="Search teaching courses..." value="'.s($search).'">
-        </div>
-    
-        <div class="d-flex flex-wrap gap-2">
-            <button class="btn btn-primary">
-                <i class="fa fa-search"></i>
-                Search
-            </button>
-    
-            <a href="'.$PAGE->url.'" class="btn btn-outline-secondary">
-                <i class="fa fa-refresh"></i>
-                Reset
-            </a>
-    
-            <a href="'.$backurl.'" class="btn btn-outline-dark">
-                <i class="fa fa-arrow-left"></i>
-                Back
-            </a>
-        </div>
-    </form>
-';
-
-echo '
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="stats-card">
-                <h2>'.$totalcourses.'</h2>
-                <p>Teaching Courses</p>
+    <div class="container mt-4">
+        <div class="courses-hero mb-4">
+            <div class="courses-hero-content">
+                <h1>
+                    <i class="fa fa-graduation-cap"></i> 
+                    My Teaching Courses
+                </h1>
+                <p>Manage course resources and repository content for your teaching courses.</p>
+            </div>
+            <div class="courses-hero-actions">
+                <a href="'.$backurl.'" class="btn btn-outline-secondary">
+                    <i class="fa fa-arrow-left"></i> 
+                    Back
+                </a>
             </div>
         </div>
+        <div class="search-card mb-4">
+            <form method="get" class="search-form">
+                <div class="search-input-group">
+                    <input type="text" name="search" class="form-control" placeholder="Search teaching courses..." value="'.s($search).'">
+                    <button class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                        Search
+                    </button>
+                    <a href="'.$PAGE->url.'" class="btn btn-outline-secondary">
+                        <i class="fa fa-refresh"></i>
+                        Reset
+                    </a>
+                </div>
+            </form>
+        </div>
     
-        <div class="col-md-6">
-            <div class="stats-card">
-                <h2>'.$totalresources.'</h2>
-                <p>Attached Resources</p>
+        <div class="stats-grid mb-4">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa fa-book"></i></div>
+                <div class="stat-content">
+                    <div class="stat-number">'.$totalcourses.'</div>
+                    <div class="stat-label">Teaching Courses</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa fa-file"></i></div>
+                <div class="stat-content">
+                    <div class="stat-number">'.$totalresources.'</div>
+                    <div class="stat-label">Attached Resources</div>
+                </div>
             </div>
         </div>
-    </div>
 ';
 
 if (empty($courses)) {
-    echo $OUTPUT->notification('No courses found', 'info');
+    echo '
+        <div class="alert-info-custom">
+            <i class="fa fa-inbox fa-2x"></i>
+            <p>No courses found</p>
+            <span class="text-muted">You are not currently teaching any courses</span>
+        </div>
+    ';
     echo $OUTPUT->footer();
     exit;
 }
@@ -146,39 +153,38 @@ foreach ($courses as $course) {
 
     echo '
         <div class="course-card">
-            <div class="course-title">
-                '.format_string($course->fullname).'
+            <div class="course-card-header">
+                <h3 class="course-title">'.format_string($course->fullname).'</h3>
+                <span class="badge-teaching">Teaching</span>
             </div>
-    
-            <div class="course-info-row">
-                <strong>Course ID</strong>
-                <span>'.$course->id.'</span>
+            <div class="course-card-body">
+                <div class="course-info-row">
+                    <span class="course-info-label">Course ID</span>
+                    <span class="course-info-value">'.$course->id.'</span>
+                </div>
+                <div class="course-info-row">
+                    <span class="course-info-label">Short Name</span>
+                    <span class="course-info-value">'.s($course->shortname).'</span>
+                </div>
+                <div class="course-info-row">
+                    <span class="course-info-label">Resources</span>
+                    <span class="course-info-value">'.$resourcecount.'</span>
+                </div>
             </div>
-    
-            <div class="course-info-row">
-                <strong>Short Name</strong>
-                <span>'.s($course->shortname).'</span>
+            <div class="course-card-actions">
+                <a class="btn btn-primary w-100 mb-2" href="'.$manageurl.'">
+                    <i class="fa fa-folder-open"></i> 
+                    Manage Resources
+                </a>
+                <a class="btn btn-outline-primary" href="'.$assignurl.'">
+                    <i class="fa fa-tasks"></i> 
+                    Open Assignments
+                </a>
             </div>
-    
-            <div class="course-info-row">
-                <strong>Resources</strong>
-                <span>'.$resourcecount.'</span>
-            </div>
-    
-            <div class="mb-3">
-                <span class="badge bg-success text-white p-2">Teaching</span>
-            </div>
-    
-            <a class="btn btn-primary w-100 mb-2" href="'.$manageurl.'">
-                Manage Resources
-            </a>
-    
-            <a class="btn btn-outline-primary w-100" href="'.$assignurl.'">
-                Open Assignments
-            </a>
         </div>
     ';
 }
 
+echo '</div>';
 echo '</div>';
 echo $OUTPUT->footer();

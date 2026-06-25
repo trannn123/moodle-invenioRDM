@@ -13,7 +13,7 @@ $id = required_param(
 $returnurl = optional_param(
     'returnurl',
     '',
-    PARAM_LOCALURL
+    PARAM_URL
 );
 
 $context = context_system::instance();

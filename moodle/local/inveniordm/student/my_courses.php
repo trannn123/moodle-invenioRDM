@@ -10,6 +10,16 @@ $PAGE->set_url(
     )
 );
 
+$returnurl = optional_param(
+    'returnurl',
+    '',
+    PARAM_LOCALURL
+);
+
+$backurl = !empty($returnurl)
+    ? $returnurl
+    : new moodle_url('/local/inveniordm/student/my_courses.php');
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('My Courses');
 $PAGE->set_heading('My Courses');

@@ -197,7 +197,22 @@ class upload_form extends \moodleform {
 
         $mform->addElement('html', '</div>');
 
-        $this->add_action_buttons(true, 'Upload Resource');
+        $mform->addElement('html', '
+        <div class="upload-actions">
+            <button type="submit" class="btn-upload-resource">
+                <i class="fa fa-upload"></i>
+                Upload Resource
+            </button>
+        ');
+
+        $mform->addElement('html', '
+        <button type="reset" class="btn-cancel-resource" onclick="return confirm(\'Clear all entered data?\')">
+            <i class="fa fa-times"></i>
+            Clear Form
+        </button>
+        ');
+
+        echo '</div>';
 
         $mform->addElement('html', '
         <style>

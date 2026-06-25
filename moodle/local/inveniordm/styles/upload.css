@@ -709,3 +709,42 @@
 .upload-field-full .filemanager-container {
     margin-top: 16px !important;
 }
+.upload-actions{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    margin:32px 0;
+}
+
+.btn-upload-resource{
+    border:none;
+    border-radius:50px;
+    padding:12px 36px;
+    background:linear-gradient(
+            135deg,
+            var(--royal-blue),
+            var(--cyan-bright)
+    );
+    color:#fff;
+    font-weight:700;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-upload-resource:hover{
+    transform:translateY(-2px);
+}
+
+.btn-cancel-resource{
+    border:2px solid var(--gray-300);
+    border-radius:50px;
+    padding:12px 36px;
+    text-decoration:none;
+    color:var(--gray-700);
+    background:#fff;
+    transition:.3s;
+}
+
+.btn-cancel-resource:hover{
+    background:var(--gray-100);
+}

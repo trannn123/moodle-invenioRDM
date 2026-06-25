@@ -35,7 +35,6 @@ $PAGE->set_url(
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title('Upload Resource');
-$PAGE->set_heading('Upload Repository Resource');
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/main.css'

@@ -211,3 +211,12 @@ body .container,
     color: var(--cyan-light);
     margin-right: 12px;
 }
+
+#page .container-fluid,
+#region-main .container-fluid,
+#topofscroll .container-fluid,
+#page-content .container-fluid {
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

@@ -42,27 +42,12 @@
     color: var(--white) !important;
 }
 
-.detail-author strong {
-    color: var(--cyan-light);
-    font-weight: 700;
-}
-
-.detail-author i {
-    margin-right: 8px;
-    color: var(--cyan-light);
-}
-
-.detail-actions.card.invenio-detail-card .hero-actions .btn-outline-secondary {
-    border: 2px solid rgba(255, 255, 255, 0.3) !important;
-    color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-}
-
-.detail-actions.card.invenio-detail-card .hero-actions .btn-outline-secondary:hover {
-    background: rgba(255, 255, 255, 0.2) !important;
-    border-color: rgba(255, 255, 255, 0.6) !important;
-    transform: translateX(-4px) !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+.detail-page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 30px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .download-actions {
@@ -94,6 +79,7 @@
     overflow: hidden;
     transition: var(--transition);
     height: 100%;
+    max-width: 100% !important;
 }
 
 .invenio-detail-card:hover {
@@ -194,14 +180,6 @@
 }
 
 @media (max-width: 992px) {
-    .detail-title {
-        font-size: 2rem;
-    }
-
-    .detail-actions.card.invenio-detail-card .card-body {
-        padding: 28px 28px !important;
-    }
-
     .detail-label {
         flex: 0 0 120px;
         font-size: 0.85rem;
@@ -209,25 +187,6 @@
 }
 
 @media (max-width: 768px) {
-    .detail-actions.card.invenio-detail-card .card-body {
-        padding: 24px 20px !important;
-    }
-
-    .detail-actions.card.invenio-detail-card .hero-wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .detail-actions.card.invenio-detail-card .hero-actions {
-        width: 100%;
-    }
-
-    .detail-actions.card.invenio-detail-card .hero-actions .btn {
-        width: 100%;
-        justify-content: center;
-    }
-
     .download-actions {
         flex-direction: column;
         align-items: stretch;
@@ -237,14 +196,6 @@
     .download-actions .btn-primary {
         width: 100%;
         justify-content: center;
-    }
-
-    .detail-title {
-        font-size: 1.6rem;
-    }
-
-    .detail-author {
-        font-size: 1rem;
     }
 
     .detail-item {
@@ -280,31 +231,27 @@
 }
 
 @media (max-width: 576px) {
-    .detail-title {
-        font-size: 1.4rem;
-    }
-
-    .detail-actions.card.invenio-detail-card .card-body {
-        padding: 20px 16px !important;
-    }
-
     .invenio-keyword {
         font-size: 0.8rem;
         padding: 4px 14px;
     }
 }
 
-.detail-actions.card.invenio-detail-card .hero-actions .btn-outline-secondary {
-    border: 2px solid rgba(255, 255, 255, 0.4) !important;
-    color: #ffffff !important;
-    background: transparent !important;
-    transition: var(--transition) !important;
+#topofscroll.main-inner,
+#region-main,
+#page-content,
+#region-main-box {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100% !important;
 }
 
-.detail-actions.card.invenio-detail-card .hero-actions .btn-outline-secondary:hover {
-    background: var(--navy-dark) !important;
-    color: var(--white) !important;
-    border-color: var(--navy-dark) !important;
-    transform: translateX(-4px) !important;
-    box-shadow: 0 8px 24px rgba(10, 25, 41, 0.15) !important;
+.detail-page {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 10px;
+    width: 100%;
+    box-sizing: border-box;
 }

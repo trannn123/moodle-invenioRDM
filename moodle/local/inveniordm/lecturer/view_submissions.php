@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $DB, $PAGE, $OUTPUT;
 
@@ -56,12 +56,12 @@ $backurl = new moodle_url(
     ['courseid' => $assignment->courseid]
 );
 echo '
-    <div class="courses-hero">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1><i class="fa fa-file-text-o"></i> ' . s($assignment->name) . '</h1>
             <p>Review and download student submissions.</p>
         </div>
-        <div class="courses-hero-actions">
+        <div class="hero-actions">
             <a href="' . $backurl . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> Back
             </a>
@@ -176,7 +176,7 @@ if (!$students) {
     if (!empty($search)) {
         $students = array_filter(
             $students,
-            function($student) use ($search) {
+            function ($student) use ($search) {
                 return stripos(fullname($student), $search) !== false;
             }
         );
@@ -206,10 +206,10 @@ if (!$students) {
             );
             $action = '
                 <div class="action-buttons">
-                    <a class="btn btn-sm btn-primary" href="' . $downloadurl . '">
+                    <a class="btn btn-sm btn-primary action-btn" href="' . $downloadurl . '">
                         <i class="fa fa-download"></i> Download
                     </a>
-                    <a class="btn btn-sm btn-outline-primary" href="' . $reviewurl . '">
+                    <a class="btn btn-sm btn-outline-primary action-btn" href="' . $reviewurl . '">
                         <i class="fa fa-eye"></i> Review
                     </a>
                 </div>
@@ -223,7 +223,7 @@ if (!$students) {
 
         echo '
             <tr>
-                <td><strong>' . fullname($student) . '</strong></td>
+                <td class="student-name"><strong>' . fullname($student) . '</strong></td>
                 <td>' . $status . '</td>
                 <td>' . $filename . '</td>
                 <td>' . $submittedate . '</td>

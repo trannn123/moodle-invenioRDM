@@ -27,12 +27,12 @@ echo $OUTPUT->header();
 echo '<div class="container">';
 
 echo '
-<div class="courses-hero">
-    <div class="courses-hero-content">
+<div class="page-hero">
+    <div class="page-hero-content">
         <h1><i class="fa fa-book"></i> My Learning Resources</h1>
         <p>Access digital learning resources attached to your enrolled courses.</p>
     </div>
-    <div class="courses-hero-actions">
+    <div class="hero-actions">
         <a href="' . $backurl . '" class="btn btn-outline-secondary">
             <i class="fa fa-arrow-left"></i> Back to Dashboard
         </a>

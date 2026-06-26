@@ -41,13 +41,13 @@ $totalresources = count($resources);
 
 echo '
     <div class="container mt-4">
-        <div class="courses-hero mb-4">
-            <div class="courses-hero-content">
+        <div class="page-hero">
+            <div class="page-hero-content">
                 <h1><i class="fa fa-folder-open"></i> Course Resources</h1>
                 <p>Manage learning resources attached to this course.</p>
             </div>
-            <div class="courses-hero-actions">
-                <a href="'.$backurl.'" class="btn btn-outline-secondary">
+            <div class="hero-actions">
+                <a href="' . $backurl . '" class="btn btn-outline-secondary">
                     <i class="fa fa-arrow-left"></i> 
                     Back
                 </a>
@@ -55,7 +55,7 @@ echo '
         </div>
     
         <div class="mb-4">
-            <a class="btn btn-primary" href="'.$searchurl.'">
+            <a class="btn btn-primary" href="' . $searchurl . '">
                 <i class="fa fa-search"></i> 
                 Search New Resource
             </a>
@@ -65,14 +65,14 @@ echo '
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa fa-file"></i></div>
                 <div class="stat-content">
-                    <div class="stat-number">'.$totalresources.'</div>
+                    <div class="stat-number">' . $totalresources . '</div>
                     <div class="stat-label">Resources</div>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa fa-hashtag"></i></div>
                 <div class="stat-content">
-                    <div class="stat-number">'.$courseid.'</div>
+                    <div class="stat-number">' . $courseid . '</div>
                     <div class="stat-label">Course ID</div>
                 </div>
             </div>
@@ -104,24 +104,24 @@ if (!$resources) {
         echo '
             <div class="resource-card">
                 <div class="resource-card-header">
-                    <h3 class="resource-title">'.s($res->title).'</h3>
+                    <h3 class="resource-title">' . s($res->title) . '</h3>
                 </div>
                 <div class="resource-card-body">
                     <div class="resource-info-row">
                         <span class="resource-info-label">Record ID</span>
-                        <span class="resource-info-value">'.s($res->recordid).'</span>
+                        <span class="resource-info-value">' . s($res->recordid) . '</span>
                     </div>
                     <div class="resource-info-row">
                         <span class="resource-info-label">Attached</span>
-                        <span class="resource-info-value">'.userdate($res->timecreated, "%d/%m/%Y").'</span>
+                        <span class="resource-info-value">' . userdate($res->timecreated, "%d/%m/%Y") . '</span>
                     </div>
                 </div>
                 <div class="resource-card-actions">
-                    <a class="btn btn-outline-primary" href="'.$viewurl.'">
+                    <a class="btn btn-outline-primary" href="' . $viewurl . '">
                         <i class="fa fa-eye"></i> 
                         View Metadata
                     </a>
-                    <a class="btn btn-outline-secondary" href="'.$downloadurl.'">
+                    <a class="btn btn-outline-secondary" href="' . $downloadurl . '">
                         <i class="fa fa-download"></i> 
                         Download
                     </a>

@@ -1,7 +1,9 @@
 <?php
 
 require_once(__DIR__ . '/../../../config.php');
+
 use local_inveniordm\api\invenio_client;
+
 require_login();
 global $PAGE, $OUTPUT, $CFG;
 $context = context_system::instance();
@@ -29,16 +31,16 @@ $backurl = new moodle_url('/local/inveniordm/index.php');
 echo $OUTPUT->header();
 
 echo '
-    <div class="courses-hero mb-4">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1>
                 <i class="fa fa-database"></i> 
                 My Repository Resources
             </h1>
             <p>Browse and manage resources available in InvenioRDM repository.</p>
         </div>
-        <div class="courses-hero-actions">
-            <a href="'.$backurl.'" class="btn btn-outline-secondary">
+        <div class="hero-actions">
+            <a href="' . $backurl . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> 
                 Back
             </a>
@@ -53,7 +55,7 @@ echo '
     <div class="row mb-4">
         <div class="col-md-6">
             <div class="stats-card">
-                <h2>'.$totalresources.'</h2>
+                <h2>' . $totalresources . '</h2>
                 <p>Resources</p>
             </div>
         </div>
@@ -96,25 +98,25 @@ if (empty($records)) {
 
         echo '
             <div class="resource-card">
-                <div class="resource-title">'.s($title).'</div>
+                <div class="resource-title">' . s($title) . '</div>
                 <div class="resource-info-row">
                     <strong>ID</strong>
-                    <span>'.s($id).'</span>
+                    <span>' . s($id) . '</span>
                 </div>
                 <div class="resource-info-row">
                     <strong>Date</strong>
-                    <span>'.s($date).'</span>
+                    <span>' . s($date) . '</span>
                 </div>
                 <div class="resource-info-row">
                     <strong>Status</strong>
-                    <span>'.s($status).'</span>
+                    <span>' . s($status) . '</span>
                 </div>
                 <div class="resource-info-row">
                     <strong>Files</strong>
-                    <span>'.$filecount.'</span>
+                    <span>' . $filecount . '</span>
                 </div>
                 <div class="resource-actions">
-                    <a class="btn btn-primary" href="'.$viewurl.'">
+                    <a class="btn btn-primary" href="' . $viewurl . '">
                         <i class="fa fa-eye"></i> 
                         View Details
                     </a>

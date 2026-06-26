@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $DB, $PAGE, $OUTPUT;
 
@@ -45,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($submission->published_to_inv
         $DB->set_field('local_inveniordm_submissions', 'feedback', $feedback, ['id' => $submissionid]);
 
         redirect(
-                new moodle_url(
-                        '/local/inveniordm/lecturer/review_submission.php',
-                        ['submissionid' => $submissionid]
-                ),
-                'Review saved successfully.'
+            new moodle_url(
+                '/local/inveniordm/lecturer/review_submission.php',
+                ['submissionid' => $submissionid]
+            ),
+            'Review saved successfully.'
         );
     }
 }
@@ -63,12 +63,12 @@ echo $OUTPUT->header();
 echo '<div class="container">';
 
 echo '
-    <div class="courses-hero">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1><i class="fa fa-check-circle"></i> Review Submission</h1>
             <p>Evaluate student work and provide feedback.</p>
         </div>
-        <div class="courses-hero-actions">
+        <div class="hero-actions">
             <a href="' . $backurl . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> Back to Submissions
             </a>
@@ -76,14 +76,14 @@ echo '
     </div>
 ';
 
-echo '<div class="review-card" style="margin-top: 24px;">';
+echo '<div class="review-card mt-4">';
 
-echo '<div class="submission-info" style="margin-bottom: 24px;">';
-echo '<div class="course-info-row"><span class="course-info-label">Student</span><span class="course-info-value">' . fullname($student) . '</span></div>';
-echo '<div class="course-info-row"><span class="course-info-label">Assignment</span><span class="course-info-value">' . s($assignment->name) . '</span></div>';
-echo '<div class="course-info-row"><span class="course-info-label">File</span><span class="course-info-value">' . s($submission->filename) . '</span></div>';
-echo '<div class="course-info-row"><span class="course-info-label">Current Grade</span><span class="course-info-value">' . s($submission->grade ?: '-') . '</span></div>';
-echo '<div class="course-info-row"><span class="course-info-label">Current Feedback</span><span class="course-info-value">' . s($submission->feedback ?: '-') . '</span></div>';
+echo '<div class="review-card-body">';
+echo '<div class="review-info-row"><span class="info-label">Student </span><span class="info-value">' . fullname($student) . '</span></div>';
+echo '<div class="review-info-row"><span class="info-label">Assignment </span><span class="info-value">' . s($assignment->name) . '</span></div>';
+echo '<div class="review-info-row"><span class="info-label">File </span><span class="info-value">' . s($submission->filename) . '</span></div>';
+echo '<div class="review-info-row"><span class="info-label">Current Grade </span><span class="info-value">' . s($submission->grade ?: '-') . '</span></div>';
+echo '<div class="review-info-row"><span class="info-label">Current Feedback </span><span class="info-value">' . s($submission->feedback ?: '-') . '</span></div>';
 echo '</div>';
 
 echo '<form method="post">';
@@ -114,7 +114,7 @@ if (empty($submission->published_to_invenio)) {
 }
 echo '</div>';
 
-echo '<div class="course-card-actions" style="border-top: none; padding-left: 0; padding-right: 0;">';
+echo '<div class="review-card-actions" style="border-top: none; padding-left: 0; padding-right: 0;">';
 if (empty($submission->published_to_invenio)) {
     echo '<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save Review</button>';
 }

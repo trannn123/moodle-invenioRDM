@@ -30,7 +30,7 @@ $PAGE->requires->css(
 );
 $PAGE->requires->css(
     new moodle_url(
-        '/local/inveniordm/styles/courses.css'
+        '/local/inveniordm/styles/assignments.css'
     )
 );
 
@@ -40,14 +40,14 @@ echo '<div class="container">';
 
 $backurl = new moodle_url('/local/inveniordm/student/all_courses.php');
 echo '
-    <div class="courses-hero">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1>
                 <i class="fa fa-tasks"></i> Assignments
             </h1>
             <p>View and submit course assignments.</p>
         </div>
-        <div class="courses-hero-actions">
+        <div class="hero-actions">
             <a href="' . $backurl . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> Back to All Courses
             </a>
@@ -74,7 +74,7 @@ if (!$assignments) {
     exit;
 }
 
-echo '<div class="course-grid">';
+echo '<div class="assignment-grid">';
 
 foreach ($assignments as $a) {
     $submiturl = new moodle_url(
@@ -92,33 +92,33 @@ foreach ($assignments as $a) {
 
     $submitted = !empty($submission);
     $statuslabel = $submitted ? 'Submitted' : 'Not Submitted';
-    $badgeclass = $submitted ? 'badge-teaching' : 'badge-teaching'; // both use same style, but you could add a modifier if needed
+    $badgeclass = $submitted ? 'badge-status status-active' : 'badge-status status-overdue';
 
     echo '
-        <div class="course-card">
-            <div class="course-card-header">
-                <span class="course-title">' . s($a->name) . '</span>
-                <span class="badge-teaching">' . $statuslabel . '</span>
+        <div class="assignment-card">
+            <div class="assignment-card-header">
+                <span class="assignment-title">' . s($a->name) . '</span>
+                <span class="' . $badgeclass . '">' . $statuslabel . '</span>
             </div>
-            <div class="course-card-body">
-                <div class="course-info-row">
-                    <span class="course-info-label">Due Date</span>
-                    <span class="course-info-value">' . userdate($a->duedate, get_string('strftimedate', 'langconfig')) . '</span>
+            <div class="assignment-card-body">
+                <div class="assignment-info-row">
+                    <span class="info-label">Due Date</span>
+                    <span class="info-value">' . userdate($a->duedate, get_string('strftimedate', 'langconfig')) . '</span>
                 </div>
                 ' . (isset($a->description) && trim($a->description) ? '
-                <div class="course-info-row">
-                    <span class="course-info-label">Description</span>
-                    <span class="course-info-value">' . s($a->description) . '</span>
+                <div class="assignment-info-row">
+                    <span class="info-label">Description</span>
+                    <span class="info-value">' . s($a->description) . '</span>
                 </div>
                 ' : '') . '
                 ' . ($submitted ? '
-                <div class="course-info-row">
-                    <span class="course-info-label">Submitted File</span>
-                    <span class="course-info-value">' . s($submission->filename) . '</span>
+                <div class="assignment-info-row">
+                    <span class="info-label">Submitted File</span>
+                    <span class="info-value">' . s($submission->filename) . '</span>
                 </div>
                 ' : '') . '
             </div>
-            <div class="course-card-actions">
+            <div class="assignment-card-actions">
                 <a class="btn ' . ($submitted ? 'btn-outline-primary' : 'btn-primary') . '" href="' . $submiturl . '">
                     <i class="fa ' . ($submitted ? 'fa-eye' : 'fa-upload') . '"></i>
                     ' . ($submitted ? 'View Submission' : 'Submit Assignment') . '

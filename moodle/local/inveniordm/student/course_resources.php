@@ -30,14 +30,14 @@ echo '<div class="container">';
 
 $backurl = new moodle_url('/local/inveniordm/student/all_courses.php');
 echo '
-    <div class="courses-hero">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1>
                 <i class="fa fa-folder-open"></i> Course Resources
             </h1>
             <p>Browse learning resources attached to this course.</p>
         </div>
-        <div class="courses-hero-actions">
+        <div class="hero-actions">
             <a href="' . $backurl . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> Back to All Courses
             </a>

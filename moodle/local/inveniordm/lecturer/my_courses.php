@@ -31,7 +31,7 @@ $courses = enrol_get_users_courses($USER->id, true);
 if (!empty($search)) {
     $courses = array_filter(
         $courses,
-        function($course) use ($search) {
+        function ($course) use ($search) {
             if ($course->id == SITEID) {
                 return false;
             }
@@ -66,16 +66,16 @@ $backurl = new moodle_url(
 
 echo '
     <div class="container mt-4">
-        <div class="courses-hero mb-4">
-            <div class="courses-hero-content">
+        <div class="page-hero">
+            <div class="page-hero-content">
                 <h1>
                     <i class="fa fa-graduation-cap"></i> 
                     My Teaching Courses
                 </h1>
                 <p>Manage course resources and repository content for your teaching courses.</p>
             </div>
-            <div class="courses-hero-actions">
-                <a href="'.$backurl.'" class="btn btn-outline-secondary">
+            <div class="hero-actions">
+                <a href="' . $backurl . '" class="btn btn-outline-secondary">
                     <i class="fa fa-arrow-left"></i> 
                     Back
                 </a>
@@ -84,12 +84,12 @@ echo '
         <div class="search-card mb-4">
             <form method="get" class="search-form">
                 <div class="search-input-group">
-                    <input type="text" name="search" class="form-control" placeholder="Search teaching courses..." value="'.s($search).'">
+                    <input type="text" name="search" class="form-control" placeholder="Search teaching courses..." value="' . s($search) . '">
                     <button class="btn btn-primary">
                         <i class="fa fa-search"></i>
                         Search
                     </button>
-                    <a href="'.$PAGE->url.'" class="btn btn-outline-secondary">
+                    <a href="' . $PAGE->url . '" class="btn btn-outline-secondary">
                         <i class="fa fa-refresh"></i>
                         Reset
                     </a>
@@ -101,14 +101,14 @@ echo '
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa fa-book"></i></div>
                 <div class="stat-content">
-                    <div class="stat-number">'.$totalcourses.'</div>
+                    <div class="stat-number">' . $totalcourses . '</div>
                     <div class="stat-label">Teaching Courses</div>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon"><i class="fa fa-file"></i></div>
                 <div class="stat-content">
-                    <div class="stat-number">'.$totalresources.'</div>
+                    <div class="stat-number">' . $totalresources . '</div>
                     <div class="stat-label">Attached Resources</div>
                 </div>
             </div>
@@ -144,7 +144,7 @@ foreach ($courses as $course) {
     $assignurl = new moodle_url(
         '/local/inveniordm/lecturer/assignments.php',
         [
-            'courseid'  => $course->id
+            'courseid' => $course->id
         ]
     );
 
@@ -158,29 +158,29 @@ foreach ($courses as $course) {
     echo '
         <div class="course-card">
             <div class="course-card-header">
-                <h3 class="course-title">'.format_string($course->fullname).'</h3>
+                <h3 class="course-title">' . format_string($course->fullname) . '</h3>
                 <span class="badge-teaching">Teaching</span>
             </div>
             <div class="course-card-body">
                 <div class="course-info-row">
                     <span class="course-info-label">Course ID</span>
-                    <span class="course-info-value">'.$course->id.'</span>
+                    <span class="course-info-value">' . $course->id . '</span>
                 </div>
                 <div class="course-info-row">
                     <span class="course-info-label">Short Name</span>
-                    <span class="course-info-value">'.s($course->shortname).'</span>
+                    <span class="course-info-value">' . s($course->shortname) . '</span>
                 </div>
                 <div class="course-info-row">
                     <span class="course-info-label">Resources</span>
-                    <span class="course-info-value">'.$resourcecount.'</span>
+                    <span class="course-info-value">' . $resourcecount . '</span>
                 </div>
             </div>
             <div class="course-card-actions">
-                <a class="btn btn-primary w-100 mb-2" href="'.$manageurl.'">
+                <a class="btn btn-primary w-100 mb-2" href="' . $manageurl . '">
                     <i class="fa fa-folder-open"></i> 
                     Manage Resources
                 </a>
-                <a class="btn btn-outline-primary" href="'.$assignurl.'">
+                <a class="btn btn-outline-primary" href="' . $assignurl . '">
                     <i class="fa fa-tasks"></i> 
                     Open Assignments
                 </a>

@@ -25,7 +25,7 @@ $search = trim($search);
 $courses = get_courses();
 
 if (!empty($search)) {
-    $courses = array_filter($courses, function($course) use ($search) {
+    $courses = array_filter($courses, function ($course) use ($search) {
         if ($course->id == SITEID) {
             return false;
         }
@@ -54,14 +54,14 @@ foreach ($courses as $course) {
 echo '<div class="container">';
 
 echo '
-    <div class="courses-hero">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1>
                 <i class="fa fa-graduation-cap"></i> All Courses
             </h1>
             <p>Browse all available courses and their associated learning resources.</p>
         </div>
-        <div class="courses-hero-actions">
+        <div class="hero-actions">
             <a href="' . new moodle_url('/local/inveniordm/index.php') . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> Back
             </a>

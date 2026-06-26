@@ -3,11 +3,14 @@
 namespace local_inveniordm\controller;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../api/invenio_client.php');
+
 use local_inveniordm\api\invenio_client;
 use local_inveniordm\service\log_service;
 
-class resource_controller {
-    public function view($id, $returnurl = '') {
+class resource_controller
+{
+    public function view($id, $returnurl = '')
+    {
         global $OUTPUT;
         $client = new invenio_client();
         $record = $client->get_record($id);
@@ -82,12 +85,12 @@ class resource_controller {
             'locationfield' => $locationfield,
             'keywords' => $keywords,
             'location' => (
-                new \moodle_url(
-                    '/local/inveniordm/resource/download.php',
-                    [
-                        'recordid' => $id
-                    ]
-                )
+            new \moodle_url(
+                '/local/inveniordm/resource/download.php',
+                [
+                    'recordid' => $id
+                ]
+            )
             )->out(false),
         ];
 
@@ -95,9 +98,9 @@ class resource_controller {
             $backurl = $returnurl;
         } else {
             $backurl = (
-                new \moodle_url(
-                    '/local/inveniordm/resource/search.php'
-                )
+            new \moodle_url(
+                '/local/inveniordm/resource/search.php'
+            )
             )->out(false);
         }
         $context['backurl'] = $backurl;
@@ -108,7 +111,8 @@ class resource_controller {
         );
     }
 
-    public function search($backurl = '') {
+    public function search($backurl = '')
+    {
         if (empty($backurl)) {
             $backurl = optional_param('backurl', '', PARAM_URL);
             if (empty($backurl)) {
@@ -193,7 +197,7 @@ class resource_controller {
         ];
 
         return $OUTPUT->render_from_template(
-            'local_inveniordm/student/search',
+            'local_inveniordm/resource/search',
             $context
         );
     }

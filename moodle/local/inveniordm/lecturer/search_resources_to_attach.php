@@ -93,7 +93,6 @@ $PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources_to_at
     ['courseid' => $courseid]));
 $PAGE->set_context($context);
 $PAGE->set_title('Manage Course Resources');
-$PAGE->set_heading('Manage Course Resources');
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/search_resources_to_attach.css'

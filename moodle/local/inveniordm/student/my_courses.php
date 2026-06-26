@@ -11,7 +11,6 @@ $backurl = !empty($returnurl) ? $returnurl : new moodle_url('/local/inveniordm/i
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('My Courses');
-$PAGE->set_heading('My Courses');
 $PAGE->requires->css(new moodle_url('/local/inveniordm/styles/courses.css'));
 
 echo $OUTPUT->header();

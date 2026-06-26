@@ -104,7 +104,6 @@ $PAGE->set_url(
 
 $PAGE->set_context($context);
 $PAGE->set_title('Submit Assignment');
-$PAGE->set_heading('Submit Assignment');
 
 echo $OUTPUT->header();
 

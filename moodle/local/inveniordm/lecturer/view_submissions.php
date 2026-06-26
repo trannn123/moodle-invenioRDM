@@ -24,7 +24,6 @@ $PAGE->set_url(
 );
 $PAGE->set_context($context);
 $PAGE->set_title('Submissions');
-$PAGE->set_heading('Submissions');
 $PAGE->requires->css(
     new moodle_url('/local/inveniordm/styles/view_submissions.css')
 );

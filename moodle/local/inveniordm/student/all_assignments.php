@@ -24,14 +24,15 @@ echo '<div class="container">';
 
 $backurl = new moodle_url('/local/inveniordm/index.php');
 echo '
-    <div class="courses-hero">
-        <div class="courses-hero-content">
+    <div class="page-hero">
+        <div class="page-hero-content">
             <h1>
                 <i class="fa fa-tasks"></i> All Assignments
             </h1>
             <p>Browse all assignments across your enrolled courses.</p>
         </div>
-        <div class="courses-hero-actions">
+        
+        <div class="hero-actions">
             <a href="' . $backurl . '" class="btn btn-outline-secondary">
                 <i class="fa fa-arrow-left"></i> Back
             </a>

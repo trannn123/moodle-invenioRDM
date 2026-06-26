@@ -1,76 +1,3 @@
-.hero-section {
-    background: linear-gradient(145deg, var(--navy-dark) 0%, var(--navy-mid) 40%, var(--royal-blue) 100%);
-    color: white;
-    padding: 64px 56px;
-    border-radius: var(--radius-lg);
-    margin-bottom: 40px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(10, 25, 41, 0.4);
-    border-bottom: 4px solid var(--cyan-bright);
-}
-
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -20%;
-    width: 80%;
-    height: 200%;
-    background: radial-gradient(circle at 30% 50%, rgba(0, 180, 216, 0.20) 0%, transparent 60%);
-    pointer-events: none;
-    animation: heroGlow 8s ease-in-out infinite alternate;
-}
-
-@keyframes heroGlow {
-    0% {
-        transform: translateX(-10%) scale(1);
-        opacity: 0.6;
-    }
-    100% {
-        transform: translateX(20%) scale(1.3);
-        opacity: 1;
-    }
-}
-
-.hero-section::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(circle at 30px 30px, rgba(255, 255, 255, 0.06) 2px, transparent 0);
-    background-size: 60px 60px;
-    pointer-events: none;
-}
-
-.hero-section h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-bottom: 12px;
-    position: relative;
-    z-index: 2;
-    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-}
-
-.hero-section h1 .highlight {
-    color: var(--cyan-light);
-    border-bottom: 3px solid var(--cyan-bright);
-    padding-bottom: 2px;
-}
-
-.hero-section p {
-    font-size: 1.2rem;
-    max-width: 70%;
-    line-height: 1.7;
-    opacity: 0.9;
-    position: relative;
-    z-index: 2;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
 .hero-badge {
     display: inline-block;
     background: rgba(0, 180, 216, 0.2);
@@ -356,19 +283,6 @@
 }
 
 @media (max-width: 992px) {
-    .hero-section {
-        padding: 44px 32px;
-    }
-
-    .hero-section h1 {
-        font-size: 2.4rem;
-    }
-
-    .hero-section p {
-        max-width: 100%;
-        font-size: 1.05rem;
-    }
-
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 18px;
@@ -376,18 +290,6 @@
 }
 
 @media (max-width: 768px) {
-    .hero-section {
-        padding: 32px 24px;
-    }
-
-    .hero-section h1 {
-        font-size: 2rem;
-    }
-
-    .hero-section p {
-        font-size: 0.95rem;
-    }
-
     .dashboard-card {
         padding: 20px 18px;
     }

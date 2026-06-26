@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__.'/../../../config.php');
+require_once(__DIR__ . '/../../../config.php');
 require_login();
 global $DB, $PAGE, $OUTPUT, $USER;
 
@@ -32,31 +32,30 @@ $backurl = new moodle_url('/local/inveniordm/index.php');
 $reseturl = $PAGE->url;
 
 echo '
-    <div class="container mt-4">
-        <div class="courses-hero mb-4">
-            <div class="courses-hero-content">
-                <h1><i class="fa fa-tasks"></i> All Assignments</h1>
-                <p>View assignments across your courses and monitor student submissions.</p>
-            </div>
-            <div class="courses-hero-actions">
-                <a href="'.$backurl.'" class="btn btn-outline-secondary">
-                    <i class="fa fa-arrow-left"></i> 
-                    Back
-                </a>
-            </div>
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-tasks"></i> All Assignments</h1>
+            <p>View assignments across your courses and monitor student submissions.</p>
         </div>
+        <div class="hero-actions">
+            <a href="' . $backurl . '" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> 
+                Back
+            </a>
+        </div>
+    </div>        
 ';
 
 echo '
     <div class="search-card mb-4">
         <form method="get" class="search-form">
             <div class="search-input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search by assignment name or course..." value="'.s($search).'">
+                <input type="text" name="search" class="form-control" placeholder="Search by assignment name or course..." value="' . s($search) . '">
                 <button type="submit" class="btn btn-primary">
                     <i class="fa fa-search"></i> 
                     Search
                 </button>
-                <a href="'.$reseturl.'" class="btn btn-outline-secondary">
+                <a href="' . $reseturl . '" class="btn btn-outline-secondary">
                     <i class="fa fa-refresh"></i> 
                     Reset
                 </a>
@@ -99,14 +98,14 @@ echo '
         <div class="stat-card">
             <div class="stat-icon"><i class="fa fa-tasks"></i></div>
             <div class="stat-content">
-                <div class="stat-number">'.$totalassignments.'</div>
+                <div class="stat-number">' . $totalassignments . '</div>
                 <div class="stat-label">Assignments</div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon"><i class="fa fa-book"></i></div>
             <div class="stat-content">
-                <div class="stat-number">'.count($courses).'</div>
+                <div class="stat-number">' . count($courses) . '</div>
                 <div class="stat-label">Courses</div>
             </div>
         </div>
@@ -151,33 +150,33 @@ foreach ($assignments as $item) {
     echo '
         <div class="assignment-card">
             <div class="assignment-card-header">
-                <h3 class="assignment-title">'.format_string($assignment->name).'</h3>
-                <span class="badge-status '.$statusClass.'">'.$status.'</span>
+                <h3 class="assignment-title">' . format_string($assignment->name) . '</h3>
+                <span class="badge-status ' . $statusClass . '">' . $status . '</span>
             </div>
             <div class="assignment-card-body">
                 <div class="assignment-info-row">
                     <span class="info-label">Course</span>
-                    <span class="info-value">'.format_string($course->fullname).'</span>
+                    <span class="info-value">' . format_string($course->fullname) . '</span>
                 </div>
                 <div class="assignment-info-row">
                     <span class="info-label">Assignment ID</span>
-                    <span class="info-value">'.$assignment->id.'</span>
+                    <span class="info-value">' . $assignment->id . '</span>
                 </div>
                 <div class="assignment-info-row">
                     <span class="info-label">Resources</span>
-                    <span class="info-value">'.$resourcecount.'</span>
+                    <span class="info-value">' . $resourcecount . '</span>
                 </div>
                 <div class="assignment-info-row">
                     <span class="info-label">Submissions</span>
-                    <span class="info-value">'.$submissioncount.'</span>
+                    <span class="info-value">' . $submissioncount . '</span>
                 </div>
                 <div class="assignment-info-row">
                     <span class="info-label">Due Date</span>
-                    <span class="info-value">'.($assignment->duedate ? date('d/m/Y H:i', $assignment->duedate) : 'No due date').'</span>
+                    <span class="info-value">' . ($assignment->duedate ? date('d/m/Y H:i', $assignment->duedate) : 'No due date') . '</span>
                 </div>
             </div>
             <div class="assignment-card-actions">
-                <a class="btn btn-primary w-100" href="'.$submissionsurl.'">
+                <a class="btn btn-primary w-100" href="' . $submissionsurl . '">
                     <i class="fa fa-users"></i> 
                     View Submissions
                 </a>

@@ -1,12 +1,11 @@
 <?php
 
 use local_inveniordm\api\invenio_client;
-use local_inveniordm\service\file_service;
 
 require_once(__DIR__ . '/../../../config.php');
 global $CFG;
 $courseid = required_param('courseid', PARAM_INT);
-$attach   = optional_param('attach', '', PARAM_TEXT);
+$attach = optional_param('attach', '', PARAM_TEXT);
 require_login();
 $context = context_course::instance($courseid);
 require_capability('local/inveniordm:upload', $context);
@@ -92,7 +91,7 @@ if (!empty($attach)) {
 $PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/search_resources_to_attach.php',
     ['courseid' => $courseid]));
 $PAGE->set_context($context);
-$PAGE->set_title('Manage Course Resources');
+$PAGE->set_title('Search Repository');
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/main.css'
@@ -113,45 +112,55 @@ $backurl = new moodle_url(
     ]
 );
 
-echo '
-    <div class="mb-4">
-        <a href="'.$backurl.'" class="btn btn-outline-dark">
-            <i class="fa fa-arrow-left"></i>
-            Back to Course Resources
-        </a>
-    </div>
-';
+echo '<div class="container">';
 
 echo '
-    <div class="hero-section">
-        <h1>Search Repository</h1>
-        <p>Search learning resources from InvenioRDM and attach them to this course.</p>
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-search"></i> Search Repository</h1>
+            <p>Search learning resources from InvenioRDM and attach them to this course.</p>
+        </div>
+        <div class="hero-actions">
+            <a href="' . $backurl . '" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back to Course Resources
+            </a>
+        </div>
     </div>
 ';
 
 $q = optional_param('q', '', PARAM_TEXT);
 
 echo '
-    <form method="get" class="search-box">
-        <input type="hidden" name="courseid" value="'.$courseid.'">
-        <input type="text" name="q" value="'.s($q).'" placeholder="Search resources..." class="form-control">
-        <button type="submit" class="btn btn-primary">
-            Search
-        </button>
-    </form>
+    <div class="search-card mb-4">
+        <form method="get" class="search-form">
+            <input type="hidden" name="courseid" value="' . $courseid . '">
+            <div class="search-input-group">
+                <input type="text" name="q" value="' . s($q) . '" placeholder="Search resources..." class="form-control">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
 ';
 
-if (!empty($q)) {
-    $records = $client->get_records($q);
-    $hits = $records['hits']['hits'] ?? [];
+$searchq = !empty($q) ? $q : '*';
+$records = $client->get_records($searchq);
+$hits = $records['hits']['hits'] ?? [];
 
+if (empty($hits)) {
+    echo '
+        <div class="alert-info-custom">
+            <i class="fa fa-info-circle fa-3x"></i>
+            <p>No resources found</p>
+            <div class="text-muted">Try a different search term.</div>
+        </div>
+    ';
+} else {
     echo '<div class="resource-grid">';
-
     foreach ($hits as $r) {
         $id = $r['id'];
-        $title =
-            $r['metadata']['title']
-            ?? 'No title';
+        $title = $r['metadata']['title'] ?? 'No title';
         $viewurl = new moodle_url(
             '/local/inveniordm/resource/view.php',
             [
@@ -160,23 +169,26 @@ if (!empty($q)) {
             ]
         );
 
+        $attached = $DB->record_exists('local_inveniordm_course_resources', ['courseid' => $courseid, 'recordid' => $id]);
+
         echo '
             <div class="resource-card">
-                <div class="resource-title">'.s($title).'</div>   
-                 
-                <div class="resource-info-row">    
-                    <strong>Record ID</strong>   
-                    <span>'.s($id).'</span>    
-                </div>    
-                
-                <div class="resource-actions">    
-                    <a class="btn btn-primary" href="'.$viewurl.'" target="_blank">View Details</a>   
-                    <a class="btn btn-outline-primary" href="?courseid='.$courseid.'&attach='.urlencode($id).'">Attach Resource</a>            
-                </div>    
+                <div class="resource-title">' . s($title) . '</div>
+                <div class="resource-info-row">
+                    <span class="info-label">Record ID</span>
+                    <span class="info-value">' . s($id) . '</span>
+                </div>
+                <div class="resource-actions">
+                    <a class="btn btn-outline-primary" href="' . $viewurl . '" target="_blank"><i class="fa fa-eye"></i> View Details</a>
+                    ' . ($attached ? '<span class="badge-status status-active"><i class="fa fa-check"></i> Attached</span>' :
+                '<a class="btn btn-primary" href="?courseid=' . $courseid . '&attach=' . urlencode($id) . '"><i class="fa fa-link"></i> Attach Resource</a>') . '
+                </div>
             </div>
         ';
     }
     echo '</div>';
 }
+
+echo '</div>';
 
 echo $OUTPUT->footer();

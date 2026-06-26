@@ -1,32 +1,8 @@
-:root {
-    --navy-dark: #0a1929;
-    --navy-mid: #0d2b4a;
-    --royal-blue: #1a5fb4;
-    --cyan-bright: #00b4d8;
-    --cyan-light: #90e0ef;
-    --blue-soft: #e6f2ff;
-    --white: #ffffff;
-    --gray-100: #f0f4f8;
-    --gray-200: #dce4ec;
-    --gray-300: #bcc8d6;
-    --gray-400: #8a9cb0;
-    --gray-500: #6b7f94;
-    --gray-600: #4a5d73;
-    --gray-700: #2c3e52;
-    --gray-800: #1a2c3e;
-    --shadow-card: 0 4px 16px rgba(10, 25, 41, 0.12);
-    --shadow-hover: 0 12px 48px rgba(10, 25, 41, 0.20);
-    --shadow-heavy: 0 20px 60px rgba(10, 25, 41, 0.3);
-    --radius-lg: 20px;
-    --radius-md: 14px;
-    --radius-sm: 10px;
-    --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
 .row {
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+
 .row > [class*="col-"] {
     padding-left: 10px !important;
     padding-right: 10px !important;
@@ -68,32 +44,41 @@
 }
 
 @keyframes heroGlow {
-    0% { transform: translateX(-10%) scale(1); opacity: 0.6; }
-    100% { transform: translateX(20%) scale(1.3); opacity: 1; }
+    0% {
+        transform: translateX(-10%) scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateX(20%) scale(1.3);
+        opacity: 1;
+    }
 }
 
 .courses-hero-content {
     position: relative;
     z-index: 1;
 }
+
 .courses-hero-content h1 {
     font-size: 2.4rem;
     font-weight: 800;
     margin-bottom: 8px;
     letter-spacing: -0.02em;
-    text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     gap: 12px;
 }
+
 .courses-hero-content h1 i {
     color: var(--cyan-light);
 }
+
 .courses-hero-content p {
     font-size: 1.1rem;
     opacity: 0.9;
     margin: 0;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .courses-hero-actions {
@@ -130,6 +115,7 @@
     color: var(--gray-700) !important;
     background: transparent !important;
 }
+
 .btn-outline-secondary:hover {
     background: var(--navy-dark) !important;
     color: var(--white) !important;
@@ -144,6 +130,7 @@
     color: var(--white) !important;
     box-shadow: 0 4px 16px rgba(26, 95, 180, 0.3) !important;
 }
+
 .btn-primary:hover {
     transform: translateY(-2px) scale(1.02) !important;
     box-shadow: 0 8px 32px rgba(26, 95, 180, 0.45) !important;
@@ -175,11 +162,13 @@
     transition: var(--transition);
     height: 100%;
 }
+
 .stats-card:hover {
     border-color: var(--royal-blue);
     box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
 }
+
 .stats-card h2 {
     font-size: 2.6rem;
     font-weight: 800;
@@ -190,9 +179,11 @@
     justify-content: center;
     gap: 8px;
 }
+
 .stats-card h2 i {
     color: var(--cyan-bright);
 }
+
 .stats-card p {
     margin-top: 6px;
     color: var(--gray-500);
@@ -218,11 +209,13 @@
     flex-direction: column;
     height: 100%;
 }
+
 .resource-card:hover {
     transform: translateY(-6px);
     box-shadow: var(--shadow-hover);
     border-color: var(--cyan-bright);
 }
+
 .resource-title {
     font-size: 1.25rem;
     font-weight: 700;
@@ -235,6 +228,7 @@
     background-clip: text;
     word-break: break-word;
 }
+
 .resource-info-row {
     display: flex;
     justify-content: space-between;
@@ -242,19 +236,23 @@
     padding: 8px 0;
     border-bottom: 1px solid var(--gray-100);
 }
+
 .resource-info-row:last-of-type {
     border-bottom: none;
 }
+
 .resource-info-row strong {
     color: var(--gray-600);
     font-weight: 600;
     font-size: 0.9rem;
 }
+
 .resource-info-row span {
     color: var(--gray-800);
     font-weight: 500;
     font-size: 0.95rem;
 }
+
 .resource-actions {
     margin-top: auto;
     padding-top: 20px;
@@ -262,6 +260,7 @@
     flex-wrap: wrap;
     gap: 10px;
 }
+
 .resource-actions .btn {
     flex: 1;
     min-width: 120px;
@@ -277,14 +276,17 @@
     font-size: 1.1rem;
     border: 2px dashed var(--gray-300);
 }
+
 .no-resources i {
     color: var(--gray-400);
     margin-bottom: 16px;
 }
+
 .no-resources p {
     font-weight: 600;
     margin-bottom: 4px;
 }
+
 .no-resources .text-muted {
     font-size: 1rem;
 }
@@ -293,12 +295,15 @@
     .courses-hero {
         padding: 28px 28px;
     }
+
     .courses-hero-content h1 {
         font-size: 2rem;
     }
+
     .courses-hero-content p {
         font-size: 1rem;
     }
+
     .resource-grid {
         grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
         gap: 20px;
@@ -311,46 +316,59 @@
         align-items: flex-start;
         padding: 24px 20px;
     }
+
     .courses-hero-content h1 {
         font-size: 1.6rem;
     }
+
     .courses-hero-content p {
         font-size: 0.95rem;
     }
+
     .courses-hero-actions {
         width: 100%;
     }
+
     .courses-hero-actions .btn {
         width: 100%;
         justify-content: center;
     }
+
     .row > [class*="col-"] {
         padding-left: 0 !important;
         padding-right: 0 !important;
     }
+
     .stats-card {
         padding: 18px 20px;
     }
+
     .stats-card h2 {
         font-size: 2rem;
     }
+
     .resource-grid {
         grid-template-columns: 1fr;
         gap: 16px;
     }
+
     .resource-card {
         padding: 18px 18px 16px;
     }
+
     .resource-title {
         font-size: 1.1rem;
     }
+
     .resource-info-row {
         padding: 6px 0;
     }
+
     .resource-actions {
         flex-direction: column;
         gap: 8px;
     }
+
     .resource-actions .btn {
         width: 100%;
         flex: none;
@@ -362,38 +380,49 @@
         padding-left: 12px;
         padding-right: 12px;
     }
+
     .courses-hero {
         padding: 20px 16px;
         border-radius: var(--radius-sm);
     }
+
     .courses-hero-content h1 {
         font-size: 1.4rem;
     }
+
     .courses-hero-content p {
         font-size: 0.9rem;
     }
+
     .stats-card {
         padding: 14px 16px;
     }
+
     .stats-card h2 {
         font-size: 1.6rem;
     }
+
     .stats-card p {
         font-size: 0.85rem;
     }
+
     .resource-card {
         padding: 16px 14px 14px;
         border-radius: var(--radius-sm);
     }
+
     .resource-title {
         font-size: 1rem;
     }
+
     .resource-info-row strong {
         font-size: 0.8rem;
     }
+
     .resource-info-row span {
         font-size: 0.85rem;
     }
+
     .btn,
     .btn-outline-secondary,
     .btn-outline-primary,
@@ -409,9 +438,11 @@
     .courses-hero-content h1 {
         font-size: 1.2rem;
     }
+
     .courses-hero-content p {
         font-size: 0.85rem;
     }
+
     .resource-title {
         font-size: 0.95rem;
     }

@@ -91,9 +91,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'Submitted successfully'
     );
 }
-
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/submit_assignment.css')
+    new moodle_url(
+            '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
+            '/local/inveniordm/styles/submit_assignment.css'
+    )
 );
 
 $PAGE->set_url(

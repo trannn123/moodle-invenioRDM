@@ -95,6 +95,11 @@ $PAGE->set_context($context);
 $PAGE->set_title('Manage Course Resources');
 $PAGE->requires->css(
     new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
         '/local/inveniordm/styles/search_resources_to_attach.css'
     )
 );

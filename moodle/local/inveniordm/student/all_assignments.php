@@ -8,7 +8,14 @@ $PAGE->set_url(new moodle_url('/local/inveniordm/student/all_assignments.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('All Assignments');
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/assignments.css') // contains all the CSS you provided
+    new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/assignments.css'
+    )
 );
 
 echo $OUTPUT->header();

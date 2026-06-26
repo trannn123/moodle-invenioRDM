@@ -14,6 +14,11 @@ $PAGE->set_context($context);
 $PAGE->set_title('My Resources');
 $PAGE->requires->css(
     new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
         '/local/inveniordm/styles/my_resources.css'
     )
 );

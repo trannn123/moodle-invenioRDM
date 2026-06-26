@@ -7,6 +7,11 @@ $courseid = required_param('courseid', PARAM_INT);
 $context = context_course::instance($courseid);
 require_capability('local/inveniordm:upload', $context);
 $PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
     new moodle_url('/local/inveniordm/styles/create_assignment.css')
 );
 

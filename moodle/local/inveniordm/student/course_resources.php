@@ -14,7 +14,14 @@ $PAGE->set_url(new moodle_url(
 $PAGE->set_context($context);
 $PAGE->set_title('Course Resources');
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/course_resources.css')
+    new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/course_resources.css'
+    )
 );
 
 echo $OUTPUT->header();

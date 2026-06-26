@@ -8,6 +8,7 @@ class upload_form extends \moodleform {
     public function definition() {
         global $PAGE;
         $mform = $this->_form;
+        $PAGE->requires->css(new \moodle_url('/local/inveniordm/styles/main.css'));
         $PAGE->requires->css(new \moodle_url('/local/inveniordm/styles/upload.css'));
 
         $backurl = new \moodle_url('/local/inveniordm/index.php');

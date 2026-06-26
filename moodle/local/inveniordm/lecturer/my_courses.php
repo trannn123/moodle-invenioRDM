@@ -11,7 +11,11 @@ $PAGE->set_url(
 
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title('My Teaching Courses');
-
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
 $PAGE->requires->css(
     new moodle_url(
         '/local/inveniordm/styles/courses.css'

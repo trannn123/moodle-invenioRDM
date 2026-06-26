@@ -13,7 +13,17 @@ $context = context_course::instance($assignment->courseid);
 require_capability('local/inveniordm:upload', $context);
 
 $PAGE->set_url(new moodle_url('/local/inveniordm/lecturer/review_submission.php', ['submissionid' => $submissionid]));
-$PAGE->requires->css(new moodle_url('/local/inveniordm/styles/review_submission.css'));
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/review_submission.css'
+    )
+);
+
 $PAGE->set_context($context);
 $PAGE->set_title('Review Submission');
 

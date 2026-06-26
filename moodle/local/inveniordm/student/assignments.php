@@ -23,9 +23,15 @@ $PAGE->set_url(
 );
 $PAGE->set_context($context);
 $PAGE->set_title('Assignments');
-
 $PAGE->requires->css(
-    new moodle_url('/local/inveniordm/styles/courses.css')
+    new moodle_url(
+        '/local/inveniordm/styles/main.css'
+    )
+);
+$PAGE->requires->css(
+    new moodle_url(
+        '/local/inveniordm/styles/courses.css'
+    )
 );
 
 echo $OUTPUT->header();

@@ -12,6 +12,11 @@ class dashboard_controller {
         $PAGE->set_context($context);
         $PAGE->requires->css(
             new moodle_url(
+                '/local/inveniordm/styles/main.css'
+            )
+        );
+        $PAGE->requires->css(
+            new moodle_url(
                 '/local/inveniordm/styles/dashboard.css'
             )
         );

@@ -2,8 +2,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class dashboard_controller {
-    public function index() {
+class dashboard_controller
+{
+    public function index()
+    {
         global $PAGE, $CFG, $OUTPUT, $DB;
         require_login();
         $context = context_system::instance();
@@ -20,6 +22,7 @@ class dashboard_controller {
                 '/local/inveniordm/styles/dashboard.css'
             )
         );
+
         $role = 'student';
 
         if (is_siteadmin()) {

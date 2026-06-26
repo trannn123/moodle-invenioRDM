@@ -1,9 +1,3 @@
-.container {
-    max-width: 1280px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
 .page-header {
     display: flex;
     justify-content: space-between;

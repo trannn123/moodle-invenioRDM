@@ -2,7 +2,7 @@
 
 
 require_once(__DIR__ . '/../../../config.php');
-
+require_once(__DIR__ . '/../classes/controller/admin_controller.php');
 require_login();
 
 require_capability(
@@ -10,13 +10,8 @@ require_capability(
     context_system::instance()
 );
 
-global $DB;
-
-$logs = $DB->get_records(
-    'local_inveniordm_logs',
-    null,
-    'timecreated DESC'
-);
+$admincontroller = new admin_controller();
+$logs = $admincontroller->get_logs_for_export();
 
 header('Content-Type: text/csv');
 header('Content-Disposition: attachment; filename="analytics_logs.csv"');

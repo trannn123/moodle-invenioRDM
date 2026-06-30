@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../../../config.php');
+require_once(__DIR__ . '/../classes/controller/admin_controller.php');
 require_login();
 global $CFG, $DB, $PAGE, $OUTPUT;
 
@@ -15,67 +16,30 @@ $PAGE->set_title('System Monitoring');
 
 echo $OUTPUT->header();
 
-$dbstatus = false;
-$dbmessage = '';
+$admincontroller = new admin_controller();
 
-try {
-    $DB->count_records('user');
-    $dbstatus = true;
-    $dbmessage = 'Connected';
-} catch (Exception $e) {
-    $dbstatus = false;
-    $dbmessage = $e->getMessage();
-}
+$dbinfo = $admincontroller->check_database_status();
 
-$apistatus = false;
-$apimessage = '';
-$httpcode = 0;
+$dbstatus = $dbinfo['status'];
+$dbmessage = $dbinfo['message'];
 
-$start = microtime(true);
+$apiinfo = $admincontroller->check_api_status();
 
-try {
-    $client = new \local_inveniordm\api\invenio_client();
-    $result = $client->get_records();
-    // tính thời gian phản hồi - ms
-    $latency = round((microtime(true) - $start) * 1000);
+$apistatus = $apiinfo['status'];
+$apimessage = $apiinfo['message'];
+$httpcode = $apiinfo['httpcode'];
+$latency = $apiinfo['latency'];
+$result = $apiinfo['result'];
 
-    if (is_array($result) && empty($result['error'])) {
-        $apistatus = true;
-        $apimessage = 'Connected';
-        $httpcode = 200;
-    } else {
-        $apistatus = false;
-        $apimessage = 'API Error';
-        $httpcode = $result['status'] ?? 500;
-    }
-} catch (Exception $e) {
-    $apistatus = false;
-    $apimessage = $e->getMessage();
-    $latency = round((microtime(true) - $start) * 1000);
-}
-
-$healthscore = 0;
-
-if ($dbstatus) {
-    $healthscore += 25;
-}
-
-if ($apistatus) {
-    $healthscore += 25;
-}
-
-if (!empty($latency) && $latency < 1000) {
-    $healthscore += 25;
-} elseif (!empty($latency) && $latency < 2000) {
-    $healthscore += 15;
-}
-
-if (empty($result['error'])) {
-    $healthscore += 25;
-}
+$healthscore = $admincontroller->calculate_health_score(
+    $dbstatus,
+    $apistatus,
+    $latency,
+    $result
+);
 
 $dbclass = $dbstatus ? 'success' : 'danger';
-$dbtext  = $dbstatus ? 'Online' : 'Offline';
+$dbtext = $dbstatus ? 'Online' : 'Offline';
 
 echo '
     <div class="hero-section">
@@ -101,9 +65,8 @@ echo '
 ';
 
 
-
 $apiclass = $apistatus ? 'success' : 'danger';
-$apitext  = $apistatus ? 'Online' : 'Offline';
+$apitext = $apistatus ? 'Online' : 'Offline';
 
 echo '
 <div class="card mt-4">

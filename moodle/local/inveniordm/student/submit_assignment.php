@@ -5,17 +5,17 @@ require_login();
 global $DB, $PAGE, $OUTPUT, $CFG, $USER;
 
 require_once(
-    $CFG->dirroot .
-    '/local/inveniordm/classes/service/log_service.php'
+        $CFG->dirroot .
+        '/local/inveniordm/classes/service/log_service.php'
 );
 
 $assignmentid = required_param('assignmentid', PARAM_INT);
 
 $assignment = $DB->get_record(
-    'local_inveniordm_assignments',
-    ['id' => $assignmentid],
-    '*',
-    MUST_EXIST
+        'local_inveniordm_assignments',
+        ['id' => $assignmentid],
+        '*',
+        MUST_EXIST
 );
 
 $context = context_course::instance($assignment->courseid);
@@ -38,28 +38,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $filename = $_FILES['submission']['name'];
-    $tmpfile  = $_FILES['submission']['tmp_name'];
+    $tmpfile = $_FILES['submission']['tmp_name'];
 
     $existing = $DB->get_record(
-        'local_inveniordm_submissions',
-        [
-            'assignmentid' => $assignmentid,
-            'studentid' => $USER->id
-        ]
+            'local_inveniordm_submissions',
+            [
+                    'assignmentid' => $assignmentid,
+                    'studentid' => $USER->id
+            ]
     );
 
     if ($existing) {
         $submissionid = $existing->id;
     } else {
         $submissionid = $DB->insert_record(
-            'local_inveniordm_submissions',
-            [
-                'assignmentid' => $assignmentid,
-                'studentid'    => $USER->id,
-                'filename'     => $filename,
-                'status'       => 'submitted',
-                'timecreated'  => time()
-            ]
+                'local_inveniordm_submissions',
+                [
+                        'assignmentid' => $assignmentid,
+                        'studentid' => $USER->id,
+                        'filename' => $filename,
+                        'status' => 'submitted',
+                        'timecreated' => time()
+                ]
         );
     }
 
@@ -72,12 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $fs = get_file_storage();
 
     $fileinfo = [
-        'contextid' => $context->id,
-        'component' => 'local_inveniordm',
-        'filearea'  => 'submission',
-        'itemid'    => $submissionid,
-        'filepath'  => '/',
-        'filename'  => $filename
+            'contextid' => $context->id,
+            'component' => 'local_inveniordm',
+            'filearea' => 'submission',
+            'itemid' => $submissionid,
+            'filepath' => '/',
+            'filename' => $filename
     ];
 
     $fs->create_file_from_pathname($fileinfo, $tmpfile);
@@ -85,27 +85,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     \local_inveniordm\service\log_service::add($USER->id, 'SUBMIT_ASSIGNMENT', null, $assignment->courseid);
 
     redirect(
-        new moodle_url('/local/inveniordm/student/assignments.php', [
-            'courseid' => $assignment->courseid
-        ]),
-        'Submitted successfully'
+            new moodle_url('/local/inveniordm/student/assignments.php', [
+                    'courseid' => $assignment->courseid
+            ]),
+            'Submitted successfully'
     );
 }
 $PAGE->requires->css(
-    new moodle_url(
-            '/local/inveniordm/styles/main.css'
-    )
+        new moodle_url(
+                '/local/inveniordm/styles/main.css'
+        )
 );
 $PAGE->requires->css(
-    new moodle_url(
-            '/local/inveniordm/styles/submit_assignment.css'
-    )
+        new moodle_url(
+                '/local/inveniordm/styles/submit_assignment.css'
+        )
 );
 
 $PAGE->set_url(
-    new moodle_url('/local/inveniordm/student/submit_assignment.php', [
-        'assignmentid' => $assignmentid
-    ])
+        new moodle_url('/local/inveniordm/student/submit_assignment.php', [
+                'assignmentid' => $assignmentid
+        ])
 );
 
 $PAGE->set_context($context);
@@ -118,15 +118,17 @@ $backurl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $CFG->ww
 $expired = time() > $assignment->duedate;
 
 ?>
-    <div class="hero-section">
-        <h1>Submit Assignment</h1>
-        <p>Upload your work for review.</p>
-    </div>
-    <div class="mb-4">
-        <a href="<?php echo $backurl; ?>" class="btn btn-outline-secondary">
-            <i class="fa fa-arrow-left"></i>
-            Back to Assignments
-        </a>
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-book"></i> Submit Assignment</h1>
+            <p>Upload your work for review.</p>
+        </div>
+        <div class="hero-actions">
+            <a href="<?php echo $backurl; ?>" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back to Assignments
+            </a>
+        </div>
     </div>
 
     <div class="submit-card">

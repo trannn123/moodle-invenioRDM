@@ -85,40 +85,70 @@ class admin_controller
         );
     }
 
-    public function get_activity_counts()
+    public function get_activity_counts($range = '30days')
     {
         global $DB;
-        return [
-            'uploads' => $DB->count_records(
-                'local_inveniordm_logs',
-                ['action' => 'UPLOAD_RESOURCE']
-            ),
 
-            'views' => $DB->count_records(
-                'local_inveniordm_logs',
-                ['action' => 'VIEW_RESOURCE']
-            ),
+        [$condition, $params] = $this->get_time_condition($range);
 
-            'downloads' => $DB->count_records(
-                'local_inveniordm_logs',
-                ['action' => 'DOWNLOAD_RESOURCE']
-            ),
-
-            'searches' => $DB->count_records(
-                'local_inveniordm_logs',
-                ['action' => 'SEARCH_RESOURCE']
-            ),
-
-            'attachments' => $DB->count_records(
-                'local_inveniordm_logs',
-                ['action' => 'ATTACH_RESOURCE']
-            ),
-
-            'submissions' => $DB->count_records(
-                'local_inveniordm_logs',
-                ['action' => 'SUBMIT_ASSIGNMENT']
-            )
+        $actions = [
+            'UPLOAD_RESOURCE',
+            'VIEW_RESOURCE',
+            'DOWNLOAD_RESOURCE',
+            'SEARCH_RESOURCE',
+            'ATTACH_RESOURCE',
+            'SUBMIT_ASSIGNMENT'
         ];
+
+        $result = [];
+
+        foreach ($actions as $action) {
+            $sql = "action = :action AND $condition";
+            $mergedparams = array_merge(
+                ['action' => $action],
+                $params
+            );
+            $count = $DB->count_records_select(
+                'local_inveniordm_logs',
+                $sql,
+                $mergedparams
+            );
+            $key = match ($action) {
+                'UPLOAD_RESOURCE' => 'uploads',
+                'VIEW_RESOURCE' => 'views',
+                'DOWNLOAD_RESOURCE' => 'downloads',
+                'SEARCH_RESOURCE' => 'searches',
+                'ATTACH_RESOURCE' => 'attachments',
+                'SUBMIT_ASSIGNMENT' => 'submissions',
+                default => strtolower($action)
+            };
+
+            $result[$key] = $count;
+        }
+        return $result;
+    }
+
+    private function get_time_condition($range)
+    {
+        switch ($range) {
+            case 'today':
+                return [
+                    "timecreated >= :time",
+                    ['time' => strtotime('today 00:00:00')]
+                ];
+            case '7days':
+                return [
+                    "timecreated >= :time",
+                    ['time' => time() - 7 * DAYSECS]
+                ];
+            case '30days':
+                return [
+                    "timecreated >= :time",
+                    ['time' => time() - 30 * DAYSECS]
+                ];
+            default:
+                return ["1=1", []];
+        }
     }
 
     public function get_recent_activity_data()
@@ -224,17 +254,23 @@ class admin_controller
         return $data;
     }
 
-    public function get_top_viewed_resources()
+    public function get_top_viewed_resources($range = '30days')
     {
         global $DB;
-        $topresources = $DB->get_records_sql(
-            "SELECT resourceid,
-                    COUNT(*) AS totalviews
-                    FROM {local_inveniordm_logs}
-                    WHERE action = 'VIEW_RESOURCE'
-                    AND resourceid <> ''
-                    GROUP BY resourceid
-                    ORDER BY totalviews DESC LIMIT 5");
+        [$condition, $params] = $this->get_time_condition($range);
+
+        $sql = "
+            SELECT resourceid, COUNT(*) AS totalviews
+            FROM {local_inveniordm_logs}
+            WHERE action = 'VIEW_RESOURCE'
+            AND $condition
+            AND resourceid <> ''
+            GROUP BY resourceid
+            ORDER BY totalviews DESC
+            LIMIT 5
+        ";
+
+        $topresources = $DB->get_records_sql($sql, $params);
 
         $resourceids = [];
         foreach ($topresources as $resource) {
@@ -268,17 +304,25 @@ class admin_controller
         return $data;
     }
 
-    public function get_top_downloaded_resources()
+    public function get_top_downloaded_resources($range = '30days')
     {
         global $DB;
-        $topresources = $DB->get_records_sql(
-            "SELECT resourceid,
-                    COUNT(*) AS totaldownloads
-                    FROM {local_inveniordm_logs}
-                    WHERE action = 'DOWNLOAD_RESOURCE'
-                    AND resourceid <> ''
-                    GROUP BY resourceid
-                    ORDER BY totaldownloads DESC LIMIT 5");
+
+        [$condition, $params] = $this->get_time_condition($range);
+
+        $sql = "
+            SELECT resourceid,
+            COUNT(*) AS totaldownloads
+            FROM {local_inveniordm_logs}
+            WHERE action = 'DOWNLOAD_RESOURCE'
+            AND $condition
+            AND resourceid IS NOT NULL
+            AND resourceid <> ''
+            GROUP BY resourceid
+            ORDER BY totaldownloads DESC LIMIT 5
+        ";
+
+        $topresources = $DB->get_records_sql($sql, $params);
 
         $resourceids = [];
         foreach ($topresources as $resource) {
@@ -312,14 +356,21 @@ class admin_controller
         return $data;
     }
 
-    public function get_top_active_users()
+    public function get_top_active_users($range = '30days')
     {
         global $DB;
-        $topusers = $DB->get_records_sql("
-            SELECT userid, COUNT(*) 
-                AS activitycount FROM {local_inveniordm_logs} 
-                GROUP BY userid ORDER BY activitycount 
-                DESC LIMIT 5");
+        [$condition, $params] = $this->get_time_condition($range);
+
+        $sql = "
+            SELECT userid, COUNT(*) AS activitycount
+            FROM {local_inveniordm_logs}
+            WHERE $condition
+            GROUP BY userid
+            ORDER BY activitycount DESC
+            LIMIT 5
+        ";
+
+        $topusers = $DB->get_records_sql($sql, $params);
 
         $userids = [];
 
@@ -355,18 +406,22 @@ class admin_controller
         return $data;
     }
 
-    public function get_top_courses()
+    public function get_top_courses($range = '30days')
     {
         global $DB;
 
-        $topcourses = $DB->get_records_sql("
-        SELECT courseid,
-               COUNT(*) AS totalactivities
-        FROM {local_inveniordm_logs}
-        WHERE courseid IS NOT NULL
-        GROUP BY courseid
-        ORDER BY totalactivities DESC
-        LIMIT 5");
+        [$condition, $params] = $this->get_time_condition($range);
+
+        $sql = "
+            SELECT courseid, COUNT(*) AS totalactivities
+            FROM {local_inveniordm_logs}
+            WHERE $condition
+            GROUP BY courseid
+            ORDER BY totalactivities DESC
+            LIMIT 5
+        ";
+
+        $topcourses = $DB->get_records_sql($sql, $params);
 
         $courseids = [];
 
@@ -400,13 +455,21 @@ class admin_controller
         return $data;
     }
 
-    public function get_activity_breakdown()
+    public function get_activity_breakdown($range = '30days')
     {
         global $DB;
-        $activitystats = $DB->get_records_sql("
-            SELECT action, COUNT(*) AS total 
-                FROM {local_inveniordm_logs} 
-                GROUP BY action ORDER BY total DESC");
+
+        [$condition, $params] = $this->get_time_condition($range);
+
+        $sql = "
+            SELECT action, COUNT(*) AS total
+            FROM {local_inveniordm_logs}
+            WHERE $condition
+            GROUP BY action
+            ORDER BY total DESC
+        ";
+
+        $activitystats = $DB->get_records_sql($sql, $params);
 
         $actionlabels = [
             'UPLOAD_RESOURCE' => 'Upload Resource',

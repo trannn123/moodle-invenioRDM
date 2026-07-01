@@ -1,0 +1,208 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1>
+                <i class="fa fa-file-text-o"></i>
+                {{assignmentname}}
+            </h1>
+            <p>Review and download student submissions.</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="invenio-detail-card mb-4">
+        <div class="card-header">
+            <h5>
+                <i class="fa fa-info-circle"></i>
+                Instructions
+            </h5>
+        </div>
+
+        <div class="card-body">
+            {{{instructions}}}
+        </div>
+    </div>
+
+    {{#hasresources}}
+    <div class="invenio-detail-card mb-4">
+        <div class="card-header">
+            <h5>
+                <i class="fa fa-paperclip"></i>
+                Attached Resources
+            </h5>
+        </div>
+
+        <div class="card-body">
+            <ul class="list-unstyled mb-0">
+                {{#resources}}
+                    <li>
+                        <i class="fa fa-file-text-o text-primary me-2"></i>
+                        {{title}}
+                    </li>
+                {{/resources}}
+            </ul>
+        </div>
+    </div>
+    {{/hasresources}}
+
+    <div class="stats-grid" style="margin-top:24px;margin-bottom:24px;">
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-users"></i>
+            </div>
+
+            <div>
+                <div class="stat-number">
+                    {{totalstudents}}
+                </div>
+
+                <div class="stat-label">
+                    Students
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-check-circle"></i>
+            </div>
+
+            <div>
+                <div class="stat-number">
+                    {{totalsubmissions}}
+                </div>
+
+                <div class="stat-label">
+                    Submitted
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-clock-o"></i>
+            </div>
+
+            <div>
+                <div class="stat-number">
+                    {{totalnotsubmitted}}
+                </div>
+
+                <div class="stat-label">
+                    Not Submitted
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="search-card mb-4">
+        <form method="get" class="search-form" action="{{searchurl}}">
+            <input type="hidden" name="assignmentid" value="{{assignmentid}}">
+            <div class="search-input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search student..." value="{{search}}">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i>
+                    Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{^hasstudents}}
+        <div class="alert alert-info">
+            No students enrolled.
+        </div>
+
+    {{/hasstudents}}
+
+    {{#hasstudents}}
+
+    <div class="submissions-table-wrapper">
+        <div class="table-header">
+            <h3>
+                <i class="fa fa-list-ul"></i>
+                Submissions List
+            </h3>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover submissions-table">
+                <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Status</th>
+                    <th>File</th>
+                    <th>Submitted At</th>
+                    <th>Action</th>
+                    <th>Grade</th>
+                    <th>Feedback</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {{#students}}
+                    <tr>
+                        <td class="student-name">
+                            <strong>{{studentname}}</strong>
+                        </td>
+                        <td>
+                            {{#statusactive}}
+                                <span class="badge-status status-active">
+                                    Submitted
+                                </span>
+                            {{/statusactive}}
+
+                            {{#statusoverdue}}
+                                <span class="badge-status status-overdue">
+                                    Not Submitted
+                                </span>
+                            {{/statusoverdue}}
+                        </td>
+                        <td>
+                            {{filename}}
+                        </td>
+                        <td>
+                            {{submittedat}}
+                        </td>
+                        <td>
+                            {{#hasactions}}
+                            <div class="action-buttons">
+                                <a class="btn btn-sm btn-primary action-btn" href="{{downloadurl}}">
+                                    <i class="fa fa-download"></i>
+                                    Download
+                                </a>
+                                <a class="btn btn-sm btn-outline-primary action-btn" href="{{reviewurl}}">
+                                    <i class="fa fa-eye"></i>
+                                    Review
+                                </a>
+                            </div>
+                            {{/hasactions}}
+
+                            {{^hasactions}}
+                                <span class="text-muted">—</span>
+                            {{/hasactions}}
+                        </td>
+                        <td>
+                            <span class="grade-badge">
+                                {{grade}}
+                            </span>
+                        </td>
+                        <td>
+                            {{feedback}}
+                        </td>
+                    </tr>
+                {{/students}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{/hasstudents}}
+</div>

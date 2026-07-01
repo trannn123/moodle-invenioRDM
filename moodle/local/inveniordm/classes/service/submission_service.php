@@ -321,4 +321,190 @@ class submission_service
             'success' => true
         ];
     }
+
+    public function get_view_submissions(int $assignmentid, string $search = ''): array
+    {
+        global $DB;
+
+        $assignment = $DB->get_record(
+            'local_inveniordm_assignments',
+            [
+                'id' => $assignmentid
+            ],
+            '*',
+            MUST_EXIST
+        );
+
+        $context = context_course::instance(
+            $assignment->courseid
+        );
+
+        $submissions = $DB->get_records(
+            'local_inveniordm_submissions',
+            [
+                'assignmentid' => $assignmentid
+            ]
+        );
+
+        $studentrole = $DB->get_record(
+            'role',
+            [
+                'shortname' => 'student'
+            ],
+            '*',
+            MUST_EXIST
+        );
+
+        $students = get_role_users(
+            $studentrole->id,
+            $context
+        );
+
+        if (!empty($search)) {
+            $students = array_filter(
+                $students,
+                function ($student) use ($search) {
+                    return stripos(
+                            fullname($student),
+                            $search
+                        ) !== false;
+                }
+            );
+        }
+
+        $submissionmap = [];
+
+        foreach ($submissions as $submission) {
+            $submissionmap[$submission->studentid] = $submission;
+        }
+
+        $items = [];
+
+        foreach ($students as $student) {
+
+            $submission =
+                $submissionmap[$student->id]
+                ?? null;
+
+            $submitted =
+                !empty($submission);
+
+            $items[] = [
+                'studentname' => fullname($student),
+
+                'submitted' => $submitted,
+
+                'status' => $submitted
+                    ? 'Submitted'
+                    : 'Not Submitted',
+
+                'statusactive' => $submitted,
+
+                'statusoverdue' => !$submitted,
+
+                'filename' => $submitted
+                    ? s($submission->filename)
+                    : '-',
+
+                'submittedat' => $submitted
+                    ? userdate(
+                        $submission->timecreated,
+                        '%d/%m/%Y %H:%M'
+                    )
+                    : '-',
+
+                'grade' => $submission->grade ?? '-',
+
+                'feedback' => !empty($submission->feedback)
+                    ? s($submission->feedback)
+                    : '-',
+
+                'hasactions' => $submitted,
+
+                'downloadurl' => $submitted
+                    ? (
+                    new moodle_url(
+                        '/local/inveniordm/lecturer/download_submission.php',
+                        [
+                            'submissionid' => $submission->id
+                        ]
+                    )
+                    )->out(false)
+                    : '',
+
+                'reviewurl' => $submitted
+                    ? (
+                    new moodle_url(
+                        '/local/inveniordm/lecturer/review_submission.php',
+                        [
+                            'submissionid' => $submission->id
+                        ]
+                    )
+                    )->out(false)
+                    : ''
+            ];
+        }
+
+        $resources = $DB->get_records(
+            'local_inveniordm_assignment_resources',
+            [
+                'assignmentid' => $assignmentid
+            ]
+        );
+
+        $resourceitems = [];
+
+        foreach ($resources as $resource) {
+            $resourceitems[] = [
+                'title' => $resource->title
+            ];
+        }
+
+        $totalsubmissions =
+            count($submissions);
+
+        $totalstudents =
+            count(get_role_users(
+                $studentrole->id,
+                $context
+            ));
+
+        return [
+            'assignmentid' => $assignmentid,
+
+            'assignmentname' => s(
+                $assignment->name
+            ),
+
+            'instructions' => format_text(
+                $assignment->instructions,
+                FORMAT_HTML
+            ),
+
+            'resources' => $resourceitems,
+
+            'hasresources' => !empty(
+            $resourceitems
+            ),
+
+            'students' => $items,
+
+            'hasstudents' => !empty(
+            $items
+            ),
+
+            'search' => $search,
+
+            'totalstudents' => $totalstudents,
+
+            'totalsubmissions' => $totalsubmissions,
+
+            'totalnotsubmitted' =>
+                $totalstudents -
+                $totalsubmissions,
+
+            'courseid' =>
+                $assignment->courseid
+        ];
+    }
 }

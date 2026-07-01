@@ -274,4 +274,50 @@ class lecturer_controller
             $user
         );
     }
+
+    public function get_view_submissions_context(): array
+    {
+        $assignmentid = required_param(
+            'assignmentid',
+            PARAM_INT
+        );
+
+        $search = trim(
+            optional_param(
+                'search',
+                '',
+                PARAM_TEXT
+            )
+        );
+
+        $service = new submission_service();
+
+        $data = $service->get_view_submissions(
+            $assignmentid,
+            $search
+        );
+
+        return array_merge(
+            $data,
+            [
+                'backurl' => (
+                new moodle_url(
+                    '/local/inveniordm/lecturer/assignments.php',
+                    [
+                        'courseid' => $data['courseid']
+                    ]
+                )
+                )->out(false),
+
+                'searchurl' => (
+                new moodle_url(
+                    '/local/inveniordm/lecturer/view_submissions.php',
+                    [
+                        'assignmentid' => $assignmentid
+                    ]
+                )
+                )->out(false)
+            ]
+        );
+    }
 }

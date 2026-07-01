@@ -20,4 +20,15 @@ class student_controller
             'hascourses' => !empty($data['courses'])
         ]);
     }
+
+    public function get_my_courses_context(): array
+    {
+        global $USER;
+        $service = new course_service();
+        $data = $service->get_my_courses($USER->id);
+
+        return array_merge($data, [
+            'backurl' => (new \moodle_url('/local/inveniordm/index.php'))->out(false),
+        ]);
+    }
 }

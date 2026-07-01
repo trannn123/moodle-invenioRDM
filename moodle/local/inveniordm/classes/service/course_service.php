@@ -75,4 +75,46 @@ class course_service
             'totalresources' => $totalresources
         ];
     }
+
+    public function get_my_courses(int $userid): array
+    {
+        global $DB;
+        $courses = enrol_get_users_courses($userid, true);
+
+        $courseitems = [];
+        $totalcourses = 0;
+        $totalresources = 0;
+
+        foreach ($courses as $course) {
+            if ($course->id == SITEID) {
+                continue;
+            }
+            $totalcourses++;
+            $resourcecount = $DB->count_records(
+                'local_inveniordm_course_resources',
+                ['courseid' => $course->id]
+            );
+            $totalresources += $resourcecount;
+            $courseitems[] = [
+                'id' => $course->id,
+                'fullname' => format_string($course->fullname),
+                'resourcecount' => $resourcecount,
+                'resourceurl' => (new \moodle_url(
+                    '/local/inveniordm/student/course_resources.php',
+                    ['courseid' => $course->id]
+                ))->out(false),
+                'assignurl' => (new \moodle_url(
+                    '/local/inveniordm/student/assignments.php',
+                    ['courseid' => $course->id]
+                ))->out(false),
+            ];
+        }
+
+        return [
+            'courses' => $courseitems,
+            'totalcourses' => $totalcourses,
+            'totalresources' => $totalresources,
+            'hascourses' => !empty($courseitems),
+        ];
+    }
 }

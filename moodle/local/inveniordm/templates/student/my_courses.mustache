@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-book"></i> My Courses</h1>
+            <p>Access your enrolled courses and learning resources</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="stats-grid" style="margin-top: 24px; margin-bottom: 32px;">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-book"></i></div>
+            <div>
+                <div class="stat-number">{{totalcourses}}</div>
+                <div class="stat-label">Courses</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
+            <div>
+                <div class="stat-number">{{totalresources}}</div>
+                <div class="stat-label">Resources</div>
+            </div>
+        </div>
+    </div>
+
+    {{#hascourses}}
+    <div class="course-grid">
+        {{#courses}}
+        <div class="course-card">
+            <div class="course-card-header">
+                <span class="course-title">{{fullname}}</span>
+                <span class="badge-teaching">Enrolled</span>
+            </div>
+
+            <div class="course-card-body">
+                <div class="course-info-row">
+                    <span class="course-info-label">Course ID</span>
+                    <span class="course-info-value">{{id}}</span>
+                </div>
+
+                <div class="course-info-row">
+                    <span class="course-info-label">Resources</span>
+                    <span class="course-info-value">{{resourcecount}}</span>
+                </div>
+            </div>
+
+            <div class="course-card-actions">
+                <a class="btn btn-primary" href="{{resourceurl}}">
+                    <i class="fa fa-folder-open"></i> Open Resources
+                </a>
+
+                <a class="btn btn-outline-primary" href="{{assignurl}}">
+                    <i class="fa fa-tasks"></i> Open Assignments
+                </a>
+            </div>
+        </div>
+        {{/courses}}
+    </div>
+    {{/hascourses}}
+
+    {{^hascourses}}
+    <div class="alert-info-custom">
+        <i class="fa fa-info-circle fa-3x"></i>
+        <p>No courses found</p>
+        <div class="text-muted">You are not enrolled in any courses.</div>
+    </div>
+    {{/hascourses}}
+</div>

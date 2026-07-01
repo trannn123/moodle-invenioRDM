@@ -296,4 +296,74 @@ class course_service
         $plugin = enrol_get_plugin('self');
         $plugin->enrol_user($selfinstance, $userid, 5);
     }
+
+    public function get_lecturer_assignments(int $userid, array $courses, string $search = ''): array
+    {
+        global $DB;
+        $items = [];
+        $totalcourses = 0;
+
+        foreach ($courses as $course) {
+            if ($course->id == SITEID) {
+                continue;
+            }
+            $context = \context_course::instance($course->id);
+
+            if (!has_capability('local/inveniordm:upload', $context)) {
+                continue;
+            }
+            $totalcourses++;
+            $assignments = $DB->get_records(
+                'local_inveniordm_assignments',
+                ['courseid' => $course->id]
+            );
+
+            foreach ($assignments as $a) {
+                if (!empty($search)) {
+                    if (stripos($a->name, $search) === false &&
+                        stripos($course->fullname, $search) === false) {
+                        continue;
+                    }
+                }
+
+                $resourcecount = $DB->count_records(
+                    'local_inveniordm_assignment_resources',
+                    ['assignmentid' => $a->id]
+                );
+
+                $submissioncount = $DB->count_records(
+                    'local_inveniordm_submissions',
+                    ['assignmentid' => $a->id]
+                );
+
+                $items[] = [
+                    'id' => $a->id,
+                    'name' => format_string($a->name),
+                    'coursename' => format_string($course->fullname),
+                    'course' => $course,
+                    'duedate' => $a->duedate
+                        ? date('d/m/Y H:i', $a->duedate)
+                        : 'No due date',
+                    'resourcecount' => $resourcecount,
+                    'submissioncount' => $submissioncount,
+                    'status' => ($a->duedate > 0 && $a->duedate < time())
+                        ? 'Overdue'
+                        : 'Active',
+                    'statusclass' => ($a->duedate > 0 && $a->duedate < time())
+                        ? 'status-overdue'
+                        : 'status-active',
+                    'submissionsurl' => (new \moodle_url(
+                        '/local/inveniordm/lecturer/view_submissions.php',
+                        ['assignmentid' => $a->id]
+                    ))->out(false),
+                ];
+            }
+        }
+
+        return [
+            'items' => $items,
+            'totalassignments' => count($items),
+            'totalcourses' => $totalcourses
+        ];
+    }
 }

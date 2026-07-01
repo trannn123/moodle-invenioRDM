@@ -483,4 +483,73 @@ class course_service
             'totalresources' => count($result),
         ];
     }
+
+    public function create_assignment(int $courseid, array $post): array
+    {
+        global $DB, $USER;
+        $assignment = (object)[
+            'courseid' => $courseid,
+            'name' => required_param('name', PARAM_TEXT),
+            'instructions' => optional_param('instructions', '', PARAM_TEXT),
+            'duedate' => strtotime(required_param('duedate', PARAM_TEXT)),
+            'createdby' => $USER->id,
+            'timecreated' => time()
+        ];
+
+        $assignmentid = $DB->insert_record('local_inveniordm_assignments', $assignment);
+        $resources = $_POST['resources'] ?? [];
+
+        foreach ($resources as $recordid => $title) {
+            $DB->insert_record('local_inveniordm_assignment_resources', (object)[
+                'assignmentid' => $assignmentid,
+                'recordid' => $recordid,
+                'title' => $title
+            ]);
+        }
+
+        redirect(
+            new moodle_url('/local/inveniordm/lecturer/assignments.php', [
+                'courseid' => $courseid
+            ]),
+            'Assignment created successfully'
+        );
+    }
+
+    public function get_create_assignment_form_context(int $courseid): array
+    {
+        global $DB;
+        $client = new \local_inveniordm\api\invenio_client();
+
+        $search = optional_param('searchresource', '', PARAM_TEXT);
+        $page = optional_param('page', 1, PARAM_INT);
+        $pagesize = 25;
+
+        $records = $client->get_records($search, [
+            'page' => $page,
+            'size' => $pagesize
+        ]);
+
+        $hits = $records['hits']['hits'] ?? [];
+        $totalrecords = $records['hits']['total'] ?? count($hits);
+        $totalpages = max(1, ceil($totalrecords / $pagesize));
+
+        return [
+            'courseid' => $courseid,
+            'search' => $search,
+            'page' => $page,
+            'backurl' => (new moodle_url(
+                '/local/inveniordm/lecturer/assignments.php',
+                ['courseid' => $courseid]
+            ))->out(false),
+            'hits' => array_map(function ($hit) {
+                return [
+                    'id' => $hit['id'] ?? '',
+                    'title' => $hit['metadata']['title'] ?? 'Untitled'
+                ];
+            }, $hits),
+            'totalrecords' => $totalrecords,
+            'totalpages' => $totalpages,
+            'hasresources' => !empty($hits),
+        ];
+    }
 }

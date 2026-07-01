@@ -67,4 +67,14 @@ class lecturer_controller
             ))->out(false),
         ]);
     }
+
+    public function get_create_assignment_context(int $courseid, array $post): array
+    {
+        $service = new course_service();
+        if (!empty($post)) {
+            return $service->create_assignment($courseid, $post);
+        }
+
+        return $service->get_create_assignment_form_context($courseid);
+    }
 }

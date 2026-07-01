@@ -1,0 +1,132 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1>
+                <i class="fa fa-check-circle"></i>
+                Review Submission
+            </h1>
+            <p>Evaluate student work and provide feedback.</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back to Submissions
+            </a>
+        </div>
+    </div>
+
+    <div class="review-card mt-4">
+        <div class="review-card-body">
+            <div class="review-info-row">
+                <span class="info-label">Student</span>
+                <span class="info-value">{{studentname}}</span>
+            </div>
+
+            <div class="review-info-row">
+                <span class="info-label">Assignment</span>
+                <span class="info-value">{{assignmentname}}</span>
+            </div>
+
+            <div class="review-info-row">
+                <span class="info-label">File</span>
+                <span class="info-value">{{filename}}</span>
+            </div>
+
+            <div class="review-info-row">
+                <span class="info-label">Current Grade</span>
+                <span class="info-value">
+                    {{#grade}}
+                        {{grade}}
+                    {{/grade}}
+                    {{^grade}}
+                        -
+                    {{/grade}}
+                </span>
+            </div>
+
+            <div class="review-info-row">
+                <span class="info-label">Current Feedback</span>
+                <span class="info-value">
+                    {{#feedback}}
+                        {{feedback}}
+                    {{/feedback}}
+                    {{^feedback}}
+                        -
+                    {{/feedback}}
+                </span>
+            </div>
+        </div>
+
+        <form method="post">
+            {{#errors}}
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    {{#grade}}
+                        <li>{{grade}}</li>
+                    {{/grade}}
+
+                    {{#feedback}}
+                        <li>{{feedback}}</li>
+                    {{/feedback}}
+                </ul>
+            </div>
+            {{/errors}}
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Grade
+                    <span class="text-danger">*</span>
+                </label>
+
+                {{#cansave}}
+                    <input type="text" name="grade" class="form-control" value="{{grade}}" required>
+                {{/cansave}}
+
+                {{^cansave}}
+                    <input type="text" class="form-control" value="{{grade}}" disabled>
+                {{/cansave}}
+
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">
+                    Feedback
+                    <span class="text-danger">*</span>
+                </label>
+
+                {{#cansave}}
+                    <textarea name="feedback" class="form-control" rows="6" required>{{feedback}}</textarea>
+                {{/cansave}}
+
+                {{^cansave}}
+                    <textarea class="form-control" rows="6" disabled>{{feedback}}</textarea>
+                {{/cansave}}
+            </div>
+
+            <div class="review-card-actions" style="border-top:none;padding-left:0;padding-right:0;">
+
+                {{#cansave}}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        Save Review
+                    </button>
+                {{/cansave}}
+
+                {{#canpublish}}
+                    <a href="{{publishurl}}" class="btn btn-outline-primary">
+                        <i class="fa fa-cloud-upload"></i>
+                        Publish to Invenio
+                    </a>
+                {{/canpublish}}
+
+                {{#published}}
+                    <span class="text-success">
+                        <i class="fa fa-check-circle"></i>
+                        Successfully published to Invenio
+                    </span>
+                {{/published}}
+            </div>
+        </form>
+    </div>
+</div>

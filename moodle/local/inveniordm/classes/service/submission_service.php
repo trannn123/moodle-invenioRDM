@@ -236,4 +236,89 @@ class submission_service
             ['id' => $submissionid]
         );
     }
+
+    public function get_review_submission(int $submissionid): array
+    {
+        global $DB;
+        $submission = $DB->get_record(
+            'local_inveniordm_submissions',
+            ['id' => $submissionid],
+            '*',
+            MUST_EXIST
+        );
+
+        $assignment = $DB->get_record(
+            'local_inveniordm_assignments',
+            ['id' => $submission->assignmentid],
+            '*',
+            MUST_EXIST
+        );
+
+        $student = $DB->get_record(
+            'user',
+            ['id' => $submission->studentid],
+            '*',
+            MUST_EXIST
+        );
+
+        return [
+            'submissionid' => $submissionid,
+            'assignmentid' => $assignment->id,
+            'studentname' => fullname($student),
+            'assignmentname' => s($assignment->name),
+            'filename' => s($submission->filename),
+            'grade' => s($submission->grade ?? ''),
+            'feedback' => s($submission->feedback ?? ''),
+            'published' => !empty($submission->published_to_invenio),
+            'cansave' => empty($submission->published_to_invenio),
+            'canpublish' =>
+                !empty($submission->grade)
+                && !empty($submission->feedback)
+                && empty($submission->published_to_invenio),
+        ];
+    }
+
+    public function save_review(
+        int    $submissionid,
+        string $grade,
+        string $feedback
+    ): array
+    {
+
+        global $DB;
+        $errors = [];
+
+        if ($grade === '') {
+            $errors['grade'] = 'Grade is required.';
+        }
+
+        if ($feedback === '') {
+            $errors['feedback'] = 'Feedback is required.';
+        }
+
+        if (!empty($errors)) {
+            return [
+                'success' => false,
+                'errors' => $errors
+            ];
+        }
+
+        $DB->set_field(
+            'local_inveniordm_submissions',
+            'grade',
+            $grade,
+            ['id' => $submissionid]
+        );
+
+        $DB->set_field(
+            'local_inveniordm_submissions',
+            'feedback',
+            $feedback,
+            ['id' => $submissionid]
+        );
+
+        return [
+            'success' => true
+        ];
+    }
 }

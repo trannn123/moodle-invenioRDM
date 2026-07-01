@@ -136,4 +136,54 @@ class lecturer_controller
             'Published to Invenio successfully'
         );
     }
+
+    public function get_review_submission_context(array $post): array
+    {
+        $submissionid = required_param(
+            'submissionid',
+            PARAM_INT
+        );
+
+        $service = new submission_service();
+
+        if (!empty($post)) {
+            $result = $service->save_review(
+                $submissionid,
+                trim(optional_param('grade', '', PARAM_TEXT)),
+                trim(optional_param('feedback', '', PARAM_TEXT))
+            );
+
+            if ($result['success']) {
+                redirect(
+                    new moodle_url(
+                        '/local/inveniordm/lecturer/review_submission.php',
+                        [
+                            'submissionid' => $submissionid
+                        ]
+                    ),
+                    'Review saved successfully.'
+                );
+            }
+        }
+
+        $data = $service->get_review_submission(
+            $submissionid
+        );
+
+        return array_merge($data, [
+            'errors' => $result['errors'] ?? [],
+            'backurl' => (new moodle_url(
+                '/local/inveniordm/lecturer/view_submissions.php',
+                [
+                    'assignmentid' => $data['assignmentid']
+                ]
+            ))->out(false),
+            'publishurl' => (new moodle_url(
+                '/local/inveniordm/lecturer/publish_submission.php',
+                [
+                    'submissionid' => $submissionid
+                ]
+            ))->out(false),
+        ]);
+    }
 }

@@ -112,4 +112,28 @@ class lecturer_controller
             ))->out(false),
         ]);
     }
+
+    public function publish_submission(): void
+    {
+        $submissionid = required_param(
+            'submissionid',
+            PARAM_INT
+        );
+
+        $service = new submission_service();
+
+        $service->publish_to_invenio(
+            $submissionid
+        );
+
+        redirect(
+            new moodle_url(
+                '/local/inveniordm/lecturer/review_submission.php',
+                [
+                    'submissionid' => $submissionid
+                ]
+            ),
+            'Published to Invenio successfully'
+        );
+    }
 }

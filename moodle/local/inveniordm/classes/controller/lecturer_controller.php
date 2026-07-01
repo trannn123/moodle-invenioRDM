@@ -264,4 +264,14 @@ class lecturer_controller
             'Attached successfully'
         );
     }
+
+    public function process_upload($data, $user): array
+    {
+        $service = new upload_service();
+
+        return $service->upload(
+            $data,
+            $user
+        );
+    }
 }

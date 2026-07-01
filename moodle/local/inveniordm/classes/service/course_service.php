@@ -145,4 +145,64 @@ class course_service
         $plugin = enrol_get_plugin('self');
         $plugin->enrol_user($selfinstance, $userid, 5);
     }
+
+    public function get_lecturer_my_courses(int $userid, string $search = ''): array
+    {
+        global $DB;
+        $courses = enrol_get_users_courses($userid, true);
+
+        if (!empty($search)) {
+            $courses = array_filter($courses, function ($course) use ($search) {
+                if ($course->id == SITEID) {
+                    return false;
+                }
+
+                return (
+                    stripos($course->fullname, $search) !== false ||
+                    stripos($course->shortname, $search) !== false ||
+                    stripos((string)$course->id, $search) !== false
+                );
+            });
+        }
+
+        $items = [];
+        $totalcourses = 0;
+        $totalresources = 0;
+
+        foreach ($courses as $course) {
+            if ($course->id == SITEID) {
+                continue;
+            }
+
+            $resourcecount = $DB->count_records(
+                'local_inveniordm_course_resources',
+                ['courseid' => $course->id]
+            );
+
+            $totalcourses++;
+            $totalresources += $resourcecount;
+
+            $items[] = [
+                'id' => $course->id,
+                'fullname' => format_string($course->fullname),
+                'shortname' => s($course->shortname),
+                'resourcecount' => $resourcecount,
+                'manageurl' => (new moodle_url(
+                    '/local/inveniordm/lecturer/course_resources.php',
+                    ['courseid' => $course->id]
+                ))->out(false),
+                'assignurl' => (new moodle_url(
+                    '/local/inveniordm/lecturer/assignments.php',
+                    ['courseid' => $course->id]
+                ))->out(false),
+            ];
+        }
+
+        return [
+            'courses' => $items,
+            'totalcourses' => $totalcourses,
+            'totalresources' => $totalresources,
+            'hascourses' => !empty($items)
+        ];
+    }
 }

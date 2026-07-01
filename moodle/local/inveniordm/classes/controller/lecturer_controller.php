@@ -77,4 +77,27 @@ class lecturer_controller
 
         return $service->get_create_assignment_form_context($courseid);
     }
+
+    public function get_my_courses_context(): array
+    {
+        global $USER;
+        $search = optional_param('search', '', PARAM_TEXT);
+        $search = trim($search);
+
+        $service = new course_service();
+        $data = $service->get_lecturer_my_courses(
+            $USER->id,
+            $search
+        );
+
+        return array_merge($data, [
+            'search' => $search,
+            'backurl' => (new moodle_url(
+                '/local/inveniordm/index.php'
+            ))->out(false),
+            'reseturl' => (new moodle_url(
+                '/local/inveniordm/lecturer/my_courses.php'
+            ))->out(false),
+        ]);
+    }
 }

@@ -1,0 +1,153 @@
+<div class="container mt-4">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1>
+                <i class="fa fa-graduation-cap"></i>
+                My Teaching Courses
+            </h1>
+            <p>
+                Manage course resources and repository content for your teaching courses.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="search-card mb-4">
+        <form method="get" class="search-form">
+            <div class="search-input-group">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search teaching courses..."
+                    value="{{search}}">
+
+                <button class="btn btn-primary">
+                    <i class="fa fa-search"></i>
+                    Search
+                </button>
+
+                <a href="{{reseturl}}" class="btn btn-outline-secondary">
+                    <i class="fa fa-refresh"></i>
+                    Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="stats-grid mb-4">
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-book"></i>
+            </div>
+
+            <div class="stat-content">
+                <div class="stat-number">
+                    {{totalcourses}}
+                </div>
+
+                <div class="stat-label">
+                    Teaching Courses
+                </div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-file"></i>
+            </div>
+
+            <div class="stat-content">
+                <div class="stat-number">
+                    {{totalresources}}
+                </div>
+
+                <div class="stat-label">
+                    Attached Resources
+                </div>
+            </div>
+        </div>
+    </div>
+    {{^hascourses}}
+
+    <div class="alert-info-custom">
+        <i class="fa fa-inbox fa-2x"></i>
+        <p>No courses found</p>
+        <span class="text-muted">
+            You are not currently teaching any courses
+        </span>
+    </div>
+    {{/hascourses}}
+
+    {{#hascourses}}
+    <div class="course-grid">
+        {{#courses}}
+        <div class="course-card">
+            <div class="course-card-header">
+                <h3 class="course-title">
+                    {{fullname}}
+                </h3>
+                <span class="badge-teaching">
+                    Teaching
+                </span>
+            </div>
+
+            <div class="course-card-body">
+                <div class="course-info-row">
+                    <span class="course-info-label">
+                        Course ID
+                    </span>
+                    <span class="course-info-value">
+                        {{id}}
+                    </span>
+                </div>
+
+                <div class="course-info-row">
+                    <span class="course-info-label">
+                        Short Name
+                    </span>
+
+                    <span class="course-info-value">
+                        {{shortname}}
+                    </span>
+                </div>
+
+                <div class="course-info-row">
+                    <span class="course-info-label">
+                        Resources
+                    </span>
+
+                    <span class="course-info-value">
+                        {{resourcecount}}
+                    </span>
+                </div>
+            </div>
+
+            <div class="course-card-actions">
+                <a
+                    class="btn btn-primary w-100 mb-2"
+                    href="{{manageurl}}">
+
+                    <i class="fa fa-folder-open"></i>
+                    Manage Resources
+                </a>
+
+                <a
+                    class="btn btn-outline-primary"
+                    href="{{assignurl}}">
+
+                    <i class="fa fa-tasks"></i>
+                    Open Assignments
+                </a>
+            </div>
+        </div>
+        {{/courses}}
+    </div>
+    {{/hascourses}}
+</div>

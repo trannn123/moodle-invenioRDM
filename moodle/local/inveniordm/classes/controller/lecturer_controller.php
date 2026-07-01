@@ -50,4 +50,21 @@ class lecturer_controller
             'createurl' => (new moodle_url('/local/inveniordm/lecturer/create_assignment.php', ['courseid' => $courseid]))->out(false),
         ]);
     }
+
+    public function get_course_resources_context(int $courseid): array
+    {
+        $service = new course_service();
+        $data = $service->get_lecturer_course_resources($courseid);
+
+        return array_merge($data, [
+            'courseid' => $courseid,
+            'backurl' => (new moodle_url(
+                '/local/inveniordm/lecturer/my_courses.php'
+            ))->out(false),
+            'searchurl' => (new moodle_url(
+                '/local/inveniordm/lecturer/search_resources_to_attach.php',
+                ['courseid' => $courseid]
+            ))->out(false),
+        ]);
+    }
 }

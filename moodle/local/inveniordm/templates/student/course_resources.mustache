@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-folder-open"></i> Course Resources</h1>
+            <p>Browse learning resources attached to this course</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    {{#hasresources}}
+    <div class="course-grid">
+        {{#resources}}
+        <div class="resource-card">
+            <div class="resource-card-header">
+                <span class="resource-title">{{title}}</span>
+            </div>
+
+            <div class="resource-card-body">
+                <div class="resource-info-row">
+                    <span class="resource-info-label">Record ID</span>
+                    <span class="resource-info-value">{{recordid}}</span>
+                </div>
+
+                <div class="resource-info-row">
+                    <span class="resource-info-label">Added</span>
+                    <span class="resource-info-value">{{timecreated}}</span>
+                </div>
+            </div>
+
+            <div class="resource-card-actions">
+                <a class="btn btn-primary" href="{{viewurl}}">
+                    <i class="fa fa-eye"></i> View Metadata
+                </a>
+            </div>
+        </div>
+        {{/resources}}
+    </div>
+    {{/hasresources}}
+
+    {{^hasresources}}
+    <div class="alert-info-custom">
+        <i class="fa fa-info-circle fa-3x"></i>
+        <p>No resources found</p>
+        <div class="text-muted">
+            This course currently has no attached learning resources.
+        </div>
+    </div>
+    {{/hasresources}}
+</div>

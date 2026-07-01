@@ -61,4 +61,17 @@ class student_controller
             ))->out(false),
         ]);
     }
+
+    public function get_course_resources_context(): array
+    {
+        $courseid = required_param('courseid', PARAM_INT);
+        $service = new course_service();
+        $data = $service->get_course_resources($courseid);
+
+        return array_merge($data, [
+            'backurl' => (new \moodle_url(
+                '/local/inveniordm/student/all_courses.php'
+            ))->out(false),
+        ]);
+    }
 }

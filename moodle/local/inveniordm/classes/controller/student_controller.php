@@ -87,4 +87,33 @@ class student_controller
             new \moodle_url('/local/inveniordm/student/my_courses.php')
         );
     }
+
+    public function submit_assignment(array $post, array $files): void
+    {
+        global $USER;
+        $assignmentid = $post['assignmentid'] ?? 0;
+
+        if (!$assignmentid) {
+            throw new moodle_exception('missingassignmentid');
+        }
+
+        if (empty($files['submission']) || empty($files['submission']['name'])) {
+            throw new moodle_exception('nofile');
+        }
+
+        $service = new \local_inveniordm\service\submission_service();
+
+        $courseid = $service->handle_submission(
+            (int)$assignmentid,
+            $USER->id,
+            $files['submission']
+        );
+
+        redirect(
+            new moodle_url('/local/inveniordm/student/assignments.php', [
+                'courseid' => $courseid
+            ]),
+            'Submitted successfully'
+        );
+    }
 }

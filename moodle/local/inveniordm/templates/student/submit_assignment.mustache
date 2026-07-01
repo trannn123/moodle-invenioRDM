@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-book"></i> Submit Assignment</h1>
+            <p>Upload your work for review</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="submit-card">
+        <h2>{{name}}</h2>
+        <div class="assignment-instructions">
+            {{{instructions}}}
+        </div>
+        <p>
+            <strong>Due date:</strong>
+            {{duedate}}
+        </p>
+        {{#submitted}}
+        <div class="alert alert-success">
+            <strong>Submission received.</strong><br>
+            Current file: {{filename}}<br>
+            Submitted at: {{submittedtime}}
+        </div>
+        {{/submitted}}
+
+        {{#resources}}
+        <div class="attached-resources">
+            <h4>Attached Resources</h4>
+            {{#items}}
+            <div class="resource-card">
+                <div>
+                    <strong>{{title}}</strong><br>
+                    <small>Resource ID: {{recordid}}</small>
+                </div>
+                <a href="{{viewurl}}" class="btn btn-sm btn-outline-primary">
+                    View Resource
+                </a>
+            </div>
+            {{/items}}
+        </div>
+        {{/resources}}
+
+        {{#expired}}
+        <div class="alert alert-danger">
+            <strong>Assignment closed.</strong><br>
+            The submission deadline has passed.
+        </div>
+        {{/expired}}
+
+        {{^expired}}
+        <form method="post" enctype="multipart/form-data" action="">
+            <div class="upload-area">
+                <input type="hidden" name="assignmentid" value="{{assignmentid}}">
+                <input type="file" name="submission" id="submission" required>
+                <label for="submission" class="upload-label">
+                    <div class="upload-icon">
+                        <i class="fa fa-cloud-upload-alt"></i>
+                    </div>
+                    <div class="upload-text">
+                        Click to select file
+                    </div>
+                    <div class="upload-subtext">
+                        PDF, DOCX, ZIP...
+                    </div>
+                </label>
+                <div id="selected-file" class="selected-file"></div>
+            </div>
+            <button class="btn btn-outline-primary" type="submit">
+                {{buttontext}}
+            </button>
+        </form>
+        {{/expired}}
+    </div>
+</div>
+
+<script>
+const fileInput = document.getElementById("submission");
+if (fileInput) {
+    fileInput.addEventListener("change", function () {
+        const file = this.files[0];
+        if (file) {
+            document.getElementById("selected-file").innerHTML =
+                "Selected: " + file.name;
+        }
+    });
+}
+</script>

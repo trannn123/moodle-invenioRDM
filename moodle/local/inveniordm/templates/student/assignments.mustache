@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-tasks"></i> Assignments</h1>
+            <p>View and submit course assignments</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    {{#hasassignments}}
+    <div class="assignment-grid">
+        {{#assignments}}
+        <div class="assignment-card">
+            <div class="assignment-card-header">
+                <span class="assignment-title">{{name}}</span>
+                {{{badge}}}
+            </div>
+
+            <div class="assignment-card-body">
+                <div class="assignment-info-row">
+                    <span class="info-label">Due Date</span>
+                    <span class="info-value">{{duedate}}</span>
+                </div>
+
+                {{#description}}
+                <div class="assignment-info-row">
+                    <span class="info-label">Description</span>
+                    <span class="info-value">{{description}}</span>
+                </div>
+                {{/description}}
+
+                {{#submitted}}
+                <div class="assignment-info-row">
+                    <span class="info-label">Submitted File</span>
+                    <span class="info-value">{{filename}}</span>
+                </div>
+                {{/submitted}}
+            </div>
+
+            <div class="assignment-card-actions">
+                <a class="btn {{btnclass}}" href="{{submiturl}}">
+                    <i class="fa {{icon}}"></i>
+                    {{buttonlabel}}
+                </a>
+            </div>
+        </div>
+        {{/assignments}}
+    </div>
+    {{/hasassignments}}
+
+    {{^hasassignments}}
+    <div class="alert-info-custom">
+        <i class="fa fa-info-circle fa-3x"></i>
+        <p>No assignments found</p>
+        <div class="text-muted">
+            This course currently has no assignments.
+        </div>
+    </div>
+    {{/hasassignments}}
+</div>

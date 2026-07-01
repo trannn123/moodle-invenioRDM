@@ -1,0 +1,100 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1><i class="fa fa-tasks"></i> All Assignments</h1>
+            <p>Browse all assignments across your enrolled courses</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+
+    <div class="search-card mb-4">
+        <form method="get" class="search-form" action="{{currenturl}}">
+            <div class="search-input-group">
+                <input type="text" name="search" class="form-control"
+                       placeholder="Search by assignment name or course..."
+                       value="{{search}}">
+
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i> Search
+                </button>
+
+                <a href="{{currenturl}}" class="btn btn-outline-secondary">
+                    <i class="fa fa-refresh"></i> Reset
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-file-alt"></i></div>
+            <div>
+                <div class="stat-number">{{totalassignments}}</div>
+                <div class="stat-label">Assignments</div>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fa fa-book"></i></div>
+            <div>
+                <div class="stat-number">{{totalcourses}}</div>
+                <div class="stat-label">Courses</div>
+            </div>
+        </div>
+    </div>
+
+    {{#hasassignments}}
+    <div class="assignment-grid">
+        {{#assignments}}
+        <div class="assignment-card">
+            <div class="assignment-card-header">
+                <span class="assignment-title">{{name}}</span>
+                {{{badge}}}
+            </div>
+
+            <div class="assignment-card-body">
+                <div class="assignment-info-row">
+                    <span class="info-label">Course</span>
+                    <span class="info-value">{{coursename}}</span>
+                </div>
+
+                <div class="assignment-info-row">
+                    <span class="info-label">Due Date</span>
+                    <span class="info-value">{{duedate}}</span>
+                </div>
+
+                {{#submitted}}
+                <div class="assignment-info-row">
+                    <span class="info-label">Submitted File</span>
+                    <span class="info-value">{{filename}}</span>
+                </div>
+                {{/submitted}}
+            </div>
+
+            <div class="assignment-card-actions">
+                <a class="btn {{submitbtnclass}}" href="{{submiturl}}">
+                    <i class="fa {{submiticon}}"></i>
+                    {{submitlabel}}
+                </a>
+            </div>
+        </div>
+        {{/assignments}}
+
+    </div>
+    {{/hasassignments}}
+
+    {{^hasassignments}}
+    <div class="alert-info-custom">
+        <i class="fa fa-info-circle fa-3x"></i>
+        <p>No assignments found</p>
+        <div class="text-muted">
+            You are not enrolled in any courses with assignments, or no results match your search.
+        </div>
+    </div>
+    {{/hasassignments}}
+</div>

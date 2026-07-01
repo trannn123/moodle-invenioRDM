@@ -31,4 +31,34 @@ class student_controller
             'backurl' => (new \moodle_url('/local/inveniordm/index.php'))->out(false),
         ]);
     }
+
+    public function get_all_assignments_context(): array
+    {
+        $search = optional_param('search', '', PARAM_TEXT);
+        $search = trim($search);
+        $service = new course_service();
+        $data = $service->get_all_assignments($GLOBALS['USER']->id, $search);
+
+        return array_merge($data, [
+            'search' => $search,
+            'backurl' => (new \moodle_url('/local/inveniordm/index.php'))->out(false),
+            'currenturl' => (new \moodle_url('/local/inveniordm/student/all_assignments.php'))->out(false),
+        ]);
+    }
+
+    public function get_course_assignments_context(): array
+    {
+        $courseid = required_param('courseid', PARAM_INT);
+        $service = new course_service();
+        $data = $service->get_course_assignments(
+            $courseid,
+            $GLOBALS['USER']->id
+        );
+
+        return array_merge($data, [
+            'backurl' => (new \moodle_url(
+                '/local/inveniordm/student/all_courses.php'
+            ))->out(false),
+        ]);
+    }
 }

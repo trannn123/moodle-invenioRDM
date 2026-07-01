@@ -28,4 +28,26 @@ class lecturer_controller
             'hasassignments' => !empty($assignments['items']),
         ];
     }
+
+    public function get_course_assignments_context(): array
+    {
+        global $USER;
+        $courseid = required_param('courseid', PARAM_INT);
+        $search = trim(optional_param('search', '', PARAM_TEXT));
+        $service = new course_service();
+
+        $data = $service->get_lecturer_course_assignments(
+            $courseid,
+            $USER->id,
+            $search
+        );
+
+        return array_merge($data, [
+            'courseid' => $courseid,
+            'search' => $search,
+            'backurl' => (new moodle_url('/local/inveniordm/lecturer/my_courses.php'))->out(false),
+            'reseturl' => (new moodle_url('/local/inveniordm/lecturer/assignments.php', ['courseid' => $courseid]))->out(false),
+            'createurl' => (new moodle_url('/local/inveniordm/lecturer/create_assignment.php', ['courseid' => $courseid]))->out(false),
+        ]);
+    }
 }

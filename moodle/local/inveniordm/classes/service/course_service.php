@@ -366,4 +366,85 @@ class course_service
             'totalcourses' => $totalcourses
         ];
     }
+
+    public function get_lecturer_course_assignments(int $courseid, int $userid, string $search = ''): array
+    {
+        global $DB;
+        $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
+        $context = \context_course::instance($courseid);
+
+        if (!has_capability('local/inveniordm:upload', $context)) {
+            throw new \required_capability_exception($context, 'local/inveniordm:upload', 'nopermission', '');
+        }
+
+        $assignments = $DB->get_records(
+            'local_inveniordm_assignments',
+            ['courseid' => $courseid],
+            'duedate ASC'
+        );
+
+        $items = [];
+
+        foreach ($assignments as $a) {
+            if (!empty($search)) {
+                if (stripos($a->name, $search) === false &&
+                    stripos((string)$a->id, $search) === false) {
+                    continue;
+                }
+            }
+
+            $resources = $DB->get_records(
+                'local_inveniordm_assignment_resources',
+                ['assignmentid' => $a->id]
+            );
+
+            $isoverdue = ($a->duedate > 0 && $a->duedate < time());
+
+            $daysleft = null;
+            $remainingtext = '';
+
+            if (!$isoverdue && $a->duedate > 0) {
+                $daysleft = ceil(($a->duedate - time()) / 86400);
+                $remainingtext = $daysleft . ' day(s) remaining';
+            } else {
+                $remainingtext = 'Deadline passed';
+            }
+
+            $items[] = [
+                'id' => $a->id,
+                'name' => format_string($a->name),
+                'duedate' => $a->duedate ? date('d/m/Y H:i', $a->duedate) : 'No due date',
+                'timeline' => $remainingtext,
+
+                'resourcecount' => count($resources),
+                'resources' => array_map(function ($r) {
+                    return ['title' => s($r->title)];
+                }, $resources),
+
+                'hasresources' => !empty($resources),
+
+                'instructions' => !empty($a->instructions)
+                    ? format_text($a->instructions, FORMAT_HTML)
+                    : '',
+
+                'status' => $isoverdue ? 'Overdue' : 'Active',
+                'statusclass' => $isoverdue ? 'status-overdue' : 'status-active',
+
+                'submissionsurl' => (new \moodle_url(
+                    '/local/inveniordm/lecturer/view_submissions.php',
+                    ['assignmentid' => $a->id]
+                ))->out(false),
+            ];
+        }
+
+        return [
+            'course' => [
+                'id' => $course->id,
+                'fullname' => format_string($course->fullname),
+            ],
+            'assignments' => $items,
+            'totalassignments' => count($items),
+            'hasassignments' => !empty($items),
+        ];
+    }
 }

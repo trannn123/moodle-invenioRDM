@@ -1,6 +1,5 @@
 <?php
 
-namespace local_inveniordm\service;
 defined('MOODLE_INTERNAL') || die();
 
 class submission_service
@@ -66,5 +65,5 @@ class submission_service
 
         return $assignment->courseid;
     }
-    
+
 }

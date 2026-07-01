@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/../../../config.php');
 require_once(__DIR__ . '/../classes/controller/lecturer_controller.php');
-require_once(__DIR__ . '/../classes/service/course_service.php');
+require_once(__DIR__ . '/../classes/service/assignment_service.php');
 
 global $DB, $PAGE, $OUTPUT;
 $courseid = required_param('courseid', PARAM_INT);

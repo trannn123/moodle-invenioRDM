@@ -36,7 +36,7 @@ class student_controller
     {
         $search = optional_param('search', '', PARAM_TEXT);
         $search = trim($search);
-        $service = new course_service();
+        $service = new assignment_service();
         $data = $service->get_all_assignments($GLOBALS['USER']->id, $search);
 
         return array_merge($data, [
@@ -49,7 +49,7 @@ class student_controller
     public function get_course_assignments_context(): array
     {
         $courseid = required_param('courseid', PARAM_INT);
-        $service = new course_service();
+        $service = new assignment_service();
         $data = $service->get_course_assignments(
             $courseid,
             $GLOBALS['USER']->id
@@ -65,7 +65,7 @@ class student_controller
     public function get_course_resources_context(): array
     {
         $courseid = required_param('courseid', PARAM_INT);
-        $service = new course_service();
+        $service = new resource_service();
         $data = $service->get_course_resources($courseid);
 
         return array_merge($data, [
@@ -101,7 +101,7 @@ class student_controller
             throw new moodle_exception('nofile');
         }
 
-        $service = new \local_inveniordm\service\submission_service();
+        $service = new submission_service();
 
         $courseid = $service->handle_submission(
             (int)$assignmentid,

@@ -10,7 +10,7 @@ class lecturer_controller
         $search = optional_param('search', '', PARAM_TEXT);
         $search = trim($search);
         $courses = enrol_get_my_courses();
-        $service = new course_service();
+        $service = new assignment_service();
 
         $assignments = $service->get_lecturer_assignments(
             $USER->id,
@@ -34,7 +34,7 @@ class lecturer_controller
         global $USER;
         $courseid = required_param('courseid', PARAM_INT);
         $search = trim(optional_param('search', '', PARAM_TEXT));
-        $service = new course_service();
+        $service = new assignment_service();
 
         $data = $service->get_lecturer_course_assignments(
             $courseid,
@@ -53,7 +53,7 @@ class lecturer_controller
 
     public function get_course_resources_context(int $courseid): array
     {
-        $service = new course_service();
+        $service = new resource_service();
         $data = $service->get_lecturer_course_resources($courseid);
 
         return array_merge($data, [
@@ -70,7 +70,7 @@ class lecturer_controller
 
     public function get_create_assignment_context(int $courseid, array $post): array
     {
-        $service = new course_service();
+        $service = new assignment_service();
         if (!empty($post)) {
             return $service->create_assignment($courseid, $post);
         }

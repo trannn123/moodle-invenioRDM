@@ -268,4 +268,32 @@ class course_service
             'hasresources' => !empty($result),
         ];
     }
+
+    public function enrol_self(int $courseid, int $userid): void
+    {
+        global $DB;
+        $course = get_course($courseid);
+        $context = \context_course::instance($courseid);
+
+        if (is_enrolled($context, $userid)) {
+            throw new \moodle_exception('alreadyenrolled', 'enrol');
+        }
+
+        $instances = enrol_get_instances($courseid, true);
+
+        $selfinstance = null;
+        foreach ($instances as $instance) {
+            if ($instance->enrol === 'self') {
+                $selfinstance = $instance;
+                break;
+            }
+        }
+
+        if (!$selfinstance) {
+            throw new \moodle_exception('selfenrolmentdisabled', 'enrol');
+        }
+
+        $plugin = enrol_get_plugin('self');
+        $plugin->enrol_user($selfinstance, $userid, 5);
+    }
 }

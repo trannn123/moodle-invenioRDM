@@ -74,4 +74,17 @@ class student_controller
             ))->out(false),
         ]);
     }
+
+    public function enrol_course(): void
+    {
+        require_sesskey();
+        $courseid = required_param('courseid', PARAM_INT);
+        $service = new course_service();
+        $service->enrol_self($courseid, $GLOBALS['USER']->id);
+        \core\notification::success('Enrolled successfully');
+
+        redirect(
+            new \moodle_url('/local/inveniordm/student/my_courses.php')
+        );
+    }
 }

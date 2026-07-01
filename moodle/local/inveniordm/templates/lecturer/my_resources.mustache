@@ -1,0 +1,84 @@
+<div class="page-hero">
+    <div class="page-hero-content">
+        <h1>
+            <i class="fa fa-database"></i>
+            My Repository Resources
+        </h1>
+        <p>
+            Browse and manage resources available in InvenioRDM repository.
+        </p>
+    </div>
+
+    <div class="hero-actions">
+        <a href="{{backurl}}" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left"></i>
+            Back
+        </a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="stats-card">
+            <h2>{{totalresources}}</h2>
+            <p>Resources</p>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="stats-card">
+            <h2>
+                <i class="fa fa-cloud"></i>
+                Online
+            </h2>
+            <p>Repository Status</p>
+        </div>
+    </div>
+</div>
+
+{{^hasresources}}
+
+<div class="no-resources">
+    <i class="fa fa-inbox fa-2x"></i>
+    <p>No resources found</p>
+    <span class="text-muted">
+        There are no resources in the repository yet.
+    </span>
+</div>
+{{/hasresources}}
+
+{{#hasresources}}
+<div class="resource-grid">
+{{#resources}}
+
+<div class="resource-card">
+    <div class="resource-title">
+        {{title}}
+    </div>
+    <div class="resource-info-row">
+        <strong>ID</strong>
+        <span>{{id}}</span>
+    </div>
+    <div class="resource-info-row">
+        <strong>Date</strong>
+        <span>{{date}}</span>
+    </div>
+    <div class="resource-info-row">
+        <strong>Status</strong>
+        <span>{{status}}</span>
+    </div>
+    <div class="resource-info-row">
+        <strong>Files</strong>
+        <span>{{filecount}}</span>
+    </div>
+    <div class="resource-actions">
+        <a class="btn btn-primary" href="{{viewurl}}">
+            <i class="fa fa-eye"></i>
+            View Details
+        </a>
+    </div>
+</div>
+{{/resources}}
+
+</div>
+{{/hasresources}}

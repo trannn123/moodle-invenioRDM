@@ -100,4 +100,16 @@ class lecturer_controller
             ))->out(false),
         ]);
     }
+
+    public function get_my_resources_context(): array
+    {
+        $service = new resource_service();
+        $data = $service->get_lecturer_my_resources();
+
+        return array_merge($data, [
+            'backurl' => (new moodle_url(
+                '/local/inveniordm/index.php'
+            ))->out(false),
+        ]);
+    }
 }

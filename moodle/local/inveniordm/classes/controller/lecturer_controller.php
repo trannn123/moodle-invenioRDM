@@ -186,4 +186,82 @@ class lecturer_controller
             ))->out(false),
         ]);
     }
+
+    public function get_search_resources_to_attach_context(): array
+    {
+        $courseid = required_param(
+            'courseid',
+            PARAM_INT
+        );
+
+        $search = trim(
+            optional_param(
+                'q',
+                '',
+                PARAM_TEXT
+            )
+        );
+
+        $service = new resource_service();
+
+        $data = $service->search_resources_to_attach(
+            $courseid,
+            $search
+        );
+
+        return array_merge(
+            $data,
+            [
+                'q' => $search,
+                'backurl' => (
+                new moodle_url(
+                    '/local/inveniordm/lecturer/course_resources.php',
+                    [
+                        'courseid' => $courseid
+                    ]
+                )
+                )->out(false),
+                'searchurl' => (
+                new moodle_url(
+                    '/local/inveniordm/lecturer/search_resources_to_attach.php',
+                    [
+                        'courseid' => $courseid
+                    ]
+                )
+                )->out(false)
+            ]
+        );
+    }
+
+    public function attach_resource(): void
+    {
+        global $USER;
+        $courseid = required_param(
+            'courseid',
+            PARAM_INT
+        );
+
+        $recordid = required_param(
+            'attach',
+            PARAM_TEXT
+        );
+
+        $service = new resource_service();
+
+        $service->attach_resource(
+            $courseid,
+            $recordid,
+            $USER->id
+        );
+
+        redirect(
+            new moodle_url(
+                '/local/inveniordm/lecturer/search_resources_to_attach.php',
+                [
+                    'courseid' => $courseid
+                ]
+            ),
+            'Attached successfully'
+        );
+    }
 }

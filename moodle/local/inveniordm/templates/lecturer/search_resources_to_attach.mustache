@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1>
+                <i class="fa fa-search"></i>
+                Search Repository
+            </h1>
+            <p>
+                Search learning resources from InvenioRDM and attach them to this course.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back to Course Resources
+            </a>
+        </div>
+    </div>
+
+    <div class="search-card mb-4">
+        <form method="get" action="{{searchurl}}" class="search-form">
+            <input type="hidden" name="courseid" value="{{courseid}}">
+            <div class="search-input-group">
+                <input type="text" name="q" value="{{q}}" class="form-control" placeholder="Search resources...">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i>
+                    Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {{^hasresources}}
+        <div class="alert-info-custom">
+            <i class="fa fa-info-circle fa-3x"></i>
+            <p>No resources found</p>
+            <div class="text-muted">
+                Try a different search term.
+            </div>
+        </div>
+    {{/hasresources}}
+
+    {{#hasresources}}
+        <div class="resource-grid">
+            {{#resources}}
+                <div class="resource-card">
+                    <div class="resource-title">
+                        {{title}}
+                    </div>
+                    <div class="resource-info-row">
+                        <span class="info-label">
+                            Record ID
+                        </span>
+                        <span class="info-value">
+                            {{id}}
+                        </span>
+                    </div>
+                    <div class="resource-actions">
+                        <a class="btn btn-outline-primary" href="{{viewurl}}" target="_blank">
+                            <i class="fa fa-eye"></i>
+                            View Details
+                        </a>
+
+                        {{#attached}}
+                            <div class="action-status">
+                                <span class="badge-status status-active">
+                                    <i class="fa fa-check"></i>
+                                    Attached
+                                </span>
+                            </div>
+                        {{/attached}}
+
+                        {{^attached}}
+                            <a class="btn btn-primary" href="{{attachurl}}">
+                                <i class="fa fa-link"></i>
+                                Attach Resource
+                            </a>
+                        {{/attached}}
+                    </div>
+                </div>
+            {{/resources}}
+        </div>
+    {{/hasresources}}
+</div>

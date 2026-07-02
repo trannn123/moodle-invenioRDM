@@ -137,14 +137,27 @@ class admin_controller
         }
 
         return [
-            'database' => $database,
-            'api' => $api,
-            'healthscore' => $healthscore,
-            'dbclass' => $dbclass,
-            'dbtext' => $dbtext,
-            'apiclass' => $apiclass,
-            'apitext' => $apitext,
-            'healthclass' => $healthclass,
+            'database' => [
+                'message' => $database['message'],
+                'badgeclass' => $dbclass,
+                'badgetext' => $dbtext
+            ],
+
+            'api' => [
+                'message' => $api['message'],
+                'httpcode' => $api['httpcode'],
+                'latency' => $api['latency'],
+                'badgeclass' => $apiclass,
+                'badgetext' => $apitext
+            ],
+
+            'health' => [
+                'score' => $healthscore,
+                'badgeclass' => $healthclass
+            ],
+
+            'systeminfo' => $service->get_system_information(),
+
             'backurl' => (
             new moodle_url('/local/inveniordm/index.php')
             )->out(false)

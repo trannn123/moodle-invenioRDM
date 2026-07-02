@@ -91,4 +91,18 @@ class monitoring_service
         }
         return $score;
     }
+
+    public function get_system_information(): array
+    {
+        global $CFG;
+
+        return [
+            'moodleversion' => $CFG->release,
+            'phpversion' => PHP_VERSION,
+            'serveros' => PHP_OS,
+            'memorylimit' => ini_get('memory_limit'),
+            'timezone' => date_default_timezone_get(),
+            'servertime' => userdate(time())
+        ];
+    }
 }

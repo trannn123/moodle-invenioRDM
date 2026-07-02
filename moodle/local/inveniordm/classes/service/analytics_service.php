@@ -119,9 +119,16 @@ class analytics_service
 
         $pieData = [];
         $currentAngle = 0;
+
         foreach ($activityData as $item) {
-            $percentage = $totalActivities > 0 ? ($item['value'] / $totalActivities) * 100 : 0;
-            $angle = $totalActivities > 0 ? ($item['value'] / $totalActivities) * 360 : 0;
+            $percentage = $totalActivities > 0
+                ? ($item['value'] / $totalActivities) * 100
+                : 0;
+
+            $angle = $totalActivities > 0
+                ? ($item['value'] / $totalActivities) * 360
+                : 0;
+
             $pieData[] = [
                 'label' => $item['label'],
                 'value' => $item['value'],
@@ -131,27 +138,33 @@ class analytics_service
                 'startAngle' => $currentAngle,
                 'endAngle' => $currentAngle + $angle
             ];
+
             $currentAngle += $angle;
+        }
 
-            $conicGradient = '';
-            $startAngle = 0;
+        $conicGradient = '';
+        $startAngle = 0;
 
-            foreach ($pieData as $index => $item) {
-                if (!empty($item['angle'])) {
+        foreach ($pieData as $index => $item) {
+            if (!empty($item['angle'])) {
 
-                    $conicGradient .=
-                        $item['color'] . ' ' .
-                        $startAngle . 'deg ' .
-                        ($startAngle + $item['angle']) . 'deg';
+                $conicGradient .=
+                    $item['color'] . ' ' .
+                    $startAngle . 'deg ' .
+                    ($startAngle + $item['angle']) . 'deg';
 
-                    if ($index < count($pieData) - 1) {
-                        $conicGradient .= ', ';
-                    }
-
-                    $startAngle += $item['angle'];
+                if ($index < count($pieData) - 1) {
+                    $conicGradient .= ', ';
                 }
+
+                $startAngle += $item['angle'];
             }
         }
+
+        if ($conicGradient === '') {
+            $conicGradient = '#e9ecef 0deg 360deg';
+        }
+
         return [
             'totalActivities' => $totalActivities,
             'activityData' => $activityData,
@@ -291,13 +304,13 @@ class analytics_service
         $resourcerecords = [];
         if ($resourceids) {
             list($sqlin, $params) = $DB->get_in_or_equal($resourceids);
-            $resourcerecords = $DB->get_records_select(
-                'local_inveniordm_course_resources',
-                "recordid $sqlin",
-                $params,
-                '',
-                'recordid,title'
-            );
+            $sql = "
+                SELECT recordid, MAX(title) AS title
+                FROM {local_inveniordm_course_resources}
+                WHERE recordid $sqlin
+                GROUP BY recordid
+            ";
+            $resourcerecords = $DB->get_records_sql($sql, $params);
         }
 
         $data = [];

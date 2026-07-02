@@ -1,11 +1,15 @@
 <div class="container monitoring-container">
+
     <div class="page-hero">
         <div class="page-hero-content">
             <h1>
                 <i class="fa fa-heartbeat"></i>
                 System Monitoring
             </h1>
-            <p>Monitor Moodle services and InvenioRDM integration status.</p>
+
+            <p>
+                Monitor Moodle services and InvenioRDM integration status.
+            </p>
         </div>
 
         <div class="hero-actions">
@@ -16,79 +20,165 @@
         </div>
     </div>
 
-    <div class="row g-4 mt-2">
-        <div class="col-lg-4">
+    <div class="dashboard-card mt-4">
+
+        <div class="card-header">
+            <i class="fa fa-heartbeat"></i>
+            System Health
+        </div>
+
+        <div class="card-body text-center">
+
+            <div class="health-score {{health.badgeclass}}">
+                {{health.score}}%
+            </div>
+
+            <div class="progress mt-3">
+                <div
+                    class="progress-bar bg-{{health.badgeclass}}"
+                    style="width: {{health.score}}%;">
+                </div>
+            </div>
+
+            <div class="mt-3">
+                Overall system health evaluation
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4 mt-4">
+
+        <div class="col-lg-6">
+
             <div class="dashboard-card h-100">
+
                 <div class="card-header">
                     <i class="fa fa-database"></i>
                     Database Status
                 </div>
+
                 <div class="card-body">
-                    <div class="alert alert-{{dbclass}} mb-0">
-                        <strong>{{dbtext}}</strong>
-                        <hr>
-                        {{database.message}}
-                    </div>
+
+                    <span class="status-badge {{database.badgeclass}}">
+                        {{database.badgetext}}
+                    </span>
+
+                    <table class="table-enhanced mt-3">
+
+                        <tbody>
+
+                            <tr>
+                                <td>Status</td>
+                                <td>{{database.message}}</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-lg-4">
+        <div class="col-lg-6">
+
             <div class="dashboard-card h-100">
+
                 <div class="card-header">
                     <i class="fa fa-cloud"></i>
                     InvenioRDM API
                 </div>
 
                 <div class="card-body">
-                    <div class="alert alert-{{apiclass}} mb-0">
-                        <strong>{{apitext}}</strong>
-                        <hr>
-                        <p>
-                            <strong>HTTP Code:</strong>
-                            {{api.httpcode}}
-                        </p>
-                        <p>
-                            <strong>Latency:</strong>
-                            {{api.latency}} ms
-                        </p>
-                        <p class="mb-0">
-                            <strong>Message:</strong>
-                            {{api.message}}
-                        </p>
-                    </div>
+
+                    <span class="status-badge {{api.badgeclass}}">
+                        {{api.badgetext}}
+                    </span>
+
+                    <table class="table-enhanced mt-3">
+
+                        <tbody>
+
+                            <tr>
+                                <td>HTTP Code</td>
+                                <td>{{api.httpcode}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Latency</td>
+                                <td>{{api.latency}} ms</td>
+                            </tr>
+
+                            <tr>
+                                <td>Message</td>
+                                <td>{{api.message}}</td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
                 </div>
+
             </div>
+
         </div>
 
-        <div class="col-lg-4">
-            <div class="dashboard-card h-100">
-                <div class="card-header">
-                    <i class="fa fa-heartbeat"></i>
-                    Health Score
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-{{healthclass}} mb-3">
-                        <h2 class="mb-0">
-                            {{healthscore}} / 100
-                        </h2>
-                    </div>
-                    <div class="progress">
-                        <div
-                            class="progress-bar bg-{{healthclass}}"
-                            role="progressbar"
-                            style="width: {{healthscore}}%;"
-                            aria-valuenow="{{healthscore}}"
-                            aria-valuemin="0"
-                            aria-valuemax="100">
-                        </div>
-                    </div>
-                    <p class="mt-3 mb-0">
-                        Overall system health based on database connectivity,
-                        API availability and response time.
-                    </p>
-                </div>
-            </div>
-        </div>
     </div>
+
+    <div class="dashboard-card mt-4">
+
+        <div class="card-header">
+            <i class="fa fa-server"></i>
+            System Information
+        </div>
+
+        <div class="card-body">
+
+            <table class="table-enhanced">
+
+                <tbody>
+
+                    <tr>
+                        <td>Moodle Version</td>
+                        <td>{{systeminfo.moodleversion}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>PHP Version</td>
+                        <td>{{systeminfo.phpversion}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Operating System</td>
+                        <td>{{systeminfo.serveros}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Memory Limit</td>
+                        <td>{{systeminfo.memorylimit}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Timezone</td>
+                        <td>{{systeminfo.timezone}}</td>
+                    </tr>
+
+                    <tr>
+                        <td>Server Time</td>
+                        <td>{{systeminfo.servertime}}</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>

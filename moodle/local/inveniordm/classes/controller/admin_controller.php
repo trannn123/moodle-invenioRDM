@@ -1,80 +1,11 @@
 <?php
 
+use local_inveniordm\service\monitoring_service;
+
 defined('MOODLE_INTERNAL') || die();
 
 class admin_controller
 {
-    public function check_database_status()
-    {
-        global $DB;
-        try {
-            $DB->count_records('user');
-            return [
-                'status' => true,
-                'message' => 'Connected'
-            ];
-        } catch (Exception $e) {
-            return [
-                'status' => false,
-                'message' => $e->getMessage()
-            ];
-        }
-    }
-
-    public function check_api_status()
-    {
-        $start = microtime(true);
-        try {
-            $client = new \local_inveniordm\api\invenio_client();
-            $result = $client->get_records();
-            $latency = round((microtime(true) - $start) * 1000);
-            if (is_array($result) && empty($result['error'])) {
-                return [
-                    'status' => true,
-                    'message' => 'Connected',
-                    'httpcode' => 200,
-                    'latency' => $latency,
-                    'result' => $result
-                ];
-            }
-            return [
-                'status' => false,
-                'message' => 'API Error',
-                'httpcode' => $result['status'] ?? 500,
-                'latency' => $latency,
-                'result' => $result
-            ];
-        } catch (Exception $e) {
-            return [
-                'status' => false,
-                'message' => $e->getMessage(),
-                'httpcode' => 500,
-                'latency' => round((microtime(true) - $start) * 1000),
-                'result' => ['error' => true]
-            ];
-        }
-    }
-
-    public function calculate_health_score(bool $dbstatus, bool $apistatus, int $latency, array $result): int
-    {
-        $healthscore = 0;
-        if ($dbstatus) {
-            $healthscore += 25;
-        }
-        if ($apistatus) {
-            $healthscore += 25;
-        }
-        if ($latency < 1000) {
-            $healthscore += 25;
-        } elseif ($latency < 2000) {
-            $healthscore += 15;
-        }
-        if (empty($result['error'])) {
-            $healthscore += 25;
-        }
-        return $healthscore;
-    }
-
     public function get_logs_for_export()
     {
         global $DB;
@@ -165,6 +96,58 @@ class admin_controller
             'activitydata' => $breakdown['activityData'],
             'totalactivities' => $breakdown['totalActivities'],
             'conicgradient' => $conicgradient
+        ];
+    }
+
+    public function get_monitoring_context(): array
+    {
+        $service = new monitoring_service();
+        $database = $service->check_database_status();
+        $api = $service->check_api_status();
+
+        $healthscore = $service->calculate_health_score(
+            $database['status'],
+            $api['status'],
+            $api['latency'],
+            $api['result']
+        );
+
+        $dbclass = $database['status']
+            ? 'success'
+            : 'danger';
+
+        $dbtext = $database['status']
+            ? 'Online'
+            : 'Offline';
+
+        $apiclass = $api['status']
+            ? 'success'
+            : 'danger';
+
+        $apitext = $api['status']
+            ? 'Online'
+            : 'Offline';
+
+        $healthclass = 'success';
+
+        if ($healthscore < 50) {
+            $healthclass = 'danger';
+        } elseif ($healthscore < 80) {
+            $healthclass = 'warning';
+        }
+
+        return [
+            'database' => $database,
+            'api' => $api,
+            'healthscore' => $healthscore,
+            'dbclass' => $dbclass,
+            'dbtext' => $dbtext,
+            'apiclass' => $apiclass,
+            'apitext' => $apitext,
+            'healthclass' => $healthclass,
+            'backurl' => (
+            new moodle_url('/local/inveniordm/index.php')
+            )->out(false)
         ];
     }
 }

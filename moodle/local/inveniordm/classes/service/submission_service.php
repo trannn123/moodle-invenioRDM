@@ -235,6 +235,15 @@ class submission_service
             $recordid,
             ['id' => $submissionid]
         );
+
+        global $USER;
+
+        \local_inveniordm\service\log_service::add(
+            $USER->id,
+            'PUBLISH_SUBMISSION',
+            $recordid,
+            $assignment->courseid
+        );
     }
 
     public function get_review_submission(int $submissionid): array
@@ -315,6 +324,29 @@ class submission_service
             'feedback',
             $feedback,
             ['id' => $submissionid]
+        );
+
+        $submission = $DB->get_record(
+            'local_inveniordm_submissions',
+            ['id' => $submissionid],
+            '*',
+            MUST_EXIST
+        );
+
+        $assignment = $DB->get_record(
+            'local_inveniordm_assignments',
+            ['id' => $submission->assignmentid],
+            '*',
+            MUST_EXIST
+        );
+
+        global $USER;
+
+        \local_inveniordm\service\log_service::add(
+            $USER->id,
+            'REVIEW_SUBMISSION',
+            null,
+            $assignment->courseid
         );
 
         return [

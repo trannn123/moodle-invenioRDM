@@ -1,6 +1,11 @@
 <?php
 
 defined('MOODLE_INTERNAL') || die();
+global $CFG;
+require_once(
+    $CFG->dirroot .
+    '/local/inveniordm/classes/service/log_service.php'
+);
 
 class assignment_service
 {
@@ -286,6 +291,13 @@ class assignment_service
         ];
 
         $assignmentid = $DB->insert_record('local_inveniordm_assignments', $assignment);
+        \local_inveniordm\service\log_service::add(
+            $USER->id,
+            'CREATE_ASSIGNMENT',
+            null,
+            $courseid
+        );
+
         $resources = $_POST['resources'] ?? [];
 
         foreach ($resources as $recordid => $title) {

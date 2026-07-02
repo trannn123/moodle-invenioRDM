@@ -1,5 +1,6 @@
 <?php
 
+namespace local_inveniordm\service;
 
 defined('MOODLE_INTERNAL') || die();
 

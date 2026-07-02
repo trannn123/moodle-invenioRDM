@@ -1,6 +1,8 @@
 <?php
 
+use local_inveniordm\service\analytics_service;
 use local_inveniordm\service\monitoring_service;
+use local_inveniordm\service\repository_service;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -158,6 +160,25 @@ class admin_controller
 
             'systeminfo' => $service->get_system_information(),
 
+            'backurl' => (
+            new moodle_url('/local/inveniordm/index.php')
+            )->out(false)
+        ];
+    }
+
+    public function get_repository_context(): array
+    {
+        $search = optional_param('search', '', PARAM_TEXT);
+
+        $service = new repository_service();
+
+        $data = $service->get_repository_resources($search);
+
+        return [
+            'search' => $search,
+            'resources' => $data['resources'],
+            'hasresources' => $data['hasresources'],
+            'totalresources' => $data['totalresources'],
             'backurl' => (
             new moodle_url('/local/inveniordm/index.php')
             )->out(false)

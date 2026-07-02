@@ -1,5 +1,6 @@
 <?php
 
+use local_inveniordm\service\admin_log_service;
 use local_inveniordm\service\analytics_service;
 use local_inveniordm\service\monitoring_service;
 use local_inveniordm\service\repository_service;
@@ -182,6 +183,109 @@ class admin_controller
             'backurl' => (
             new moodle_url('/local/inveniordm/index.php')
             )->out(false)
+        ];
+    }
+
+    public function get_logs_context(): array
+    {
+        $search = optional_param('search', '', PARAM_TEXT);
+        $action = optional_param('action', '', PARAM_ALPHANUMEXT);
+        $userid = optional_param('userid', 0, PARAM_INT);
+        $courseid = optional_param('courseid', 0, PARAM_INT);
+        $range = optional_param('range', '30days', PARAM_ALPHANUMEXT);
+
+        $filters = [
+            'search' => $search,
+            'action' => $action,
+            'userid' => $userid,
+            'courseid' => $courseid,
+            'range' => $range,
+        ];
+
+        $service = new admin_log_service();
+        $logs = $service->get_logs($filters);
+
+        return [
+            'filters' => [
+                'search' => $search,
+                'action' => $action,
+                'userid' => $userid ?: '',
+                'courseid' => $courseid ?: '',
+            ],
+
+            'actions' => [
+                [
+                    'value' => '',
+                    'label' => 'All actions',
+                    'selected' => $action === ''
+                ],
+                [
+                    'value' => 'VIEW_RESOURCE',
+                    'label' => 'View Resource',
+                    'selected' => $action === 'VIEW_RESOURCE'
+                ],
+                [
+                    'value' => 'DOWNLOAD_RESOURCE',
+                    'label' => 'Download Resource',
+                    'selected' => $action === 'DOWNLOAD_RESOURCE'
+                ],
+                [
+                    'value' => 'UPLOAD_RESOURCE',
+                    'label' => 'Upload Resource',
+                    'selected' => $action === 'UPLOAD_RESOURCE'
+                ],
+                [
+                    'value' => 'ATTACH_RESOURCE',
+                    'label' => 'Attach Resource',
+                    'selected' => $action === 'ATTACH_RESOURCE'
+                ],
+                [
+                    'value' => 'SUBMIT_ASSIGNMENT',
+                    'label' => 'Submit Assignment',
+                    'selected' => $action === 'SUBMIT_ASSIGNMENT'
+                ],
+                [
+                    'value' => 'SEARCH_RESOURCE',
+                    'label' => 'Search Resource',
+                    'selected' => $action === 'SEARCH_RESOURCE'
+                ]
+            ],
+
+            'ranges' => [
+                [
+                    'value' => '7days',
+                    'label' => 'Last 7 days',
+                    'selected' => $range === '7days'
+                ],
+                [
+                    'value' => '30days',
+                    'label' => 'Last 30 days',
+                    'selected' => $range === '30days'
+                ],
+                [
+                    'value' => '90days',
+                    'label' => 'Last 90 days',
+                    'selected' => $range === '90days'
+                ],
+                [
+                    'value' => 'all',
+                    'label' => 'All',
+                    'selected' => $range === 'all'
+                ]
+            ],
+
+            'logs' => $logs,
+
+            'haslogs' => !empty($logs),
+
+            'exporturl' => (new \moodle_url(
+                '/local/inveniordm/admin/export_logs.php',
+                $filters
+            ))->out(false),
+
+            'backurl' => (new \moodle_url(
+                '/local/inveniordm/index.php'
+            ))->out(false),
         ];
     }
 }

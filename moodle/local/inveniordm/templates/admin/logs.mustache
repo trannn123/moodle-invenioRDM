@@ -1,0 +1,113 @@
+<div class="container logs-container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1>
+                <i class="fa fa-clipboard-list"></i>
+                System Logs
+            </h1>
+
+            <p>
+                Monitor user activities and repository operations across the system.
+            </p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <a href="{{exporturl}}" class="btn btn-success">
+        <i class="fa fa-download"></i>
+        Export CSV
+    </a>
+
+    <div class="logs-card">
+        <div class="logs-card-header">
+            <i class="fa fa-filter"></i>
+            Filters
+        </div>
+
+        <div class="logs-card-body">
+            <form method="get" class="logs-filter-form">
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search user or resource..."
+                    value="{{filters.search}}">
+
+                <select name="action" class="form-control">
+                    {{#actions}}
+                    <option value="{{value}}" {{#selected}}selected{{/selected}}>
+                        {{label}}
+                    </option>
+                    {{/actions}}
+                </select>
+
+                <select name="range" class="form-control">
+                    {{#ranges}}
+                    <option value="{{value}}" {{#selected}}selected{{/selected}}>
+                        {{label}}
+                    </option>
+                    {{/ranges}}
+                </select>
+
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-search"></i>
+                    Search
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="logs-card mt-4">
+        <div class="logs-card-header">
+            <i class="fa fa-history"></i>
+            Activity Logs
+        </div>
+        <div class="logs-card-body">
+            {{#haslogs}}
+            <table class="logs-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>Resource</th>
+                        <th>Course</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {{#logs}}
+                    <tr>
+                        <td>{{username}}</td>
+                        <td>
+                            <span class="logs-action-badge bg-primary">
+                                {{actionlabel}}
+                            </span>
+                        </td>
+                        <td>{{resourceid}}</td>
+                        <td>{{courseid}}</td>
+                        <td>{{time}}</td>
+                    </tr>
+                {{/logs}}
+                </tbody>
+            </table>
+            {{/haslogs}}
+            {{^haslogs}}
+            <div class="logs-empty-state">
+                <i class="fa fa-history"></i>
+                <h5>No activity logs found</h5>
+                <p>Try changing the filters or time range.</p>
+            </div>
+            {{/haslogs}}
+        </div>
+    </div>
+</div>

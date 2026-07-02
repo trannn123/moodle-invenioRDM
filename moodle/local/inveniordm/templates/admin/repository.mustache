@@ -1,5 +1,4 @@
 <div class="container repository-container">
-
     <div class="page-hero">
         <div class="page-hero-content">
             <h1>
@@ -20,167 +19,76 @@
         </div>
     </div>
 
-    <div class="dashboard-card mt-4">
-
-        <div class="card-body">
-
-            <form method="get" class="search-form">
-
-                <div class="row align-items-end">
-
-                    <div class="col-md-8">
-
-                        <label class="form-label">
-                            Search Repository
-                        </label>
-
-                        <input
-                            type="text"
-                            name="search"
-                            value="{{search}}"
-                            class="form-control"
-                            placeholder="Enter keyword..."
-                        >
-
-                    </div>
-
-                    <div class="col-md-4">
-
-                        <button class="btn btn-primary w-100">
-
-                            <i class="fa fa-search"></i>
-
-                            Search
-
-                        </button>
-
-                    </div>
-
-                </div>
-
+    <div class="repository-card mt-4">
+            <form method="get" class="repository-search-form">
+                    <input type="text" name="search" value="{{search}}" class="form-control" placeholder="Search resources...">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                        Search
+                    </button>
             </form>
-
-        </div>
-
     </div>
 
     <div class="mt-3 mb-3">
-
         <strong>
-
             Total Resources:
-
             {{totalresources}}
-
         </strong>
-
     </div>
 
-    <div class="dashboard-card">
-
-        <div class="card-header">
-
+    <div class="repository-card">
+        <div class="repository-card-header">
             <i class="fa fa-folder-open"></i>
-
             Repository Resources
-
         </div>
 
-        <div class="card-body">
-
+        <div class="repository-card-body">
             {{#hasresources}}
-
-            <table class="table-enhanced">
-
+            <table class="repository-table">
                 <thead>
-
                 <tr>
-
                     <th>Title</th>
-
                     <th>Status</th>
-
                     <th>Files</th>
-
                     <th>Date</th>
-
                     <th class="text-center">Action</th>
-
                 </tr>
-
                 </thead>
-
                 <tbody>
-
                 {{#resources}}
 
                 <tr>
-
                     <td>
-
                         {{title}}
-
                     </td>
-
                     <td>
-
-                        <span class="badge bg-success">
-
+                        <span class="repository-status">
                             {{status}}
-
                         </span>
-
                     </td>
-
                     <td>
-
                         {{filecount}}
-
                     </td>
-
                     <td>
-
                         {{date}}
-
                     </td>
-
                     <td class="text-center">
-
-                        <a
-                            href="{{viewurl}}"
-                            class="btn btn-sm btn-primary"
-                        >
-
+                        <a href="{{viewurl}}" class="btn btn-sm btn-primary">
                             <i class="fa fa-eye"></i>
-
                             View
-
                         </a>
-
                     </td>
-
                 </tr>
-
                 {{/resources}}
-
                 </tbody>
-
             </table>
-
             {{/hasresources}}
 
             {{^hasresources}}
-
-            <div class="alert alert-info mb-0">
-
+            <div class="repository-empty-state alert-info mb-0">
                 No resources found.
-
             </div>
-
             {{/hasresources}}
-
         </div>
-
     </div>
-
 </div>

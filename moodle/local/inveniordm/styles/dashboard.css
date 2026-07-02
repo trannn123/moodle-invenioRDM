@@ -290,6 +290,14 @@
 }
 
 @media (max-width: 768px) {
+    .row.g-4 > [class*="col-"] {
+        margin-bottom: 20px;
+    }
+
+    .row.g-4 > [class*="col-"]:last-child {
+        margin-bottom: 0;
+    }
+    
     .dashboard-card {
         padding: 20px 18px;
     }

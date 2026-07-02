@@ -291,7 +291,7 @@ class assignment_service
         ];
 
         $assignmentid = $DB->insert_record('local_inveniordm_assignments', $assignment);
-        \local_inveniordm\service\log_service::add(
+        \log_service::add(
             $USER->id,
             'CREATE_ASSIGNMENT',
             null,

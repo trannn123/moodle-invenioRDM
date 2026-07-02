@@ -1,5 +1,6 @@
 <?php
 
+
 defined('MOODLE_INTERNAL') || die();
 
 class course_service

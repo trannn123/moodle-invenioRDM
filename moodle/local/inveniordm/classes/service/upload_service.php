@@ -1,5 +1,6 @@
 <?php
 
+
 defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once(
@@ -68,7 +69,7 @@ class upload_service
         $client = new \local_inveniordm\api\invenio_client();
 
         $recordpayload =
-            \local_inveniordm\service\invenio_mapper::map(
+            \invenio_mapper::map(
                 $data,
                 $user
             );
@@ -97,7 +98,7 @@ class upload_service
 
         if ($publishcode >= 200 && $publishcode < 300) {
 
-            \local_inveniordm\service\log_service::add(
+            \log_service::add(
                 $user->id,
                 'UPLOAD_RESOURCE',
                 $recordid

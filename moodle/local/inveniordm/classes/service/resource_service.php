@@ -1,5 +1,6 @@
 <?php
 
+
 defined('MOODLE_INTERNAL') || die();
 
 class resource_service
@@ -160,7 +161,8 @@ class resource_service
         ];
     }
 
-    public function attach_resource(int $courseid, string $recordid, int $userid): void {
+    public function attach_resource(int $courseid, string $recordid, int $userid): void
+    {
         global $DB;
         $client = new \local_inveniordm\api\invenio_client();
         $record = $client->get_record($recordid);
@@ -196,7 +198,7 @@ class resource_service
             ]
         );
 
-        \local_inveniordm\service\log_service::add(
+        \log_service::add(
             $userid,
             'ATTACH_RESOURCE',
             $recordid,

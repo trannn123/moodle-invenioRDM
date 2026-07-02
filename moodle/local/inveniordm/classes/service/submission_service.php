@@ -1,5 +1,6 @@
 <?php
 
+
 defined('MOODLE_INTERNAL') || die();
 
 class submission_service
@@ -56,7 +57,7 @@ class submission_service
             'filename' => $file['name'],
         ], $file['tmp_name']);
 
-        \local_inveniordm\service\log_service::add(
+        \log_service::add(
             $userid,
             'SUBMIT_ASSIGNMENT',
             null,
@@ -238,7 +239,7 @@ class submission_service
 
         global $USER;
 
-        \local_inveniordm\service\log_service::add(
+        \log_service::add(
             $USER->id,
             'PUBLISH_SUBMISSION',
             $recordid,
@@ -342,7 +343,7 @@ class submission_service
 
         global $USER;
 
-        \local_inveniordm\service\log_service::add(
+        \log_service::add(
             $USER->id,
             'REVIEW_SUBMISSION',
             null,

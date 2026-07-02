@@ -1,17 +1,17 @@
 <?php
 
-namespace local_inveniordm\service;
 
 defined('MOODLE_INTERNAL') || die();
 
-class log_service {
-
+class log_service
+{
     public static function add(
-        int $userid,
-        string $action,
+        int     $userid,
+        string  $action,
         ?string $resourceid = null,
-        ?int $courseid = null
-    ): void {
+        ?int    $courseid = null
+    ): void
+    {
 
         global $DB;
 

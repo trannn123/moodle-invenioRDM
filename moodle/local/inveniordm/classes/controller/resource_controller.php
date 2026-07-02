@@ -5,7 +5,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../api/invenio_client.php');
 
 use local_inveniordm\api\invenio_client;
-use local_inveniordm\service\log_service;
+use log_service;
 
 class resource_controller
 {

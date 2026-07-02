@@ -1,10 +1,11 @@
 <?php
 
-namespace local_inveniordm\service;
 defined('MOODLE_INTERNAL') || die();
 
-class invenio_mapper {
-    public static function map($data, $USER): array {
+class invenio_mapper
+{
+    public static function map($data, $USER): array
+    {
         $fullname = fullname($USER);
 
         return [

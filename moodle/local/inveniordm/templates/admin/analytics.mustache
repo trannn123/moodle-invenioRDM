@@ -1,0 +1,260 @@
+<div class="container analytics-container">
+    <div class="page-hero">
+        <div class="page-hero-content">
+            <h1>
+                <i class="fa fa-chart-line"></i>
+                Analytics Dashboard
+            </h1>
+
+            <p>Monitor repository activities, user interactions, and system performance.</p>
+        </div>
+
+        <div class="hero-actions">
+            <a href="{{backurl}}" class="btn btn-outline-secondary">
+                <i class="fa fa-arrow-left"></i>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <form method="GET" class="filter-form">
+            <select name="range" onchange="this.form.submit()">
+                <option value="today" {{#todayselected}}selected{{/todayselected}}>
+                    Today
+                </option>
+                <option value="7days" {{#weekselected}}selected{{/weekselected}}>
+                    7 Days
+                </option>
+                <option value="30days" {{#monthselected}}selected{{/monthselected}}>
+                    30 Days
+                </option>
+            </select>
+        </form>
+    </div>
+
+    <div class="mb-4">
+        <a href="{{exporturl}}" class="btn btn-success export-btn">
+            <i class="fa fa-download"></i>
+            Export CSV
+        </a>
+    </div>
+
+    <div class="stats-grid">
+        {{#stats}}
+        <div class="stat-card">
+            <div class="stat-icon">
+                <i class="fa fa-{{icon}}"></i>
+            </div>
+            <div>
+                <div class="stat-number">
+                    {{value}}
+                </div>
+                <div class="stat-label">
+                    {{label}}
+                </div>
+            </div>
+        </div>
+        {{/stats}}
+    </div>
+
+    <div class="row g-4 mt-4">
+        <div class="col-lg-6">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fa fa-eye"></i>
+                    Top Viewed Resources
+                </div>
+
+                <div class="card-body">
+                    <table class="table-enhanced">
+                        <thead>
+                            <tr>
+                                <th>Resource</th>
+                                <th class="text-center">Views</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{#topresources}}
+                            <tr>
+                                <td>{{title}}</td>
+                                <td class="text-center">
+                                    <span class="badge-count">
+                                        {{totalviews}}
+                                    </span>
+                                </td>
+                            </tr>
+                        {{/topresources}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <i class="fa fa-download"></i>
+                    Top Downloaded Resources
+                </div>
+
+                <div class="card-body">
+                    <table class="table-enhanced">
+                        <thead>
+                            <tr>
+                                <th>Resource</th>
+                                <th class="text-center">Downloads</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {{#topdownloads}}
+                            <tr>
+                                <td>{{title}}</td>
+                                <td class="text-center">
+                                    <span class="badge-count">
+                                        {{totaldownloads}}
+                                    </span>
+                                </td>
+                            </tr>
+                        {{/topdownloads}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row g-4 mt-4">
+            <div class="col-lg-6">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="fa fa-users"></i>
+                        Top Active Users
+                    </div>
+
+                    <div class="card-body">
+                        <table class="table-enhanced">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th class="text-center">Activities</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {{#topusers}}
+                                <tr>
+                                    <td>{{username}}</td>
+                                    <td class="text-center">
+                                        <span class="badge-count">
+                                            {{activitycount}}
+                                        </span>
+                                    </td>
+                                </tr>
+                            {{/topusers}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <i class="fa fa-chart-pie"></i>
+                        Activity Breakdown
+                    </div>
+                    <div class="card-body">
+                        <div class="pie-chart-wrapper">
+                            <div class="pie-chart">
+                                <div class="pie-slice" style="background: conic-gradient({{conicgradient}});">
+                                    <div class="pie-center">
+                                        <div class="pie-total">
+                                            {{totalactivities}}
+                                        </div>
+                                        <div class="pie-label">
+                                            Total
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-legend">
+                            {{#activitydata}}
+                            <div class="legend-item">
+                                <span class="legend-color" style="background:{{color}}">
+                                </span>
+                                <span class="legend-label">
+                                    {{label}}
+                                </span>
+                                <span class="legend-value">
+                                    {{value}}
+                                </span>
+                            </div>
+                            {{/activitydata}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card mt-4">
+            <div class="card-header">
+                <i class="fa fa-graduation-cap"></i>
+                Most Active Courses
+            </div>
+
+            <div class="card-body">
+                <table class="table-enhanced">
+                    <thead>
+                        <tr>
+                            <th>Course</th>
+                            <th class="text-center">Activities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#topcourses}}
+                        <tr>
+                            <td>{{coursename}}</td>
+                            <td class="text-center">
+                                <span class="badge-count">
+                                    {{totalactivities}}
+                                </span>
+                            </td>
+                        </tr>
+                    {{/topcourses}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="dashboard-card mt-4">
+            <div class="card-header">
+                <i class="fa fa-clock"></i>
+                Recent Activities
+            </div>
+            <div class="card-body">
+                <table class="table-enhanced">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Resource</th>
+                            <th>Course</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#recentactivities}}
+                        <tr>
+                            <td>{{username}}</td>
+                            <td>{{action}}</td>
+                            <td>{{resourcename}}</td>
+                            <td>{{coursename}}</td>
+                            <td>{{timecreated}}</td>
+                        </tr>
+                    {{/recentactivities}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

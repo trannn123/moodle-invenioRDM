@@ -1,8 +1,9 @@
 <?php
 
 require_once(__DIR__ . '/../../../config.php');
+
 use local_inveniordm\api\invenio_client;
-use local_inveniordm\service\log_service;
+
 require_login();
 global $CFG;
 
@@ -51,6 +52,6 @@ curl_setopt_array($ch, [
 $content = curl_exec($ch);
 curl_close($ch);
 header('Content-Type: application/octet-stream');
-header('Content-Disposition: attachment; filename="'.$file['key'].'"');
+header('Content-Disposition: attachment; filename="' . $file['key'] . '"');
 echo $content;
 exit;

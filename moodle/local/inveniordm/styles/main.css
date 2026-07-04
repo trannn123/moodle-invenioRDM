@@ -6,12 +6,19 @@ body .container,
 #page .container,
 #region-main .container,
 .local-inveniordm .container {
-    max-width: 1400px !important;
-    padding-left: 30px !important;
-    padding-right: 30px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    max-width: 1900px !important;
     box-sizing: border-box !important;
+}
+
+.main-inner {
+    max-width: 2000px !important;
+}
+
+.container {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 #page,

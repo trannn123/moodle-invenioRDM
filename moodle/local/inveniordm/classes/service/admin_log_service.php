@@ -24,13 +24,20 @@ class admin_log_service
         $params = [];
 
         if (!empty($filters['search'])) {
+
+            $search = '%' . $filters['search'] . '%';
+
             $where[] = "(
-                u.firstname LIKE :search
-                OR u.lastname LIKE :search
-                OR l.action LIKE :search
-                OR l.resourceid LIKE :search
+                u.firstname LIKE :searchfirstname
+                OR u.lastname LIKE :searchlastname
+                OR l.action LIKE :searchaction
+                OR CAST(l.resourceid AS TEXT) LIKE :searchresource
             )";
-            $params['search'] = '%' . $filters['search'] . '%';
+
+            $params['searchfirstname'] = $search;
+            $params['searchlastname'] = $search;
+            $params['searchaction'] = $search;
+            $params['searchresource'] = $search;
         }
 
         if (!empty($filters['action'])) {

@@ -100,7 +100,7 @@ class course_service
         ];
     }
 
-    public function get_my_courses(int $userid): array
+    public function get_my_courses(int $userid, int $page = 1): array
     {
         global $DB;
         $courses = enrol_get_users_courses($userid, true);
@@ -134,11 +134,28 @@ class course_service
             ];
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/student/my_courses.php'
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $courses,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
-            'courses' => $courseitems,
+            'courses' => $pagination['items'],
             'totalcourses' => $totalcourses,
             'totalresources' => $totalresources,
             'hascourses' => !empty($courseitems),
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 

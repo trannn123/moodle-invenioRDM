@@ -26,8 +26,9 @@ class student_controller
     public function get_my_courses_context(): array
     {
         global $USER;
+        $page = optional_param('page', 1, PARAM_INT);
         $service = new course_service();
-        $data = $service->get_my_courses($USER->id);
+        $data = $service->get_my_courses($USER->id, $page);
 
         return array_merge($data, [
             'backurl' => (new \moodle_url('/local/inveniordm/index.php'))->out(false),

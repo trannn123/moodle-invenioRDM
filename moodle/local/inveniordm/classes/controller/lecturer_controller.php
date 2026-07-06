@@ -9,17 +9,20 @@ class lecturer_controller
         global $USER;
         $search = optional_param('search', '', PARAM_TEXT);
         $search = trim($search);
+        $page = optional_param('page', 1, PARAM_INT);
         $courses = enrol_get_my_courses();
         $service = new assignment_service();
 
-        $assignments = $service->get_lecturer_assignments(
+        $assignments = $service->get_lecturer_all_assignments(
             $USER->id,
             $courses,
-            $search
+            $search,
+            $page
         );
 
         return [
             'assignments' => $assignments['items'],
+            'pagination' => $assignments['pagination'],
             'totalassignments' => $assignments['totalassignments'],
             'totalcourses' => $assignments['totalcourses'],
             'search' => $search,
@@ -37,7 +40,7 @@ class lecturer_controller
         $page = optional_param('page', 1, PARAM_INT);
         $service = new assignment_service();
 
-        $data = $service->get_lecturer_course_assignments(
+        $data = $service->get_lecturer_assignments(
             $courseid,
             $USER->id,
             $search,

@@ -169,7 +169,7 @@ class assignment_service
         ];
     }
 
-    public function get_lecturer_assignments(int $userid, array $courses, string $search = ''): array
+    public function get_lecturer_all_assignments(int $userid, array $courses, string $search = '', int $page = 1): array
     {
         global $DB;
         $items = [];
@@ -232,14 +232,34 @@ class assignment_service
             }
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/lecturer/all_assignments.php',
+            [
+                'search' => $search,
+                'page' => $page
+            ]
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $items,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
         return [
-            'items' => $items,
+            'items' => $pagination['items'],
             'totalassignments' => count($items),
-            'totalcourses' => $totalcourses
+            'totalcourses' => $totalcourses,
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 
-    public function get_lecturer_course_assignments(int $courseid, int $userid, string $search = '', int $page = 1): array
+    public function get_lecturer_assignments(int $courseid, int $userid, string $search = '', int $page = 1): array
     {
         global $DB;
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);

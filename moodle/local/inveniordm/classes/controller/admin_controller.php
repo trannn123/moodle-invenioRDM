@@ -289,6 +289,10 @@ class admin_controller
             'backurl' => (new \moodle_url(
                 '/local/inveniordm/index.php'
             ))->out(false),
+
+            'reseturl' => (
+            new moodle_url('/local/inveniordm/admin/logs.php')
+            )->out(false)
         ];
     }
 }

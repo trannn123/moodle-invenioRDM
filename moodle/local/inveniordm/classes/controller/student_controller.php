@@ -37,9 +37,10 @@ class student_controller
     public function get_all_assignments_context(): array
     {
         $search = optional_param('search', '', PARAM_TEXT);
+        $page = optional_param('page', 1, PARAM_INT);
         $search = trim($search);
         $service = new assignment_service();
-        $data = $service->get_all_assignments($GLOBALS['USER']->id, $search);
+        $data = $service->get_all_assignments($GLOBALS['USER']->id, $search, $page);
 
         return array_merge($data, [
             'search' => $search,

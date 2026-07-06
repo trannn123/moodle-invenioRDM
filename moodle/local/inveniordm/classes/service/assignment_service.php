@@ -12,9 +12,9 @@ require_once(
 
 class assignment_service
 {
-    private const COURSE_PAGE_SIZE = 5;
+    private const COURSE_PAGE_SIZE = 4;
 
-    public function get_all_assignments(int $userid, string $search = ''): array
+    public function get_all_assignments(int $userid, string $search = '', int $page = 1): array
     {
         global $DB;
         $courses = enrol_get_users_courses($userid, true);
@@ -67,11 +67,28 @@ class assignment_service
             }
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/student/all_assignments.php'
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $assignments,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
-            'assignments' => $assignments,
+            'assignments' => $pagination['items'],
             'totalassignments' => count($assignments),
             'totalcourses' => count($courses),
-            'hasassignments' => !empty($assignments),
+            'hasassignments' => !empty($pagination['items']),
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 

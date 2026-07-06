@@ -10,7 +10,7 @@ use log_service;
 
 class resource_controller
 {
-    private const SEARCH_PAGE_SIZE = 5;
+    private const SEARCH_PAGE_SIZE = 4;
 
     public function view($id, $returnurl = '')
     {

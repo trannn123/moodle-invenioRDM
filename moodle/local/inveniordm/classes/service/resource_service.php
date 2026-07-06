@@ -6,7 +6,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class resource_service
 {
-    private const COURSE_PAGE_SIZE = 5;
+    private const COURSE_PAGE_SIZE = 4;
 
     public function get_course_resources(int $courseid, int $page = 1): array
     {

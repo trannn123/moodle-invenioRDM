@@ -3,12 +3,12 @@
 }
 
 .repository-card {
-    padding: 4px;
     background: var(--white);
-    border: none;
-    border-radius: 50px;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
     box-shadow: var(--shadow-card);
     transition: var(--transition);
+    padding: 20px 24px;
 }
 
 .repository-card:hover {
@@ -38,53 +38,6 @@
     padding: 24px;
 }
 
-.repository-search-form {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 12px;
-    width: 100%;
-}
-
-.repository-search-form:hover {
-    box-shadow: var(--shadow-hover);
-}
-
-
-.repository-search-form .form-control {
-    flex: 1;
-    min-width: 0;
-    border: none !important;
-    border-radius: 50px !important;
-    padding: 14px 24px;
-    background: transparent;
-    font-size: 1.1rem;
-    color: var(--gray-800);
-    box-shadow: none !important;
-}
-
-.repository-search-form .form-control:focus {
-    outline: none;
-    box-shadow: none !important;
-}
-
-.repository-search-form .btn {
-    flex-shrink: 0;
-    border: none;
-    border-radius: 50px !important;
-    padding: 0 32px;
-    background: linear-gradient(
-            135deg,
-            var(--royal-blue),
-            var(--cyan-bright)
-    );
-    color: #fff;
-    font-weight: 600;
-    font-size: 1.05rem;
-    box-shadow: 0 4px 16px rgba(26, 95, 180, .30);
-    transition: var(--transition);
-    white-space: nowrap;
-}
-
 .repository-summary {
     display: inline-flex;
     align-items: center;
@@ -95,16 +48,6 @@
     background: rgba(26, 95, 180, .08);
     color: var(--navy-dark);
     font-weight: 700;
-}
-
-.repository-search-form .btn:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(
-            135deg,
-            var(--cyan-bright),
-            var(--royal-blue)
-    );
-    box-shadow: 0 8px 32px rgba(26, 95, 180, .45);
 }
 
 .repository-status {
@@ -174,24 +117,6 @@
         padding: 12px;
     }
 
-    .repository-search-form {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .repository-search-form .form-control {
-        flex: 0 0 100%;
-        width: 100%;
-        padding: 12px 18px;
-        font-size: 1rem;
-    }
-
-    .repository-search-form .btn {
-        flex: 0 0 100%;
-        width: 100%;
-        padding: 12px;
-    }
-
     .repository-table {
         font-size: .9rem;
     }
@@ -199,6 +124,33 @@
     .repository-table th,
     .repository-table td {
         padding: 12px;
+    }
+
+    .search-form {
+        align-items: stretch;
+    }
+
+    .search-input-group {
+        flex-direction: column;
+    }
+
+    .search-input-group .form-control {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .search-input-group .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .search-input-group .btn {
+        width: 100%;
+        height: 48px;
+        min-height: 48px;
+        padding: 10px 20px !important;
+        font-size: 0.95rem !important;
+        justify-content: center;
     }
 }
 
@@ -257,4 +209,49 @@
     border-color: var(--navy-dark) !important;
     transform: translateX(-4px) !important;
     box-shadow: 0 8px 24px rgba(10, 25, 41, 0.15) !important;
+}
+
+.search-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-card);
+    padding: 20px 24px;
+    transition: var(--transition);
+}
+
+.search-card:hover {
+    box-shadow: var(--shadow-hover);
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.search-input-group {
+    display: flex;
+    flex: 1;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.search-input-group .form-control {
+    flex: 1;
+    min-width: 200px;
+    height: 48px;
+    padding: 10px 20px;
+    border: 2px solid var(--gray-200);
+    border-radius: 50px !important;
+    background: var(--white);
+    font-size: 1rem;
+}
+
+.search-input-group .form-control:focus {
+    border-color: var(--cyan-bright);
+    box-shadow: 0 0 0 4px rgba(0, 180, 216, .15);
+    outline: none;
 }

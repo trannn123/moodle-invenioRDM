@@ -67,8 +67,9 @@ class student_controller
     public function get_course_resources_context(): array
     {
         $courseid = required_param('courseid', PARAM_INT);
+        $page = optional_param('page', 1, PARAM_INT);
         $service = new resource_service();
-        $data = $service->get_course_resources($courseid);
+        $data = $service->get_course_resources($courseid, $page);
 
         return array_merge($data, [
             'backurl' => (new \moodle_url(

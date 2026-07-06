@@ -193,6 +193,16 @@ class resource_controller
             }
         }
 
+        $reseturl = (
+        new \moodle_url(
+            '/local/inveniordm/resource/search.php',
+            [
+                'backurl' => $backurl
+            ]
+        )
+        )->out(false);
+
+
         $context = [
             'query' => $query,
             'records' => $records,
@@ -211,7 +221,8 @@ class resource_controller
             'selected_master' => $level === "master's degree",
             'selected_doctorate' => $level === 'doctorate',
 
-            'backurl' => $backurl
+            'backurl' => $backurl,
+            'reseturl' => $reseturl
         ];
 
         return $OUTPUT->render_from_template(

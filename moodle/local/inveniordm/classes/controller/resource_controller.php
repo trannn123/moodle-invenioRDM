@@ -120,18 +120,16 @@ class resource_controller
             }
         }
 
-        global $OUTPUT;
+        global $OUTPUT, $USER;
         $client = new invenio_client();
 
         $query = optional_param('q', '', PARAM_TEXT);
 
-        global $USER;
         if (!empty($query)) {
             log_service::add($USER->id, 'SEARCH_RESOURCE');
         }
 
         $format = optional_param('format', '', PARAM_TEXT);
-        $discipline = optional_param('discipline', '', PARAM_TEXT);
         $level = optional_param('level', '', PARAM_TEXT);
 
         $response = $client->get_records($query);
@@ -149,11 +147,9 @@ class resource_controller
                 stripos($subject, $query) !== false;
             $matchformat =
                 $format === '' || strcasecmp($customfields['moodle:format'] ?? '', $format) === 0;
-            $matchdiscipline =
-                $discipline === '' || strcasecmp($customfields['moodle:taxon_entry'] ?? '', $discipline) === 0;
             $matchlevel =
                 $level === '' || strcasecmp($customfields['moodle:educational_level'] ?? '', $level) === 0;
-            if ($matchquery && $matchformat && $matchdiscipline && $matchlevel) {
+            if ($matchquery && $matchformat && $matchlevel) {
                 $records[] = [
                     'id' => $record['id'] ?? '',
                     'title' => $title,
@@ -189,10 +185,21 @@ class resource_controller
         $context = [
             'query' => $query,
             'records' => $records,
+
             'selected_pdf' => $format === 'pdf',
             'selected_doc' => $format === 'doc',
+            'selected_docx' => $format === 'docx',
+            'selected_ppt' => $format === 'ppt',
+            'selected_pptx' => $format === 'pptx',
+            'selected_xls' => $format === 'xls',
+            'selected_xlsx' => $format === 'xlsx',
+
+            'selected_school' => $level === 'school education',
+            'selected_higher' => $level === 'higher education',
             'selected_bachelor' => $level === "bachelor's degree",
             'selected_master' => $level === "master's degree",
+            'selected_doctorate' => $level === 'doctorate',
+
             'backurl' => $backurl
         ];
 

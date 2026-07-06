@@ -25,24 +25,39 @@
             <div class="col-md-6">
                 <select name="format" class="form-select">
                     <option value="">All Formats</option>
-                    <option value="pdf">PDF</option>
-                    <option value="doc">DOC</option>
-                    <option value="docx">DOCX</option>
-                    <option value="ppt">PPT</option>
-                    <option value="pptx">PPTX</option>
-                    <option value="xls">XLS</option>
-                    <option value="xlsx">XLSX</option>
+                    <option value="pdf" {{#selected_pdf}}selected{{/selected_pdf}}>PDF</option>
+                    <option value="doc" {{#selected_doc}}selected{{/selected_doc}}>DOC</option>
+                    <option value="docx" {{#selected_docx}}selected{{/selected_docx}}>DOCX</option>
+                    <option value="ppt" {{#selected_ppt}}selected{{/selected_ppt}}>PPT</option>
+                    <option value="pptx" {{#selected_pptx}}selected{{/selected_pptx}}>PPTX</option>
+                    <option value="xls" {{#selected_xls}}selected{{/selected_xls}}>XLS</option>
+                    <option value="xlsx" {{#selected_xlsx}}selected{{/selected_xlsx}}>XLSX</option>
                 </select>
             </div>
 
             <div class="col-md-6">
                 <select name="level" class="form-select">
                     <option value="">All Educational Levels</option>
-                    <option value="school education">School Education</option>
-                    <option value="higher education">Higher Education</option>
-                    <option value="bachelor's degree">Bachelor Degree</option>
-                    <option value="master's degree">Master Degree</option>
-                    <option value="doctorate">Doctorate</option>
+                    <option value="school education"
+                        {{#selected_school}}selected{{/selected_school}}>
+                        School Education
+                    </option>
+                    <option value="higher education"
+                        {{#selected_higher}}selected{{/selected_higher}}>
+                        Higher Education
+                    </option>
+                    <option value="bachelor's degree"
+                        {{#selected_bachelor}}selected{{/selected_bachelor}}>
+                        Bachelor Degree
+                    </option>
+                    <option value="master's degree"
+                        {{#selected_master}}selected{{/selected_master}}>
+                        Master Degree
+                    </option>
+                    <option value="doctorate"
+                        {{#selected_doctorate}}selected{{/selected_doctorate}}>
+                        Doctorate
+                    </option>
                 </select>
             </div>
         </div>

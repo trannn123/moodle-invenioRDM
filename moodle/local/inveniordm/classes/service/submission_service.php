@@ -1,10 +1,13 @@
 <?php
 
+use local_inveniordm\service\pagination_service;
 
 defined('MOODLE_INTERNAL') || die();
 
 class submission_service
 {
+    private const COURSE_PAGE_SIZE = 1;
+
     public function handle_submission(int $assignmentid, int $userid, ?array $file): int
     {
         global $DB;
@@ -355,7 +358,7 @@ class submission_service
         ];
     }
 
-    public function get_view_submissions(int $assignmentid, string $search = ''): array
+    public function get_view_submissions(int $assignmentid, string $search = '', int $page = 1): array
     {
         global $DB;
 
@@ -397,10 +400,7 @@ class submission_service
             $students = array_filter(
                 $students,
                 function ($student) use ($search) {
-                    return stripos(
-                            fullname($student),
-                            $search
-                        ) !== false;
+                    return stripos(fullname($student), $search) !== false;
                 }
             );
         }
@@ -414,46 +414,31 @@ class submission_service
         $items = [];
 
         foreach ($students as $student) {
-
-            $submission =
-                $submissionmap[$student->id]
-                ?? null;
-
-            $submitted =
-                !empty($submission);
+            $submission = $submissionmap[$student->id] ?? null;
+            $submitted = !empty($submission);
 
             $items[] = [
                 'studentname' => fullname($student),
-
                 'submitted' => $submitted,
-
                 'status' => $submitted
                     ? 'Submitted'
                     : 'Not Submitted',
-
                 'statusactive' => $submitted,
-
                 'statusoverdue' => !$submitted,
-
                 'filename' => $submitted
                     ? s($submission->filename)
                     : '-',
-
                 'submittedat' => $submitted
                     ? userdate(
                         $submission->timecreated,
                         '%d/%m/%Y %H:%M'
                     )
                     : '-',
-
                 'grade' => $submission->grade ?? '-',
-
                 'feedback' => !empty($submission->feedback)
                     ? s($submission->feedback)
                     : '-',
-
                 'hasactions' => $submitted,
-
                 'downloadurl' => $submitted
                     ? (
                     new moodle_url(
@@ -464,13 +449,13 @@ class submission_service
                     )
                     )->out(false)
                     : '',
-
                 'reviewurl' => $submitted
                     ? (
                     new moodle_url(
                         '/local/inveniordm/lecturer/review_submission.php',
                         [
-                            'submissionid' => $submission->id
+                            'submissionid' => $submission->id,
+                            'page' => $page
                         ]
                     )
                     )->out(false)
@@ -502,42 +487,52 @@ class submission_service
                 $context
             ));
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/lecturer/view_submissions.php',
+            [
+                'assignmentid' => $assignmentid,
+                'search' => $search
+            ]
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $items,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
             'assignmentid' => $assignmentid,
-
             'assignmentname' => s(
                 $assignment->name
             ),
-
             'instructions' => format_text(
                 $assignment->instructions,
                 FORMAT_HTML
             ),
-
             'resources' => $resourceitems,
-
             'hasresources' => !empty(
             $resourceitems
             ),
-
-            'students' => $items,
-
+            'students' => $pagination['items'],
             'hasstudents' => !empty(
             $items
             ),
-
             'search' => $search,
-
             'totalstudents' => $totalstudents,
-
             'totalsubmissions' => $totalsubmissions,
-
             'totalnotsubmitted' =>
                 $totalstudents -
                 $totalsubmissions,
-
             'courseid' =>
-                $assignment->courseid
+                $assignment->courseid,
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 }

@@ -240,7 +240,10 @@ class course_service
         }
 
         $baseurl = new moodle_url(
-            '/local/inveniordm/lecturer/my_courses.php'
+            '/local/inveniordm/lecturer/my_courses.php',
+            [
+                'search' => $search
+            ]
         );
 
         $pagination_service = new pagination_service();

@@ -521,12 +521,25 @@
 .action-buttons {
     display: flex;
     gap: 8px;
+    walign-items: center;
     flex-wrap: wrap;
 }
 
 .action-buttons .action-btn {
-    flex: 1;
-    min-width: 80px;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    text-align: center;
+    gap: 6px;
+
+    padding: 6px 14px !important;
+    border-radius: 50px !important;
+
+    white-space: nowrap;
+    line-height: 1.4;
+    min-height: 32px;
+}
+
+.action-buttons .btn-primary.action-btn {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
 }

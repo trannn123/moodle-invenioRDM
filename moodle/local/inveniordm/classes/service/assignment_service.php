@@ -68,7 +68,10 @@ class assignment_service
         }
 
         $baseurl = new moodle_url(
-            '/local/inveniordm/student/all_assignments.php'
+            '/local/inveniordm/student/all_assignments.php',
+            [
+                'search' => $search
+            ]
         );
 
         $pagination_service = new pagination_service();
@@ -332,7 +335,8 @@ class assignment_service
         $baseurl = new moodle_url(
             '/local/inveniordm/lecturer/assignments.php',
             [
-                'courseid' => $courseid
+                'courseid' => $courseid,
+                'search' => $search
             ]
         );
 

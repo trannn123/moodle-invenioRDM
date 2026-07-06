@@ -112,6 +112,11 @@
                     <i class="fa fa-search"></i>
                     Search
                 </button>
+
+                <a href="{{reseturl}}" class="btn btn-outline-secondary">
+                    <i class="fa fa-refresh"></i>
+                    Reset
+                </a>
             </div>
         </form>
     </div>
@@ -175,13 +180,13 @@
                         <td>
                             {{#hasactions}}
                             <div class="action-buttons">
-                                <a class="btn btn-sm btn-primary action-btn" href="{{downloadurl}}">
-                                    <i class="fa fa-download"></i>
-                                    Download
-                                </a>
                                 <a class="btn btn-sm btn-outline-primary action-btn" href="{{reviewurl}}">
                                     <i class="fa fa-eye"></i>
                                     Review
+                                </a>
+                                <a class="btn btn-sm btn-primary action-btn" href="{{downloadurl}}">
+                                    <i class="fa fa-download"></i>
+                                    Download
                                 </a>
                             </div>
                             {{/hasactions}}
@@ -204,5 +209,8 @@
             </table>
         </div>
     </div>
+
+    {{> local_inveniordm/resource/pagination}}
+
     {{/hasstudents}}
 </div>

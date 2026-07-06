@@ -298,11 +298,14 @@ class lecturer_controller
             )
         );
 
+        $page = optional_param('page', 1, PARAM_INT);
+
         $service = new submission_service();
 
         $data = $service->get_view_submissions(
             $assignmentid,
-            $search
+            $search,
+            $page
         );
 
         return array_merge(
@@ -318,6 +321,15 @@ class lecturer_controller
                 )->out(false),
 
                 'searchurl' => (
+                new moodle_url(
+                    '/local/inveniordm/lecturer/view_submissions.php',
+                    [
+                        'assignmentid' => $assignmentid
+                    ]
+                )
+                )->out(false),
+
+                'reseturl' => (
                 new moodle_url(
                     '/local/inveniordm/lecturer/view_submissions.php',
                     [

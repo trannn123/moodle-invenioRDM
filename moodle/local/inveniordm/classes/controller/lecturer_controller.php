@@ -82,12 +82,14 @@ class lecturer_controller
     {
         global $USER;
         $search = optional_param('search', '', PARAM_TEXT);
+        $page = optional_param('page', 1, PARAM_INT);
         $search = trim($search);
 
         $service = new course_service();
         $data = $service->get_lecturer_my_courses(
             $USER->id,
-            $search
+            $search,
+            $page
         );
 
         return array_merge($data, [

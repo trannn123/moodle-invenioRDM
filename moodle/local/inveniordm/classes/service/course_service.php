@@ -187,7 +187,7 @@ class course_service
         $plugin->enrol_user($selfinstance, $userid, 5);
     }
 
-    public function get_lecturer_my_courses(int $userid, string $search = ''): array
+    public function get_lecturer_my_courses(int $userid, string $search = '', int $page = 1): array
     {
         global $DB;
         $courses = enrol_get_users_courses($userid, true);
@@ -239,11 +239,28 @@ class course_service
             ];
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/lecturer/my_courses.php'
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $courses,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
-            'courses' => $items,
+            'courses' => $pagination['items'],
             'totalcourses' => $totalcourses,
             'totalresources' => $totalresources,
-            'hascourses' => !empty($items)
+            'hascourses' => !empty($pagination['items']),
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 }

@@ -34,12 +34,14 @@ class lecturer_controller
         global $USER;
         $courseid = required_param('courseid', PARAM_INT);
         $search = trim(optional_param('search', '', PARAM_TEXT));
+        $page = optional_param('page', 1, PARAM_INT);
         $service = new assignment_service();
 
         $data = $service->get_lecturer_course_assignments(
             $courseid,
             $USER->id,
-            $search
+            $search,
+            $page
         );
 
         return array_merge($data, [

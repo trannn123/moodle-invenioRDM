@@ -1,6 +1,9 @@
 <?php
 
+use local_inveniordm\service\pagination_service;
+
 defined('MOODLE_INTERNAL') || die();
+
 global $CFG;
 require_once(
     $CFG->dirroot .
@@ -9,6 +12,8 @@ require_once(
 
 class assignment_service
 {
+    private const COURSE_PAGE_SIZE = 5;
+
     public function get_all_assignments(int $userid, string $search = ''): array
     {
         global $DB;
@@ -70,7 +75,7 @@ class assignment_service
         ];
     }
 
-    public function get_course_assignments(int $courseid, int $userid): array
+    public function get_course_assignments(int $courseid, int $userid, int $page = 1): array
     {
         global $DB;
         $course = $DB->get_record('course', ['id' => $courseid], '*', MUST_EXIST);
@@ -121,9 +126,29 @@ class assignment_service
             ];
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/student/assignments.php',
+            [
+                'courseid' => $courseid
+            ]
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $result,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
-            'assignments' => $result,
-            'hasassignments' => !empty($result),
+            'assignments' => $pagination['items'],
+            'hasassignments' => !empty($pagination['items']),
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 

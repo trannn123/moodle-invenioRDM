@@ -51,10 +51,12 @@ class student_controller
     public function get_course_assignments_context(): array
     {
         $courseid = required_param('courseid', PARAM_INT);
+        $page = optional_param('page', 1, PARAM_INT);
         $service = new assignment_service();
         $data = $service->get_course_assignments(
             $courseid,
-            $GLOBALS['USER']->id
+            $GLOBALS['USER']->id,
+            $page
         );
 
         return array_merge($data, [

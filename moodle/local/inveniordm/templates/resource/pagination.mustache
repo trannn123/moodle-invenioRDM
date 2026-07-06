@@ -1,0 +1,37 @@
+{{#pagination}}
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+            {{#previous}}
+            <li class="page-item">
+                <a class="page-link" href="{{url}}">
+                    Previous
+                </a>
+            </li>
+            {{/previous}}
+
+            {{#pages}}
+                {{#ellipsis}}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                {{/ellipsis}}
+
+                {{^ellipsis}}
+                    <li class="page-item {{#active}}active{{/active}}">
+                        <a class="page-link" href="{{url}}">
+                            {{number}}
+                        </a>
+                    </li>
+                {{/ellipsis}}
+            {{/pages}}
+
+            {{#next}}
+                <li class="page-item">
+                    <a class="page-link" href="{{url}}">
+                        Next
+                    </a>
+                </li>
+            {{/next}}
+            </ul>
+        </nav>
+        {{/pagination}}

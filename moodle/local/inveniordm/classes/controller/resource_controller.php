@@ -252,13 +252,11 @@ class resource_controller
             'backurl' => $backurl,
             'reseturl' => $reseturl,
 
-            'currentpage' => $pagination['page'],
-            'totalpages' => $pagination['totalpages'],
-            'totalitems' => $pagination['totalitems'],
-
-            'pages' => $pagination['pages'],
-            'previous' => $pagination['previous'],
-            'next' => $pagination['next'],
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
 
         return $OUTPUT->render_from_template(

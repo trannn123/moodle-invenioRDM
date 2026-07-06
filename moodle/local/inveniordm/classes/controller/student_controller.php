@@ -10,8 +10,10 @@ class student_controller
         $search = optional_param('search', '', PARAM_TEXT);
         $search = trim($search);
 
+        $page = optional_param('page', 1, PARAM_INT);
+
         $service = new course_service();
-        $data = $service->get_all_courses($search, $GLOBALS['USER']->id);
+        $data = $service->get_all_courses($search, $GLOBALS['USER']->id, $page);
 
         return array_merge($data, [
             'search' => $search,

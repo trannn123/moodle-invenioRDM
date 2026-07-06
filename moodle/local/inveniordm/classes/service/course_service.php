@@ -1,11 +1,14 @@
 <?php
 
+use local_inveniordm\service\pagination_service;
 
 defined('MOODLE_INTERNAL') || die();
 
 class course_service
 {
-    public function get_all_courses(string $search = '', int $userid = 0): array
+    private const COURSE_PAGE_SIZE = 5;
+
+    public function get_all_courses(string $search = '', int $userid = 0, int $page = 1): array
     {
         global $DB;
         $courses = get_courses();
@@ -70,10 +73,30 @@ class course_service
             ];
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/student/all_courses.php',
+            [
+                'search' => $search
+            ]
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $result,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
             'courses' => $result,
             'totalcourses' => $totalcourses,
-            'totalresources' => $totalresources
+            'totalresources' => $totalresources,
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 

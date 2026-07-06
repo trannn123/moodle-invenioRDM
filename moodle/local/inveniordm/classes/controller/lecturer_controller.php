@@ -54,7 +54,8 @@ class lecturer_controller
     public function get_course_resources_context(int $courseid): array
     {
         $service = new resource_service();
-        $data = $service->get_lecturer_course_resources($courseid);
+        $page = optional_param('page', 1, PARAM_INT);
+        $data = $service->get_lecturer_course_resources($courseid, $page);
 
         return array_merge($data, [
             'courseid' => $courseid,

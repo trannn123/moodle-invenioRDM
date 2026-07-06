@@ -6,7 +6,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class course_service
 {
-    private const COURSE_PAGE_SIZE = 4;
+    private const COURSE_PAGE_SIZE = 1;
 
     public function get_all_courses(string $search = '', int $userid = 0, int $page = 1): array
     {
@@ -245,7 +245,7 @@ class course_service
 
         $pagination_service = new pagination_service();
         $pagination = $pagination_service->paginate(
-            $courses,
+            $items,
             $page,
             self::COURSE_PAGE_SIZE,
             $baseurl

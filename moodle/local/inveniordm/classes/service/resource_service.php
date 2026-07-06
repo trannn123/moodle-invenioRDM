@@ -117,7 +117,7 @@ class resource_service
         ];
     }
 
-    public function get_lecturer_my_resources(): array
+    public function get_lecturer_my_resources(int $page = 1): array
     {
         $client = new \local_inveniordm\api\invenio_client();
         $result = $client->get_records();
@@ -141,10 +141,27 @@ class resource_service
             ];
         }
 
+        $baseurl = new moodle_url(
+            '/local/inveniordm/lecturer/my_resources.php'
+        );
+
+        $pagination_service = new pagination_service();
+        $pagination = $pagination_service->paginate(
+            $items,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
         return [
-            'resources' => $items,
+            'resources' => $pagination['items'],
             'totalresources' => count($items),
-            'hasresources' => !empty($items),
+            'hasresources' => !empty($pagination['items']),
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
         ];
     }
 

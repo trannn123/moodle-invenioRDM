@@ -112,7 +112,9 @@ class lecturer_controller
     public function get_my_resources_context(): array
     {
         $service = new resource_service();
-        $data = $service->get_lecturer_my_resources();
+        $page = optional_param('page', 1, PARAM_INT);
+
+        $data = $service->get_lecturer_my_resources($page);
 
         return array_merge($data, [
             'backurl' => (new moodle_url(

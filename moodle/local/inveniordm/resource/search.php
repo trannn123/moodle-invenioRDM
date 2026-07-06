@@ -3,7 +3,8 @@
 require_once(__DIR__ . '/../../../config.php');
 global $CFG, $PAGE, $OUTPUT;
 require_login();
-require_once($CFG->dirroot.'/local/inveniordm/classes/controller/resource_controller.php');
+require_once($CFG->dirroot . '/local/inveniordm/classes/controller/resource_controller.php');
+require_once(__DIR__ . '/../classes/service/pagination_service.php');
 $context = context_system::instance();
 
 $PAGE->set_url(

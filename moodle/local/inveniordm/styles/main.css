@@ -227,3 +227,58 @@ body .container,
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
+.pagination {
+    margin: 2rem 0 1rem;
+    gap: .35rem;
+}
+
+.pagination .page-link {
+    min-width: 42px;
+    height: 42px;
+    padding: 0 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+
+    background: var(--white);
+    color: var(--gray-700);
+
+    font-weight: 500;
+    text-decoration: none;
+
+    transition: var(--transition);
+}
+
+.pagination .page-link:hover {
+    background: var(--blue-soft);
+    border-color: var(--royal-blue);
+    color: var(--royal-blue);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--royal-blue);
+    border-color: var(--royal-blue);
+    color: var(--white);
+    font-weight: 500;
+}
+
+.pagination .page-item.disabled .page-link {
+    background: transparent;
+    border-color: var(--gray-200);
+    color: var(--gray-400);
+    cursor: default;
+}
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+    min-width: 90px;
+}
+
+.pagination .page-link:focus {
+    box-shadow: 0 0 0 0.2rem rgba(26, 95, 180, .15);
+}

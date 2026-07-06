@@ -5,10 +5,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../api/invenio_client.php');
 
 use local_inveniordm\api\invenio_client;
+use local_inveniordm\service\pagination_service;
 use log_service;
 
 class resource_controller
 {
+    private const SEARCH_PAGE_SIZE = 5;
+
     public function view($id, $returnurl = '')
     {
         global $OUTPUT;
@@ -124,6 +127,7 @@ class resource_controller
         $client = new invenio_client();
 
         $query = optional_param('q', '', PARAM_TEXT);
+        $page = optional_param('page', 1, PARAM_INT);
 
         if (!empty($query)) {
             log_service::add($USER->id, 'SEARCH_RESOURCE');
@@ -142,6 +146,19 @@ class resource_controller
                 'level' => $level,
                 'backurl' => $backurl
             ]
+        );
+
+        $baseurl = new \moodle_url(
+            '/local/inveniordm/resource/search.php',
+
+            [
+                'q' => $query,
+                'format' => $format,
+                'level' => $level,
+                'backurl' => $backurl
+
+            ]
+
         );
 
         $records = [];
@@ -193,6 +210,17 @@ class resource_controller
             }
         }
 
+        $pagination_service = new pagination_service();
+
+        $pagination = $pagination_service->paginate(
+            $records,
+            $page,
+            self::SEARCH_PAGE_SIZE,
+            $baseurl
+        );
+
+        $records = $pagination['items'];
+
         $reseturl = (
         new \moodle_url(
             '/local/inveniordm/resource/search.php',
@@ -222,7 +250,15 @@ class resource_controller
             'selected_doctorate' => $level === 'doctorate',
 
             'backurl' => $backurl,
-            'reseturl' => $reseturl
+            'reseturl' => $reseturl,
+
+            'currentpage' => $pagination['page'],
+            'totalpages' => $pagination['totalpages'],
+            'totalitems' => $pagination['totalitems'],
+
+            'pages' => $pagination['pages'],
+            'previous' => $pagination['previous'],
+            'next' => $pagination['next'],
         ];
 
         return $OUTPUT->render_from_template(

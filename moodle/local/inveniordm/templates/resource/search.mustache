@@ -23,7 +23,7 @@
         </div>
 
         <div class="row mt-3 invenio-filter-section">
-            <div class="col-md-6">
+            <div class="col-12 mb-3">
                 <select name="format" class="form-select">
                     <option value="">All Formats</option>
                     <option value="pdf" {{#selected_pdf}}selected{{/selected_pdf}}>PDF</option>
@@ -36,7 +36,7 @@
                 </select>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-12">
                 <select name="level" class="form-select">
                     <option value="">All Educational Levels</option>
                     <option value="school education"
@@ -108,6 +108,42 @@
     </div>
 </div>
 {{/records}}
+
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+    {{#previous}}
+    <li class="page-item">
+        <a class="page-link" href="{{url}}">
+            Previous
+        </a>
+    </li>
+    {{/previous}}
+
+    {{#pages}}
+        {{#ellipsis}}
+            <li class="page-item disabled">
+                <span class="page-link">...</span>
+            </li>
+        {{/ellipsis}}
+
+        {{^ellipsis}}
+            <li class="page-item {{#active}}active{{/active}}">
+                <a class="page-link" href="{{url}}">
+                    {{number}}
+                </a>
+            </li>
+        {{/ellipsis}}
+    {{/pages}}
+
+    {{#next}}
+        <li class="page-item">
+            <a class="page-link" href="{{url}}">
+                Next
+            </a>
+        </li>
+    {{/next}}
+    </ul>
+</nav>
 
 {{^records}}
 <div class="alert alert-secondary">

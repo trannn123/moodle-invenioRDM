@@ -204,6 +204,8 @@ class lecturer_controller
             PARAM_INT
         );
 
+        $page = optional_param('page', 1, PARAM_INT);
+
         $search = trim(
             optional_param(
                 'q',
@@ -216,7 +218,8 @@ class lecturer_controller
 
         $data = $service->search_resources_to_attach(
             $courseid,
-            $search
+            $search,
+            $page
         );
 
         return array_merge(

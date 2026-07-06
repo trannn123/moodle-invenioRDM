@@ -74,12 +74,15 @@
                         {{^attached}}
                             <a class="btn btn-primary" href="{{attachurl}}">
                                 <i class="fa fa-link"></i>
-                                Attach Resource
+                                Attach
                             </a>
                         {{/attached}}
                     </div>
                 </div>
             {{/resources}}
         </div>
+
+        {{> local_inveniordm/resource/pagination}}
+
     {{/hasresources}}
 </div>

@@ -181,17 +181,17 @@
 }
 
 .resource-actions {
-    margin-top: auto;
-    padding: 16px 24px 20px;
     display: flex;
     gap: 10px;
+    margin-top: auto;
+    padding: 16px 24px 20px;
     align-items: stretch;
 }
 
 .resource-actions > .btn,
 .resource-actions > .action-status {
-    flex: 1 1 0;
-    display: flex;
+    flex: 1;
+    min-width: 0;
 }
 
 .resource-actions > .btn {
@@ -342,4 +342,11 @@
         padding: 6px 16px !important;
         min-height: 38px;
     }
+}
+
+.resource-actions .btn {
+    padding: 8px 20px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

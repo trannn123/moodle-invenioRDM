@@ -133,6 +133,17 @@ class resource_controller
         $level = optional_param('level', '', PARAM_TEXT);
 
         $response = $client->get_records($query);
+
+        $returnurl = new \moodle_url(
+            '/local/inveniordm/resource/search.php',
+            [
+                'q' => $query,
+                'format' => $format,
+                'level' => $level,
+                'backurl' => $backurl
+            ]
+        );
+
         $records = [];
         $hits = $response['hits']['hits'] ?? [];
 
@@ -174,7 +185,7 @@ class resource_controller
                         '/local/inveniordm/resource/view.php',
                         [
                             'id' => $record['id'],
-                            'returnurl' => qualified_me()
+                            'returnurl' => $returnurl->out(false)
                         ]
                     )
                     )->out(false),

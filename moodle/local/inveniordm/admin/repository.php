@@ -3,6 +3,7 @@
 require_once(__DIR__ . '/../../../config.php');
 require_once(__DIR__ . '/../classes/controller/admin_controller.php');
 require_once(__DIR__ . '/../classes/service/repository_service.php');
+require_once(__DIR__ . '/../classes/service/pagination_service.php');
 
 require_login();
 

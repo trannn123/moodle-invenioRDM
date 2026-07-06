@@ -171,16 +171,18 @@ class admin_controller
     public function get_repository_context(): array
     {
         $search = optional_param('search', '', PARAM_TEXT);
+        $page = optional_param('page', 1, PARAM_INT);
 
         $service = new repository_service();
 
-        $data = $service->get_repository_resources($search);
+        $data = $service->get_repository_resources($search, $page);
 
         return [
             'search' => $search,
             'resources' => $data['resources'],
             'hasresources' => $data['hasresources'],
             'totalresources' => $data['totalresources'],
+            'pagination' => $data['pagination'],
             'backurl' => (
             new moodle_url('/local/inveniordm/index.php')
             )->out(false)

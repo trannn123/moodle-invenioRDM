@@ -22,12 +22,13 @@ class admin_controller
     public function get_analytics_context(): array
     {
         $range = optional_param('range', '30days', PARAM_ALPHANUMEXT);
+        $page = optional_param('page', 1, PARAM_INT);
 
         $service = new analytics_service();
 
         $activitycounts = $service->get_activity_counts($range);
-
         $breakdown = $service->get_activity_breakdown($range);
+        $recentactivities = $service->get_recent_activity_data($range, $page);
 
         $conicgradient = '';
 
@@ -94,8 +95,8 @@ class admin_controller
             'topdownloads' => $service->get_top_downloaded_resources($range),
             'topusers' => $service->get_top_active_users($range),
             'topcourses' => $service->get_top_courses($range),
-            'recentactivities' => $service->get_recent_activity_data(),
-
+            'recentactivities' => $recentactivities['items'],
+            'pagination' => $recentactivities['pagination'],
             'activitydata' => $breakdown['activityData'],
             'totalactivities' => $breakdown['totalActivities'],
             'conicgradient' => $conicgradient

@@ -6,6 +6,8 @@ defined('MOODLE_INTERNAL') || die();
 
 class analytics_service
 {
+    private const COURSE_PAGE_SIZE = 4;
+
     public function get_activity_counts($range = '30days')
     {
         global $DB;
@@ -174,13 +176,13 @@ class analytics_service
         ];
     }
 
-    public function get_recent_activity_data()
+    public function get_recent_activity_data(string $range, int $page = 1)
     {
         global $DB;
         $logs = $DB->get_records_sql(
             "SELECT * FROM {local_inveniordm_logs}
                     ORDER BY timecreated DESC
-                    LIMIT 10");
+            ");
 
         $userids = [];
 
@@ -250,14 +252,22 @@ class analytics_service
                 "recordid $sqlin",
                 $params,
                 '',
-                'recordid,title'
+                'id, recordid, title'
             );
         }
 
-        $data = [];
+        $resourcemap = [];
+
+        foreach ($resourcerecords as $resource) {
+            if (!isset($resourcemap[$resource->recordid])) {
+                $resourcemap[$resource->recordid] = $resource;
+            }
+        }
+
+        $items = [];
 
         foreach ($logs as $log) {
-            $data[] = [
+            $items[] = [
                 'timecreated' => userdate($log->timecreated),
                 'username' => isset($users[$log->userid])
                     ? fullname($users[$log->userid])
@@ -265,15 +275,34 @@ class analytics_service
                 'coursename' => isset($courses[$log->courseid])
                     ? $courses[$log->courseid]->fullname
                     : '-',
-                'resourcename' => (
-                    !empty($log->resourceid)
-                    && isset($resourcerecords[$log->resourceid])
-                )
-                    ? $resourcerecords[$log->resourceid]->title
+                'resourcename' => isset($resourcemap[$log->resourceid])
+                    ? $resourcemap[$log->resourceid]->title
                     : '-',
                 'action' => $actionlabels[$log->action] ?? $log->action
             ];
         }
+
+        $baseurl = new \moodle_url(
+            '/local/inveniordm/admin/analytics.php'
+        );
+
+        $pagination_service = new pagination_service();
+
+        $pagination = $pagination_service->paginate(
+            $items,
+            $page,
+            self::COURSE_PAGE_SIZE,
+            $baseurl
+        );
+
+        return [
+            'items' => $pagination['items'],
+            'pagination' => [
+                'pages' => $pagination['pages'],
+                'previous' => $pagination['previous'],
+                'next' => $pagination['next']
+            ]
+        ];
         return $data;
     }
 
@@ -357,13 +386,14 @@ class analytics_service
         $resourcerecords = [];
         if ($resourceids) {
             list($sqlin, $params) = $DB->get_in_or_equal($resourceids);
-            $resourcerecords = $DB->get_records_select(
-                'local_inveniordm_course_resources',
-                "recordid $sqlin",
-                $params,
-                '',
-                'recordid,title'
-            );
+            $sql = "
+                SELECT recordid, MAX(title) AS title
+                FROM {local_inveniordm_course_resources}
+                WHERE recordid $sqlin
+                GROUP BY recordid
+            ";
+
+            $resourcerecords = $DB->get_records_sql($sql, $params);
         }
 
         $data = [];

@@ -255,3 +255,15 @@
     box-shadow: 0 0 0 4px rgba(0, 180, 216, .15);
     outline: none;
 }
+
+.repository-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.repository-table {
+    width: 100%;
+    min-width: 700px;
+    border-collapse: collapse;
+}

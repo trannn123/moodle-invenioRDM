@@ -51,44 +51,46 @@
 
         <div class="repository-card-body">
             {{#hasresources}}
-            <table class="repository-table">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Status</th>
-                    <th>Files</th>
-                    <th>Date</th>
-                    <th class="text-center">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#resources}}
+            <div class="repository-table-wrapper">
+                <table class="repository-table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Files</th>
+                        <th>Date</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#resources}}
 
-                <tr>
-                    <td>
-                        {{title}}
-                    </td>
-                    <td>
-                        <span class="repository-status">
-                            {{status}}
-                        </span>
-                    </td>
-                    <td>
-                        {{filecount}}
-                    </td>
-                    <td>
-                        {{date}}
-                    </td>
-                    <td class="text-center">
-                        <a href="{{viewurl}}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-eye"></i>
-                            View
-                        </a>
-                    </td>
-                </tr>
-                {{/resources}}
-                </tbody>
-            </table>
+                    <tr>
+                        <td>
+                            {{title}}
+                        </td>
+                        <td>
+                            <span class="repository-status">
+                                {{status}}
+                            </span>
+                        </td>
+                        <td>
+                            {{filecount}}
+                        </td>
+                        <td>
+                            {{date}}
+                        </td>
+                        <td class="text-center">
+                            <a href="{{viewurl}}" class="btn btn-sm btn-primary">
+                                <i class="fa fa-eye"></i>
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {{/resources}}
+                    </tbody>
+                </table>
+            </div>
             {{/hasresources}}
 
             {{^hasresources}}

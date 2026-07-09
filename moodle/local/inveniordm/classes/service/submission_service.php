@@ -1,5 +1,6 @@
 <?php
 
+use core\exception\moodle_exception;
 use local_inveniordm\service\pagination_service;
 
 defined('MOODLE_INTERNAL') || die();
@@ -20,11 +21,11 @@ class submission_service
         );
 
         if (time() > $assignment->duedate) {
-            throw new \moodle_exception('deadlinepassed');
+            throw new moodle_exception('deadlinepassed');
         }
 
         if (!$file || empty($file['name'])) {
-            throw new \moodle_exception('nofile');
+            throw new moodle_exception('nofile');
         }
 
         $existing = $DB->get_record('local_inveniordm_submissions', [
@@ -197,7 +198,7 @@ class submission_service
         );
 
         $publishurl =
-            'http://ctu-it-rdm-web-api-1:5000/api/records/' .
+            'https://host.docker.internal/api/records/' .
             $recordid .
             '/draft/actions/publish';
 

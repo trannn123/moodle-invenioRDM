@@ -12,7 +12,7 @@ if ($hassiteconfig) {
         'local_inveniordm/apiurl',
         'API URL',
         'Invenio API URL',
-        'http://host.docker.internal:5001/api'
+        'https://host.docker.internal/api'
     ));
 
     $settings->add(new admin_setting_configtext(

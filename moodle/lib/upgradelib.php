@@ -1192,7 +1192,7 @@ function log_update_descriptions($component) {
  */
 function external_update_descriptions($component) {
     global $DB, $CFG;
-
+    error_log("external_update_descriptions: ".$component);
     $defpath = core_component::get_component_directory($component).'/db/services.php';
 
     if (!file_exists($defpath)) {

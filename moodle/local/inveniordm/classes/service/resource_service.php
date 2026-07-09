@@ -1,5 +1,6 @@
 <?php
 
+use core\exception\moodle_exception;
 use local_inveniordm\service\pagination_service;
 
 defined('MOODLE_INTERNAL') || die();

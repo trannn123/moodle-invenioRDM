@@ -1,5 +1,7 @@
 <?php
 
+use core\exception\moodle_exception;
+use core\exception\required_capability_exception;
 use local_inveniordm\service\pagination_service;
 
 defined('MOODLE_INTERNAL') || die();
@@ -102,7 +104,7 @@ class assignment_service
         $context = \context_course::instance($courseid);
 
         if (!is_enrolled($context, $userid)) {
-            throw new \moodle_exception('notenrolled', 'enrol');
+            throw new moodle_exception('notenrolled', 'enrol');
         }
 
         $assignments = $DB->get_records(
@@ -269,7 +271,7 @@ class assignment_service
         $context = \context_course::instance($courseid);
 
         if (!has_capability('local/inveniordm:upload', $context)) {
-            throw new \required_capability_exception($context, 'local/inveniordm:upload', 'nopermission', '');
+            throw new required_capability_exception($context, 'local/inveniordm:upload', 'nopermission', '');
         }
 
         $assignments = $DB->get_records(

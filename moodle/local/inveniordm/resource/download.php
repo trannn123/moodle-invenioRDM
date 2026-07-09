@@ -32,7 +32,7 @@ $file = array_values($files)[0];
 $contenturl = $file['links']['content'];
 $contenturl = str_replace(
     'http://localhost',
-    'http://host.docker.internal:5001',
+    'https://host.docker.internal',
     $contenturl
 );
 

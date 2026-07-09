@@ -1,5 +1,6 @@
 <?php
 
+use core\exception\moodle_exception;
 use local_inveniordm\service\pagination_service;
 
 defined('MOODLE_INTERNAL') || die();
@@ -166,7 +167,7 @@ class course_service
         $context = \context_course::instance($courseid);
 
         if (is_enrolled($context, $userid)) {
-            throw new \moodle_exception('alreadyenrolled', 'enrol');
+            throw new moodle_exception('alreadyenrolled', 'enrol');
         }
 
         $instances = enrol_get_instances($courseid, true);
@@ -180,7 +181,7 @@ class course_service
         }
 
         if (!$selfinstance) {
-            throw new \moodle_exception('selfenrolmentdisabled', 'enrol');
+            throw new moodle_exception('selfenrolmentdisabled', 'enrol');
         }
 
         $plugin = enrol_get_plugin('self');

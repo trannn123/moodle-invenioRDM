@@ -1,5 +1,8 @@
 <?php
 
+use core\exception\coding_exception;
+use core\exception\moodle_exception;
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -31,7 +34,7 @@ define('UPGRADE_LOG_NORMAL', 0);
 /** UPGRADE_LOG_NOTICE = 1 */
 define('UPGRADE_LOG_NOTICE', 1);
 /** UPGRADE_LOG_ERROR = 2 */
-define('UPGRADE_LOG_ERROR',  2);
+define('UPGRADE_LOG_ERROR', 2);
 
 /**
  * Exception indicating unknown error during upgrade.
@@ -41,10 +44,12 @@ define('UPGRADE_LOG_ERROR',  2);
  * @copyright  2009 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class upgrade_exception extends moodle_exception {
-    function __construct($plugin, $version, $debuginfo=NULL) {
+class upgrade_exception extends moodle_exception
+{
+    function __construct($plugin, $version, $debuginfo = NULL)
+    {
         global $CFG;
-        $a = (object)array('plugin'=>$plugin, 'version'=>$version);
+        $a = (object)array('plugin' => $plugin, 'version' => $version);
         parent::__construct('upgradeerror', 'admin', "$CFG->wwwroot/$CFG->admin/index.php", $a, $debuginfo);
     }
 }
@@ -57,11 +62,13 @@ class upgrade_exception extends moodle_exception {
  * @copyright  2009 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class downgrade_exception extends moodle_exception {
-    function __construct($plugin, $oldversion, $newversion) {
+class downgrade_exception extends moodle_exception
+{
+    function __construct($plugin, $oldversion, $newversion)
+    {
         global $CFG;
         $plugin = is_null($plugin) ? 'moodle' : $plugin;
-        $a = (object)array('plugin'=>$plugin, 'oldversion'=>$oldversion, 'newversion'=>$newversion);
+        $a = (object)array('plugin' => $plugin, 'oldversion' => $oldversion, 'newversion' => $newversion);
         parent::__construct('cannotdowngrade', 'debug', "$CFG->wwwroot/$CFG->admin/index.php", $a);
     }
 }
@@ -72,14 +79,16 @@ class downgrade_exception extends moodle_exception {
  * @copyright  2009 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class upgrade_requires_exception extends moodle_exception {
-    function __construct($plugin, $pluginversion, $currentmoodle, $requiremoodle) {
+class upgrade_requires_exception extends moodle_exception
+{
+    function __construct($plugin, $pluginversion, $currentmoodle, $requiremoodle)
+    {
         global $CFG;
         $a = new stdClass();
-        $a->pluginname     = $plugin;
-        $a->pluginversion  = $pluginversion;
-        $a->currentmoodle  = $currentmoodle;
-        $a->requiremoodle  = $requiremoodle;
+        $a->pluginname = $plugin;
+        $a->pluginversion = $pluginversion;
+        $a->currentmoodle = $currentmoodle;
+        $a->requiremoodle = $requiremoodle;
         parent::__construct('pluginrequirementsnotmet', 'error', "$CFG->wwwroot/$CFG->admin/index.php", $a);
     }
 }
@@ -92,19 +101,21 @@ class upgrade_requires_exception extends moodle_exception {
  * @copyright  2019 Peter Burnett <peterburnett@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class plugin_incompatible_exception extends moodle_exception {
+class plugin_incompatible_exception extends moodle_exception
+{
     /**
      * Constructor function for exception
      *
      * @param \core\plugininfo\base $plugin The plugin causing the exception
      * @param int $pluginversion The version of the plugin causing the exception
      */
-    public function __construct($plugin, $pluginversion) {
+    public function __construct($plugin, $pluginversion)
+    {
         global $CFG;
         $a = new stdClass();
-        $a->pluginname      = $plugin;
-        $a->pluginversion   = $pluginversion;
-        $a->moodleversion   = $CFG->branch;
+        $a->pluginname = $plugin;
+        $a->pluginversion = $pluginversion;
+        $a->moodleversion = $CFG->branch;
 
         parent::__construct('pluginunsupported', 'error', "$CFG->wwwroot/$CFG->admin/index.php", $a);
     }
@@ -116,8 +127,10 @@ class plugin_incompatible_exception extends moodle_exception {
  * @copyright  2009 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class plugin_defective_exception extends moodle_exception {
-    function __construct($plugin, $details) {
+class plugin_defective_exception extends moodle_exception
+{
+    function __construct($plugin, $details)
+    {
         global $CFG;
         parent::__construct('detectedbrokenplugin', 'error', "$CFG->wwwroot/$CFG->admin/index.php", $plugin, $details);
     }
@@ -133,14 +146,16 @@ class plugin_defective_exception extends moodle_exception {
  * @copyright  2009 Petr Skoda {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class plugin_misplaced_exception extends moodle_exception {
+class plugin_misplaced_exception extends moodle_exception
+{
     /**
      * Constructor.
      * @param string $component the component from version.php
      * @param string $expected expected directory, null means calculate
      * @param string $current plugin directory path
      */
-    public function __construct($component, $expected, $current) {
+    public function __construct($component, $expected, $current)
+    {
         global $CFG;
         if (empty($expected)) {
             list($type, $plugin) = core_component::normalize_component($component);
@@ -157,8 +172,8 @@ class plugin_misplaced_exception extends moodle_exception {
         }
         $a = new stdClass();
         $a->component = $component;
-        $a->expected  = $expected;
-        $a->current   = $current;
+        $a->expected = $expected;
+        $a->current = $current;
         parent::__construct('detectedmisplacedplugin', 'core_plugin', "$CFG->wwwroot/$CFG->admin/index.php", $a);
     }
 }
@@ -166,7 +181,10 @@ class plugin_misplaced_exception extends moodle_exception {
 /**
  * Static class monitors performance of upgrade steps.
  */
-class core_upgrade_time {
+class core_upgrade_time
+{
+    /** @var float For details, only show if they take longer than a second. */
+    const THRESHOLD = 1.0;
     /** @var float Time at start of current upgrade (plugin/system) */
     protected static $before;
     /** @var float Time at end of last recorded savepoint or detail */
@@ -176,15 +194,13 @@ class core_upgrade_time {
     /** @var bool Flag indicates whether this is an installation (=no savepoints) */
     protected static $installation = false;
 
-    /** @var float For details, only show if they take longer than a second. */
-    const THRESHOLD = 1.0;
-
     /**
      * Records current time at the start of the current upgrade item, e.g. plugin.
      *
      * @param bool $installation True if this is an installation (of this item) not upgrade
      */
-    public static function record_start(bool $installation = false): void {
+    public static function record_start(bool $installation = false): void
+    {
         self::$before = microtime(true);
         self::$lastdetail = self::$before;
         self::$isrecording = true;
@@ -196,7 +212,8 @@ class core_upgrade_time {
      *
      * @param bool $verbose If true, displays output
      */
-    public static function record_end(bool $verbose = true): void {
+    public static function record_end(bool $verbose = true): void
+    {
         global $OUTPUT;
 
         if ($verbose) {
@@ -211,11 +228,22 @@ class core_upgrade_time {
     }
 
     /**
+     * Gets the time since the record_start function was called, rounded to 2 digits.
+     *
+     * @return float Elapsed time
+     */
+    public static function get_elapsed()
+    {
+        return microtime(true) - self::$before;
+    }
+
+    /**
      * Records current time at the end of a given numbered step.
      *
      * @param float $version Version number (may have decimals, or not)
      */
-    public static function record_savepoint($version) {
+    public static function record_savepoint($version)
+    {
         // Skip savepoints during installation because there is always exactly one and it's not
         // interesting.
         if (self::$installation) {
@@ -233,7 +261,8 @@ class core_upgrade_time {
      * @param string $detail Text e.g. file or function name
      * @param bool $showalways If true, shows time even if quick
      */
-    public static function record_detail(string $detail, bool $showalways = false): void {
+    public static function record_detail(string $detail, bool $showalways = false): void
+    {
         global $CFG, $OUTPUT;
 
         // In developer debug mode we show a notification after each detail.
@@ -245,8 +274,8 @@ class core_upgrade_time {
             // Display the time if significant, and always for savepoints.
             if ($duration > self::THRESHOLD || $showalways) {
                 $notification = new \core\output\notification($detail . ': ' .
-                        get_string('successduration', '', format_float($duration, 2)),
-                        \core\output\notification::NOTIFY_SUCCESS);
+                    get_string('successduration', '', format_float($duration, 2)),
+                    \core\output\notification::NOTIFY_SUCCESS);
                 $notification->set_show_closebutton(false);
                 echo $OUTPUT->render($notification);
             }
@@ -254,15 +283,6 @@ class core_upgrade_time {
             // Record the time.
             self::$lastdetail = $time;
         }
-    }
-
-    /**
-     * Gets the time since the record_start function was called, rounded to 2 digits.
-     *
-     * @return float Elapsed time
-     */
-    public static function get_elapsed() {
-        return microtime(true) - self::$before;
     }
 }
 
@@ -272,10 +292,11 @@ class core_upgrade_time {
  *
  * The script may be automatically aborted if upgrade times out.
  *
- * @category upgrade
  * @param int $max_execution_time in seconds (can not be less than 60 s)
+ * @category upgrade
  */
-function upgrade_set_timeout($max_execution_time=300) {
+function upgrade_set_timeout($max_execution_time = 300)
+{
     global $CFG;
 
     // Support outageless upgrades.
@@ -295,7 +316,7 @@ function upgrade_set_timeout($max_execution_time=300) {
             $upgraderunning = 0;
         } else {
             // web upgrade not running or aborted
-            throw new \moodle_exception('upgradetimedout', 'admin', "$CFG->wwwroot/$CFG->admin/");
+            throw new moodle_exception('upgradetimedout', 'admin', "$CFG->wwwroot/$CFG->admin/");
         }
     }
 
@@ -328,13 +349,14 @@ function upgrade_set_timeout($max_execution_time=300) {
  * Please do not make large upgrade blocks with lots of operations,
  * for example when adding tables keep only one table operation per block.
  *
- * @category upgrade
  * @param bool $result false if upgrade step failed, true if completed
  * @param string or float $version main version
  * @param bool $allowabort allow user to abort script execution here
  * @return void
+ * @category upgrade
  */
-function upgrade_main_savepoint($result, $version, $allowabort=true) {
+function upgrade_main_savepoint($result, $version, $allowabort = true)
+{
     global $CFG;
 
     //sanity check to avoid confusion with upgrade_mod_savepoint usage.
@@ -371,13 +393,14 @@ function upgrade_main_savepoint($result, $version, $allowabort=true) {
  * It stores module version, resets upgrade timeout
  * and abort upgrade if user cancels page loading.
  *
- * @category upgrade
  * @param bool $result false if upgrade step failed, true if completed
  * @param string|float $version main version
  * @param string $modname name of module
  * @param bool $allowabort allow user to abort script execution here
+ * @category upgrade
  */
-function upgrade_mod_savepoint($result, $version, $modname, $allowabort=true) {
+function upgrade_mod_savepoint($result, $version, $modname, $allowabort = true)
+{
     upgrade_plugin_savepoint($result, $version, 'mod', $modname, $allowabort);
 }
 
@@ -386,13 +409,14 @@ function upgrade_mod_savepoint($result, $version, $modname, $allowabort=true) {
  * It stores block version, resets upgrade timeout
  * and abort upgrade if user cancels page loading.
  *
- * @category upgrade
  * @param bool $result false if upgrade step failed, true if completed
  * @param string|float $version main version
  * @param string $blockname name of block
  * @param bool $allowabort allow user to abort script execution here
+ * @category upgrade
  */
-function upgrade_block_savepoint($result, $version, $blockname, $allowabort=true) {
+function upgrade_block_savepoint($result, $version, $blockname, $allowabort = true)
+{
     upgrade_plugin_savepoint($result, $version, 'block', $blockname, $allowabort);
 }
 
@@ -401,17 +425,18 @@ function upgrade_block_savepoint($result, $version, $blockname, $allowabort=true
  * It stores plugin version, resets upgrade timeout
  * and abort upgrade if user cancels page loading.
  *
- * @category upgrade
  * @param bool $result false if upgrade step failed, true if completed
  * @param string|float $version main version
  * @param string $type The type of the plugin.
  * @param string $plugin The name of the plugin.
  * @param bool $allowabort allow user to abort script execution here
+ * @category upgrade
  */
-function upgrade_plugin_savepoint($result, $version, $type, $plugin, $allowabort=true) {
+function upgrade_plugin_savepoint($result, $version, $type, $plugin, $allowabort = true)
+{
     global $DB;
 
-    $component = $type.'_'.$plugin;
+    $component = $type . '_' . $plugin;
 
     if (!$result) {
         throw new upgrade_exception($component, $version);
@@ -422,7 +447,7 @@ function upgrade_plugin_savepoint($result, $version, $type, $plugin, $allowabort
         throw new moodle_exception('pluginnotexist', 'error', '', $component);
     }
 
-    $dbversion = $DB->get_field('config_plugins', 'value', array('plugin'=>$component, 'name'=>'version'));
+    $dbversion = $DB->get_field('config_plugins', 'value', array('plugin' => $component, 'name' => 'version'));
 
     if ($dbversion >= $version) {
         // Something really wrong is going on in the upgrade script
@@ -451,7 +476,8 @@ function upgrade_plugin_savepoint($result, $version, $type, $plugin, $allowabort
  *
  * @return bool true means borked upgrade, false means previous PHP files were properly removed
  */
-function upgrade_stale_php_files_present(): bool {
+function upgrade_stale_php_files_present(): bool
+{
     global $CFG;
 
     $someexamplesofremovedfiles = [
@@ -590,7 +616,7 @@ function upgrade_stale_php_files_present(): bool {
     ];
 
     foreach ($someexamplesofremovedfiles as $file) {
-        if (file_exists($CFG->dirroot.$file)) {
+        if (file_exists($CFG->dirroot . $file)) {
             return true;
         }
     }
@@ -607,7 +633,8 @@ function upgrade_stale_php_files_present(): bool {
  * @param bool $coreinstall Set to true if this is the core install
  */
 function upgrade_component_updated(string $component, string $messageplug = '',
-        bool $coreinstall = false): void {
+                                   bool   $coreinstall = false): void
+{
     if (!$coreinstall) {
         update_capabilities($component);
         core_upgrade_time::record_detail('update_capabilities');
@@ -643,7 +670,8 @@ function upgrade_component_updated(string $component, string $messageplug = '',
  * @param string $type The type of plugins that should be updated (e.g. 'enrol', 'qtype')
  * return void
  */
-function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
+function upgrade_plugins($type, $startcallback, $endcallback, $verbose)
+{
     global $CFG, $DB;
 
 /// special cases
@@ -655,24 +683,24 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
 
     $plugs = core_component::get_plugin_list($type);
 
-    foreach ($plugs as $plug=>$fullplug) {
+    foreach ($plugs as $plug => $fullplug) {
         // Reset time so that it works when installing a large number of plugins
         core_php_time_limit::raise(600);
-        $component = clean_param($type.'_'.$plug, PARAM_COMPONENT); // standardised plugin name
+        $component = clean_param($type . '_' . $plug, PARAM_COMPONENT); // standardised plugin name
 
         // check plugin dir is valid name
         if (empty($component)) {
-            throw new plugin_defective_exception($type.'_'.$plug, 'Invalid plugin directory name.');
+            throw new plugin_defective_exception($type . '_' . $plug, 'Invalid plugin directory name.');
         }
 
-        if (!is_readable($fullplug.'/version.php')) {
+        if (!is_readable($fullplug . '/version.php')) {
             continue;
         }
 
         $plugin = new stdClass();
         $plugin->version = null;
         $module = $plugin; // Prevent some notices when plugin placed in wrong directory.
-        require($fullplug.'/version.php');  // defines $plugin with version etc
+        require($fullplug . '/version.php');  // defines $plugin with version etc
         unset($module);
 
         if (empty($plugin->version)) {
@@ -687,7 +715,7 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
             throw new plugin_misplaced_exception($plugin->component, null, $fullplug);
         }
 
-        $plugin->name     = $plug;
+        $plugin->name = $plug;
         $plugin->fullname = $component;
 
         if (!empty($plugin->requires)) {
@@ -706,10 +734,10 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
         }
 
         // try to recover from interrupted install.php if needed
-        if (file_exists($fullplug.'/db/install.php')) {
+        if (file_exists($fullplug . '/db/install.php')) {
             if (get_config($plugin->fullname, 'installrunning')) {
-                require_once($fullplug.'/db/install.php');
-                $recover_install_function = 'xmldb_'.$plugin->fullname.'_install_recovery';
+                require_once($fullplug . '/db/install.php');
+                $recover_install_function = 'xmldb_' . $plugin->fullname . '_install_recovery';
                 if (function_exists($recover_install_function)) {
                     $startcallback($component, true, $verbose);
                     $recover_install_function();
@@ -720,54 +748,54 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
             }
         }
 
-        $installedversion = $DB->get_field('config_plugins', 'value', array('name'=>'version', 'plugin'=>$component)); // No caching!
+        $installedversion = $DB->get_field('config_plugins', 'value', array('name' => 'version', 'plugin' => $component)); // No caching!
         if (empty($installedversion)) { // new installation
             $startcallback($component, true, $verbose);
 
-        /// Install tables if defined
-            if (file_exists($fullplug.'/db/install.xml')) {
-                $DB->get_manager()->install_from_xmldb_file($fullplug.'/db/install.xml');
+            /// Install tables if defined
+            if (file_exists($fullplug . '/db/install.xml')) {
+                $DB->get_manager()->install_from_xmldb_file($fullplug . '/db/install.xml');
                 core_upgrade_time::record_detail('install.xml');
             }
 
-        /// store version
+            /// store version
             upgrade_plugin_savepoint(true, $plugin->version, $type, $plug, false);
 
-        /// execute post install file
-            if (file_exists($fullplug.'/db/install.php')) {
-                require_once($fullplug.'/db/install.php');
+            /// execute post install file
+            if (file_exists($fullplug . '/db/install.php')) {
+                require_once($fullplug . '/db/install.php');
                 set_config('installrunning', 1, $plugin->fullname);
-                $post_install_function = 'xmldb_'.$plugin->fullname.'_install';
+                $post_install_function = 'xmldb_' . $plugin->fullname . '_install';
                 $post_install_function();
                 unset_config('installrunning', $plugin->fullname);
                 core_upgrade_time::record_detail('install.php');
             }
 
-        /// Install various components
+            /// Install various components
             upgrade_component_updated($component, $type === 'message' ? $plug : '');
             $endcallback($component, true, $verbose);
 
         } else if ($installedversion < $plugin->version) { // upgrade
-        /// Run the upgrade function for the plugin.
+            /// Run the upgrade function for the plugin.
             $startcallback($component, false, $verbose);
 
-            if (is_readable($fullplug.'/db/upgrade.php')) {
-                require_once($fullplug.'/db/upgrade.php');  // defines upgrading function
+            if (is_readable($fullplug . '/db/upgrade.php')) {
+                require_once($fullplug . '/db/upgrade.php');  // defines upgrading function
 
-                $newupgrade_function = 'xmldb_'.$plugin->fullname.'_upgrade';
+                $newupgrade_function = 'xmldb_' . $plugin->fullname . '_upgrade';
                 $result = $newupgrade_function($installedversion);
                 core_upgrade_time::record_detail('upgrade.php');
             } else {
                 $result = true;
             }
 
-            $installedversion = $DB->get_field('config_plugins', 'value', array('name'=>'version', 'plugin'=>$component)); // No caching!
+            $installedversion = $DB->get_field('config_plugins', 'value', array('name' => 'version', 'plugin' => $component)); // No caching!
             if ($installedversion < $plugin->version) {
                 // store version if not already there
                 upgrade_plugin_savepoint($result, $plugin->version, $type, $plug, false);
             }
 
-        /// Upgrade various components
+            /// Upgrade various components
             upgrade_component_updated($component, $type === 'message' ? $plug : '');
             $endcallback($component, false, $verbose);
 
@@ -783,32 +811,33 @@ function upgrade_plugins($type, $startcallback, $endcallback, $verbose) {
  * @global object
  * @global object
  */
-function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
+function upgrade_plugins_modules($startcallback, $endcallback, $verbose)
+{
     global $CFG, $DB;
 
     $mods = core_component::get_plugin_list('mod');
 
-    foreach ($mods as $mod=>$fullmod) {
+    foreach ($mods as $mod => $fullmod) {
 
         if ($mod === 'NEWMODULE') {   // Someone has unzipped the template, ignore it
             continue;
         }
 
-        $component = clean_param('mod_'.$mod, PARAM_COMPONENT);
+        $component = clean_param('mod_' . $mod, PARAM_COMPONENT);
 
         // check module dir is valid name
         if (empty($component)) {
-            throw new plugin_defective_exception('mod_'.$mod, 'Invalid plugin directory name.');
+            throw new plugin_defective_exception('mod_' . $mod, 'Invalid plugin directory name.');
         }
 
-        if (!is_readable($fullmod.'/version.php')) {
+        if (!is_readable($fullmod . '/version.php')) {
             throw new plugin_defective_exception($component, 'Missing version.php');
         }
 
         $module = new stdClass();
         $plugin = new stdClass();
         $plugin->version = null;
-        require($fullmod .'/version.php');  // Defines $plugin with version etc.
+        require($fullmod . '/version.php');  // Defines $plugin with version etc.
 
         // Check if the legacy $module syntax is still used.
         if (!is_object($module) or (count((array)$module) > 0)) {
@@ -853,12 +882,12 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
 
         $module->name = $mod;   // The name MUST match the directory
 
-        $installedversion = $DB->get_field('config_plugins', 'value', array('name'=>'version', 'plugin'=>$component)); // No caching!
+        $installedversion = $DB->get_field('config_plugins', 'value', array('name' => 'version', 'plugin' => $component)); // No caching!
 
-        if (file_exists($fullmod.'/db/install.php')) {
+        if (file_exists($fullmod . '/db/install.php')) {
             if (get_config($module->name, 'installrunning')) {
-                require_once($fullmod.'/db/install.php');
-                $recover_install_function = 'xmldb_'.$module->name.'_install_recovery';
+                require_once($fullmod . '/db/install.php');
+                $recover_install_function = 'xmldb_' . $module->name . '_install_recovery';
                 if (function_exists($recover_install_function)) {
                     $startcallback($component, true, $verbose);
                     $recover_install_function();
@@ -873,46 +902,46 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
         if (empty($installedversion)) {
             $startcallback($component, true, $verbose);
 
-        /// Execute install.xml (XMLDB) - must be present in all modules
-            $DB->get_manager()->install_from_xmldb_file($fullmod.'/db/install.xml');
+            /// Execute install.xml (XMLDB) - must be present in all modules
+            $DB->get_manager()->install_from_xmldb_file($fullmod . '/db/install.xml');
             core_upgrade_time::record_detail('install.xml');
 
-        /// Add record into modules table - may be needed in install.php already
+            /// Add record into modules table - may be needed in install.php already
             $module->id = $DB->insert_record('modules', $module);
             core_upgrade_time::record_detail('insert_record');
             upgrade_mod_savepoint(true, $plugin->version, $module->name, false);
 
-        /// Post installation hook - optional
+            /// Post installation hook - optional
             if (file_exists("$fullmod/db/install.php")) {
                 require_once("$fullmod/db/install.php");
                 // Set installation running flag, we need to recover after exception or error
                 set_config('installrunning', 1, $module->name);
-                $post_install_function = 'xmldb_'.$module->name.'_install';
+                $post_install_function = 'xmldb_' . $module->name . '_install';
                 $post_install_function();
                 unset_config('installrunning', $module->name);
                 core_upgrade_time::record_detail('install.php');
             }
 
-        /// Install various components
+            /// Install various components
             upgrade_component_updated($component);
 
             $endcallback($component, true, $verbose);
 
         } else if ($installedversion < $plugin->version) {
-        /// If versions say that we need to upgrade but no upgrade files are available, notify and continue
+            /// If versions say that we need to upgrade but no upgrade files are available, notify and continue
             $startcallback($component, false, $verbose);
 
-            if (is_readable($fullmod.'/db/upgrade.php')) {
-                require_once($fullmod.'/db/upgrade.php');  // defines new upgrading function
-                $newupgrade_function = 'xmldb_'.$module->name.'_upgrade';
+            if (is_readable($fullmod . '/db/upgrade.php')) {
+                require_once($fullmod . '/db/upgrade.php');  // defines new upgrading function
+                $newupgrade_function = 'xmldb_' . $module->name . '_upgrade';
                 $result = $newupgrade_function($installedversion, $module);
                 core_upgrade_time::record_detail('upgrade.php');
             } else {
                 $result = true;
             }
 
-            $installedversion = $DB->get_field('config_plugins', 'value', array('name'=>'version', 'plugin'=>$component)); // No caching!
-            $currmodule = $DB->get_record('modules', array('name'=>$module->name));
+            $installedversion = $DB->get_field('config_plugins', 'value', array('name' => 'version', 'plugin' => $component)); // No caching!
+            $currmodule = $DB->get_record('modules', array('name' => $module->name));
             if ($installedversion < $plugin->version) {
                 // store version if not already there
                 upgrade_mod_savepoint($result, $plugin->version, $mod, false);
@@ -942,19 +971,20 @@ function upgrade_plugins_modules($startcallback, $endcallback, $verbose) {
  * @global object
  * @global object
  */
-function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
+function upgrade_plugins_blocks($startcallback, $endcallback, $verbose)
+{
     global $CFG, $DB;
 
-    require_once($CFG->dirroot.'/blocks/moodleblock.class.php');
+    require_once($CFG->dirroot . '/blocks/moodleblock.class.php');
 
-    $blocktitles   = array(); // we do not want duplicate titles
+    $blocktitles = array(); // we do not want duplicate titles
 
     //Is this a first install
     $first_install = null;
 
     $blocks = core_component::get_plugin_list('block');
 
-    foreach ($blocks as $blockname=>$fullblock) {
+    foreach ($blocks as $blockname => $fullblock) {
 
         if (is_null($first_install)) {
             $first_install = ($DB->count_records('block_instances') == 0);
@@ -964,21 +994,21 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
             continue;
         }
 
-        $component = clean_param('block_'.$blockname, PARAM_COMPONENT);
+        $component = clean_param('block_' . $blockname, PARAM_COMPONENT);
 
         // check block dir is valid name
         if (empty($component)) {
-            throw new plugin_defective_exception('block_'.$blockname, 'Invalid plugin directory name.');
+            throw new plugin_defective_exception('block_' . $blockname, 'Invalid plugin directory name.');
         }
 
-        if (!is_readable($fullblock.'/version.php')) {
-            throw new plugin_defective_exception('block/'.$blockname, 'Missing version.php file.');
+        if (!is_readable($fullblock . '/version.php')) {
+            throw new plugin_defective_exception('block/' . $blockname, 'Missing version.php file.');
         }
         $plugin = new stdClass();
         $plugin->version = null;
-        $plugin->cron    = 0;
+        $plugin->cron = 0;
         $module = $plugin; // Prevent some notices when module placed in wrong directory.
-        include($fullblock.'/version.php');
+        include($fullblock . '/version.php');
         unset($module);
         $block = clone($plugin);
         unset($block->version);
@@ -1006,37 +1036,37 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
             }
         }
 
-        if (!is_readable($fullblock.'/block_'.$blockname.'.php')) {
-            throw new plugin_defective_exception('block/'.$blockname, 'Missing main block class file.');
+        if (!is_readable($fullblock . '/block_' . $blockname . '.php')) {
+            throw new plugin_defective_exception('block/' . $blockname, 'Missing main block class file.');
         }
-        include_once($fullblock.'/block_'.$blockname.'.php');
+        include_once($fullblock . '/block_' . $blockname . '.php');
 
-        $classname = 'block_'.$blockname;
+        $classname = 'block_' . $blockname;
 
         if (!class_exists($classname)) {
             throw new plugin_defective_exception($component, 'Can not load main class.');
         }
 
-        $blockobj    = new $classname;   // This is what we'll be testing
-        $blocktitle  = $blockobj->get_title();
+        $blockobj = new $classname;   // This is what we'll be testing
+        $blocktitle = $blockobj->get_title();
 
         // OK, it's as we all hoped. For further tests, the object will do them itself.
         if (!$blockobj->_self_test()) {
             throw new plugin_defective_exception($component, 'Self test failed.');
         }
 
-        $block->name     = $blockname;   // The name MUST match the directory
+        $block->name = $blockname;   // The name MUST match the directory
 
-        $installedversion = $DB->get_field('config_plugins', 'value', array('name'=>'version', 'plugin'=>$component)); // No caching!
+        $installedversion = $DB->get_field('config_plugins', 'value', array('name' => 'version', 'plugin' => $component)); // No caching!
 
-        if (file_exists($fullblock.'/db/install.php')) {
-            if (get_config('block_'.$blockname, 'installrunning')) {
-                require_once($fullblock.'/db/install.php');
-                $recover_install_function = 'xmldb_block_'.$blockname.'_install_recovery';
+        if (file_exists($fullblock . '/db/install.php')) {
+            if (get_config('block_' . $blockname, 'installrunning')) {
+                require_once($fullblock . '/db/install.php');
+                $recover_install_function = 'xmldb_block_' . $blockname . '_install_recovery';
                 if (function_exists($recover_install_function)) {
                     $startcallback($component, true, $verbose);
                     $recover_install_function();
-                    unset_config('installrunning', 'block_'.$blockname);
+                    unset_config('installrunning', 'block_' . $blockname);
                     // Install various components
                     upgrade_component_updated($component);
                     $endcallback($component, true, $verbose);
@@ -1049,25 +1079,25 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
             if ($conflictblock !== false) {
                 // Duplicate block titles are not allowed, they confuse people
                 // AND PHP's associative arrays ;)
-                throw new plugin_defective_exception($component, get_string('blocknameconflict', 'error', (object)array('name'=>$block->name, 'conflict'=>$conflictblock)));
+                throw new plugin_defective_exception($component, get_string('blocknameconflict', 'error', (object)array('name' => $block->name, 'conflict' => $conflictblock)));
             }
             $startcallback($component, true, $verbose);
 
-            if (file_exists($fullblock.'/db/install.xml')) {
-                $DB->get_manager()->install_from_xmldb_file($fullblock.'/db/install.xml');
+            if (file_exists($fullblock . '/db/install.xml')) {
+                $DB->get_manager()->install_from_xmldb_file($fullblock . '/db/install.xml');
                 core_upgrade_time::record_detail('install.xml');
             }
             $block->id = $DB->insert_record('block', $block);
             core_upgrade_time::record_detail('insert_record');
             upgrade_block_savepoint(true, $plugin->version, $block->name, false);
 
-            if (file_exists($fullblock.'/db/install.php')) {
-                require_once($fullblock.'/db/install.php');
+            if (file_exists($fullblock . '/db/install.php')) {
+                require_once($fullblock . '/db/install.php');
                 // Set installation running flag, we need to recover after exception or error
-                set_config('installrunning', 1, 'block_'.$blockname);
-                $post_install_function = 'xmldb_block_'.$blockname.'_install';
+                set_config('installrunning', 1, 'block_' . $blockname);
+                $post_install_function = 'xmldb_block_' . $blockname . '_install';
                 $post_install_function();
-                unset_config('installrunning', 'block_'.$blockname);
+                unset_config('installrunning', 'block_' . $blockname);
                 core_upgrade_time::record_detail('install.php');
             }
 
@@ -1081,17 +1111,17 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
         } else if ($installedversion < $plugin->version) {
             $startcallback($component, false, $verbose);
 
-            if (is_readable($fullblock.'/db/upgrade.php')) {
-                require_once($fullblock.'/db/upgrade.php');  // defines new upgrading function
-                $newupgrade_function = 'xmldb_block_'.$blockname.'_upgrade';
+            if (is_readable($fullblock . '/db/upgrade.php')) {
+                require_once($fullblock . '/db/upgrade.php');  // defines new upgrading function
+                $newupgrade_function = 'xmldb_block_' . $blockname . '_upgrade';
                 $result = $newupgrade_function($installedversion, $block);
                 core_upgrade_time::record_detail('upgrade.php');
             } else {
                 $result = true;
             }
 
-            $installedversion = $DB->get_field('config_plugins', 'value', array('name'=>'version', 'plugin'=>$component)); // No caching!
-            $currblock = $DB->get_record('block', array('name'=>$block->name));
+            $installedversion = $DB->get_field('config_plugins', 'value', array('name' => 'version', 'plugin' => $component)); // No caching!
+            $currblock = $DB->get_record('block', array('name' => $block->name));
             if ($installedversion < $plugin->version) {
                 // store version if not already there
                 upgrade_block_savepoint($result, $plugin->version, $block->name, false);
@@ -1133,13 +1163,14 @@ function upgrade_plugins_blocks($startcallback, $endcallback, $verbose) {
  * @param string $component name of component (moodle, etc.)
  * @return void
  */
-function log_update_descriptions($component) {
+function log_update_descriptions($component)
+{
     global $DB;
 
-    $defpath = core_component::get_component_directory($component).'/db/log.php';
+    $defpath = core_component::get_component_directory($component) . '/db/log.php';
 
     if (!file_exists($defpath)) {
-        $DB->delete_records('log_display', array('component'=>$component));
+        $DB->delete_records('log_display', array('component' => $component));
         return;
     }
 
@@ -1148,19 +1179,19 @@ function log_update_descriptions($component) {
     include($defpath);
     $newlogs = array();
     foreach ($logs as $log) {
-        $newlogs[$log['module'].'-'.$log['action']] = $log; // kind of unique name
+        $newlogs[$log['module'] . '-' . $log['action']] = $log; // kind of unique name
     }
     unset($logs);
     $logs = $newlogs;
 
     $fields = array('module', 'action', 'mtable', 'field');
     // update all log fist
-    $dblogs = $DB->get_records('log_display', array('component'=>$component));
+    $dblogs = $DB->get_records('log_display', array('component' => $component));
     foreach ($dblogs as $dblog) {
-        $name = $dblog->module.'-'.$dblog->action;
+        $name = $dblog->module . '-' . $dblog->action;
 
         if (empty($logs[$name])) {
-            $DB->delete_records('log_display', array('id'=>$dblog->id));
+            $DB->delete_records('log_display', array('id' => $dblog->id));
             continue;
         }
 
@@ -1190,10 +1221,11 @@ function log_update_descriptions($component) {
  * @param string $component name of component (moodle, etc.)
  * @return void
  */
-function external_update_descriptions($component) {
+function external_update_descriptions($component)
+{
     global $DB, $CFG;
-    error_log("external_update_descriptions: ".$component);
-    $defpath = core_component::get_component_directory($component).'/db/services.php';
+    error_log("external_update_descriptions: " . $component);
+    $defpath = core_component::get_component_directory($component) . '/db/services.php';
 
     if (!file_exists($defpath)) {
         \core_external\util::delete_service_descriptions($component);
@@ -1206,10 +1238,10 @@ function external_update_descriptions($component) {
     include($defpath);
 
     // update all function fist
-    $dbfunctions = $DB->get_records('external_functions', array('component'=>$component));
+    $dbfunctions = $DB->get_records('external_functions', array('component' => $component));
     foreach ($dbfunctions as $dbfunction) {
         if (empty($functions[$dbfunction->name])) {
-            $DB->delete_records('external_functions', array('id'=>$dbfunction->id));
+            $DB->delete_records('external_functions', array('id' => $dbfunction->id));
             // do not delete functions from external_services_functions, beacuse
             // we want to notify admins when functions used in custom services disappear
 
@@ -1235,7 +1267,7 @@ function external_update_descriptions($component) {
             $dbfunction->classpath = $function['classpath'];
             $update = true;
         }
-        $functioncapabilities = array_key_exists('capabilities', $function)?$function['capabilities']:'';
+        $functioncapabilities = array_key_exists('capabilities', $function) ? $function['capabilities'] : '';
         if ($dbfunction->capabilities != $functioncapabilities) {
             $dbfunction->capabilities = $functioncapabilities;
             $update = true;
@@ -1257,7 +1289,7 @@ function external_update_descriptions($component) {
             foreach ($servicesremoved as $removedshortname) {
                 if ($externalserviceid = $DB->get_field('external_services', 'id', array("shortname" => $removedshortname))) {
                     $DB->delete_records('external_services_functions', array('functionname' => $dbfunction->name,
-                                                                                'externalserviceid' => $externalserviceid));
+                        'externalserviceid' => $externalserviceid));
                 }
             }
 
@@ -1270,12 +1302,12 @@ function external_update_descriptions($component) {
     }
     foreach ($functions as $fname => $function) {
         $dbfunction = new stdClass();
-        $dbfunction->name       = $fname;
-        $dbfunction->classname  = $function['classname'];
+        $dbfunction->name = $fname;
+        $dbfunction->classname = $function['classname'];
         $dbfunction->methodname = $function['methodname'] ?? 'execute';
-        $dbfunction->classpath  = empty($function['classpath']) ? null : $function['classpath'];
-        $dbfunction->component  = $component;
-        $dbfunction->capabilities = array_key_exists('capabilities', $function)?$function['capabilities']:'';
+        $dbfunction->classpath = empty($function['classpath']) ? null : $function['classpath'];
+        $dbfunction->component = $component;
+        $dbfunction->capabilities = array_key_exists('capabilities', $function) ? $function['capabilities'] : '';
 
         if (isset($function['services']) and is_array($function['services'])) {
             sort($function['services']);
@@ -1290,13 +1322,13 @@ function external_update_descriptions($component) {
     unset($functions);
 
     // now deal with services
-    $dbservices = $DB->get_records('external_services', array('component'=>$component));
+    $dbservices = $DB->get_records('external_services', array('component' => $component));
     foreach ($dbservices as $dbservice) {
         if (empty($services[$dbservice->name])) {
-            $DB->delete_records('external_tokens', array('externalserviceid'=>$dbservice->id));
-            $DB->delete_records('external_services_functions', array('externalserviceid'=>$dbservice->id));
-            $DB->delete_records('external_services_users', array('externalserviceid'=>$dbservice->id));
-            $DB->delete_records('external_services', array('id'=>$dbservice->id));
+            $DB->delete_records('external_tokens', array('externalserviceid' => $dbservice->id));
+            $DB->delete_records('external_services_functions', array('externalserviceid' => $dbservice->id));
+            $DB->delete_records('external_services_users', array('externalserviceid' => $dbservice->id));
+            $DB->delete_records('external_services', array('id' => $dbservice->id));
             continue;
         }
         $service = $services[$dbservice->name];
@@ -1327,14 +1359,14 @@ function external_update_descriptions($component) {
         }
         //if shortname is not a PARAM_ALPHANUMEXT, fail (tested here for service update and creation)
         if (isset($service['shortname']) and
-                (clean_param($service['shortname'], PARAM_ALPHANUMEXT) != $service['shortname'])) {
+            (clean_param($service['shortname'], PARAM_ALPHANUMEXT) != $service['shortname'])) {
             throw new moodle_exception('installserviceshortnameerror', 'webservice', '', $service['shortname']);
         }
         if ($dbservice->shortname != $service['shortname']) {
             //check that shortname is unique
             if (isset($service['shortname'])) { //we currently accepts multiple shortname == null
                 $existingservice = $DB->get_record('external_services',
-                        array('shortname' => $service['shortname']));
+                    array('shortname' => $service['shortname']));
                 if (!empty($existingservice)) {
                     throw new moodle_exception('installexistingserviceshortnameerror', 'webservice', '', $service['shortname']);
                 }
@@ -1346,11 +1378,11 @@ function external_update_descriptions($component) {
             $DB->update_record('external_services', $dbservice);
         }
 
-        $functions = $DB->get_records('external_services_functions', array('externalserviceid'=>$dbservice->id));
+        $functions = $DB->get_records('external_services_functions', array('externalserviceid' => $dbservice->id));
         foreach ($functions as $function) {
             $key = array_search($function->functionname, $service['functions']);
             if ($key === false) {
-                $DB->delete_records('external_services_functions', array('id'=>$function->id));
+                $DB->delete_records('external_services_functions', array('id' => $function->id));
             } else {
                 unset($service['functions'][$key]);
             }
@@ -1358,7 +1390,7 @@ function external_update_descriptions($component) {
         foreach ($service['functions'] as $fname) {
             $newf = new stdClass();
             $newf->externalserviceid = $dbservice->id;
-            $newf->functionname      = $fname;
+            $newf->functionname = $fname;
             $DB->insert_record('external_services_functions', $newf);
         }
         unset($functions);
@@ -1367,27 +1399,27 @@ function external_update_descriptions($component) {
         //check that shortname is unique
         if (isset($service['shortname'])) { //we currently accepts multiple shortname == null
             $existingservice = $DB->get_record('external_services',
-                    array('shortname' => $service['shortname']));
+                array('shortname' => $service['shortname']));
             if (!empty($existingservice)) {
                 throw new moodle_exception('installserviceshortnameerror', 'webservice');
             }
         }
 
         $dbservice = new stdClass();
-        $dbservice->name               = $name;
-        $dbservice->enabled            = empty($service['enabled']) ? 0 : $service['enabled'];
+        $dbservice->name = $name;
+        $dbservice->enabled = empty($service['enabled']) ? 0 : $service['enabled'];
         $dbservice->requiredcapability = empty($service['requiredcapability']) ? null : $service['requiredcapability'];
-        $dbservice->restrictedusers    = !isset($service['restrictedusers']) ? 1 : $service['restrictedusers'];
-        $dbservice->downloadfiles      = !isset($service['downloadfiles']) ? 0 : $service['downloadfiles'];
-        $dbservice->uploadfiles        = !isset($service['uploadfiles']) ? 0 : $service['uploadfiles'];
-        $dbservice->shortname          = !isset($service['shortname']) ? null : $service['shortname'];
-        $dbservice->component          = $component;
-        $dbservice->timecreated        = time();
+        $dbservice->restrictedusers = !isset($service['restrictedusers']) ? 1 : $service['restrictedusers'];
+        $dbservice->downloadfiles = !isset($service['downloadfiles']) ? 0 : $service['downloadfiles'];
+        $dbservice->uploadfiles = !isset($service['uploadfiles']) ? 0 : $service['uploadfiles'];
+        $dbservice->shortname = !isset($service['shortname']) ? null : $service['shortname'];
+        $dbservice->component = $component;
+        $dbservice->timecreated = time();
         $dbservice->id = $DB->insert_record('external_services', $dbservice);
         foreach ($service['functions'] as $fname) {
             $newf = new stdClass();
             $newf->externalserviceid = $dbservice->id;
-            $newf->functionname      = $fname;
+            $newf->functionname = $fname;
             $DB->insert_record('external_services_functions', $newf);
         }
     }
@@ -1397,7 +1429,8 @@ function external_update_descriptions($component) {
  * Allow plugins and subsystems to add external functions to other plugins or built-in services.
  * This function is executed just after all the plugins have been updated.
  */
-function external_update_services() {
+function external_update_services()
+{
     global $DB;
 
     // Look for external functions that want to be added in existing services.
@@ -1430,7 +1463,7 @@ function external_update_services() {
             // Finally add the function to the service.
             $newf = new stdClass();
             $newf->externalserviceid = $serviceid;
-            $newf->functionname      = $function->name;
+            $newf->functionname = $function->name;
 
             if (!$DB->record_exists('external_services_functions', (array)$newf)) {
                 $DB->insert_record('external_services_functions', $newf);
@@ -1442,7 +1475,8 @@ function external_update_services() {
 /**
  * upgrade logging functions
  */
-function upgrade_handle_exception($ex, $plugin = null) {
+function upgrade_handle_exception($ex, $plugin = null)
+{
     global $CFG;
 
     // rollback everything, we need to log all upgrade problems
@@ -1469,7 +1503,8 @@ function upgrade_handle_exception($ex, $plugin = null) {
  * @param string $backtrace string used for errors only
  * @return void
  */
-function upgrade_log($type, $plugin, $info, $details=null, $backtrace=null) {
+function upgrade_log($type, $plugin, $info, $details = null, $backtrace = null)
+{
     global $DB, $USER, $CFG;
 
     if (empty($plugin)) {
@@ -1482,7 +1517,7 @@ function upgrade_log($type, $plugin, $info, $details=null, $backtrace=null) {
     $backtrace = format_backtrace($backtrace, true);
 
     $currentversion = null;
-    $targetversion  = null;
+    $targetversion = null;
 
     //first try to find out current version number
     if ($plugintype === 'core') {
@@ -1509,15 +1544,15 @@ function upgrade_log($type, $plugin, $info, $details=null, $backtrace=null) {
     }
 
     $log = new stdClass();
-    $log->type          = $type;
-    $log->plugin        = $component;
-    $log->version       = $currentversion;
+    $log->type = $type;
+    $log->plugin = $component;
+    $log->version = $currentversion;
     $log->targetversion = $targetversion;
-    $log->info          = $info;
-    $log->details       = $details;
-    $log->backtrace     = $backtrace;
-    $log->userid        = $USER->id;
-    $log->timemodified  = time();
+    $log->info = $info;
+    $log->details = $details;
+    $log->backtrace = $backtrace;
+    $log->userid = $USER->id;
+    $log->timemodified = time();
     try {
         $DB->insert_record('upgrade_log', $log);
     } catch (Exception $ignored) {
@@ -1533,7 +1568,8 @@ function upgrade_log($type, $plugin, $info, $details=null, $backtrace=null) {
  * @global object
  * @global object
  */
-function upgrade_started($preinstall=false) {
+function upgrade_started($preinstall = false)
+{
     global $CFG, $DB, $PAGE, $OUTPUT;
 
     static $started = false;
@@ -1547,7 +1583,7 @@ function upgrade_started($preinstall=false) {
 
     } else {
         if (!CLI_SCRIPT and !$PAGE->headerprinted) {
-            $strupgrade  = get_string('upgradingversion', 'admin');
+            $strupgrade = get_string('upgradingversion', 'admin');
             $PAGE->set_pagelayout('maintenance');
             upgrade_init_javascript();
             $PAGE->set_title($strupgrade . moodle_page::TITLE_SEPARATOR . 'Moodle ' . $CFG->target_release);
@@ -1571,7 +1607,8 @@ function upgrade_started($preinstall=false) {
 /**
  * Internal function - executed if upgrade interrupted.
  */
-function upgrade_finished_handler() {
+function upgrade_finished_handler()
+{
     upgrade_finished();
 }
 
@@ -1583,7 +1620,8 @@ function upgrade_finished_handler() {
  * @global object
  * @global object
  */
-function upgrade_finished($continueurl=null) {
+function upgrade_finished($continueurl = null)
+{
     global $CFG, $DB, $OUTPUT;
 
     if (!empty($CFG->upgraderunning)) {
@@ -1608,7 +1646,8 @@ function upgrade_finished($continueurl=null) {
  * @global object
  * @global object
  */
-function upgrade_setup_debug($starting) {
+function upgrade_setup_debug($starting)
+{
     global $CFG, $DB;
 
     static $originaldebug = null;
@@ -1625,7 +1664,8 @@ function upgrade_setup_debug($starting) {
     }
 }
 
-function print_upgrade_separator() {
+function print_upgrade_separator()
+{
     if (!CLI_SCRIPT) {
         echo '<hr />';
     }
@@ -1636,7 +1676,8 @@ function print_upgrade_separator() {
  * @param string $plugin
  * @param bool $installation true if installation, false means upgrade
  */
-function print_upgrade_part_start($plugin, $installation, $verbose) {
+function print_upgrade_part_start($plugin, $installation, $verbose)
+{
     global $OUTPUT;
     if (empty($plugin) or $plugin == 'moodle') {
         upgrade_started($installation); // does not store upgrade running flag yet
@@ -1670,7 +1711,8 @@ function print_upgrade_part_start($plugin, $installation, $verbose) {
  * @param string $plugin
  * @param bool $installation true if installation, false means upgrade
  */
-function print_upgrade_part_end($plugin, $installation, $verbose) {
+function print_upgrade_part_end($plugin, $installation, $verbose)
+{
     global $OUTPUT;
     upgrade_started();
     if ($installation) {
@@ -1696,7 +1738,8 @@ function print_upgrade_part_end($plugin, $installation, $verbose) {
  * Sets up JS code required for all upgrade scripts.
  * @global object
  */
-function upgrade_init_javascript() {
+function upgrade_init_javascript()
+{
     global $PAGE;
     // scroll to the end of each upgrade page so that ppl see either error or continue button,
     // no need to scroll continuously any more, it is enough to jump to end once the footer is printed ;-)
@@ -1709,7 +1752,8 @@ function upgrade_init_javascript() {
  *
  * @param string $lang the code of the language to update, defaults to the current language
  */
-function upgrade_language_pack($lang = null) {
+function upgrade_language_pack($lang = null)
+{
     global $CFG;
 
     if (!empty($CFG->skiplangupgrade)) {
@@ -1749,7 +1793,8 @@ function upgrade_language_pack($lang = null) {
  * Build the current theme so that the user doesn't have to wait for it
  * to build on the first page load after the install / upgrade.
  */
-function upgrade_themes() {
+function upgrade_themes()
+{
     global $CFG;
 
     require_once("{$CFG->libdir}/outputlib.php");
@@ -1776,24 +1821,25 @@ function upgrade_themes() {
  * @param bool $verbose
  * @return void, may throw exception
  */
-function install_core($version, $verbose) {
+function install_core($version, $verbose)
+{
     global $CFG, $DB;
 
     // We can not call purge_all_caches() yet, make sure the temp and cache dirs exist and are empty.
-    remove_dir($CFG->cachedir.'', true);
+    remove_dir($CFG->cachedir . '', true);
     make_cache_directory('', true);
 
-    remove_dir($CFG->localcachedir.'', true);
+    remove_dir($CFG->localcachedir . '', true);
     make_localcache_directory('', true);
 
-    remove_dir($CFG->tempdir.'', true);
+    remove_dir($CFG->tempdir . '', true);
     make_temp_directory('', true);
 
-    remove_dir($CFG->backuptempdir.'', true);
+    remove_dir($CFG->backuptempdir . '', true);
     make_backup_temp_directory('', true);
 
-    remove_dir($CFG->dataroot.'/muc', true);
-    make_writable_directory($CFG->dataroot.'/muc', true);
+    remove_dir($CFG->dataroot . '/muc', true);
+    make_writable_directory($CFG->dataroot . '/muc', true);
 
     try {
         core_php_time_limit::raise(600);
@@ -1839,12 +1885,13 @@ function install_core($version, $verbose) {
  * @param bool $verbose
  * @return void, may throw exception
  */
-function upgrade_core($version, $verbose) {
+function upgrade_core($version, $verbose)
+{
     global $CFG, $SITE, $DB, $COURSE;
 
     raise_memory_limit(MEMORY_EXTRA);
 
-    require_once($CFG->libdir.'/db/upgrade.php');    // Defines upgrades
+    require_once($CFG->libdir . '/db/upgrade.php');    // Defines upgrades
 
     try {
         // If we are in maintenance, we can purge all our caches here.
@@ -1918,7 +1965,8 @@ function upgrade_core($version, $verbose) {
  * @param bool $verbose
  * @return void, may throw exception
  */
-function upgrade_noncore($verbose) {
+function upgrade_noncore($verbose)
+{
     global $CFG, $OUTPUT;
 
     raise_memory_limit(MEMORY_EXTRA);
@@ -1933,7 +1981,7 @@ function upgrade_noncore($verbose) {
 
         $plugintypes = core_component::get_plugin_types();
         upgrade_started();
-        foreach ($plugintypes as $type=>$location) {
+        foreach ($plugintypes as $type => $location) {
             upgrade_plugins($type, 'print_upgrade_part_start', 'print_upgrade_part_end', $verbose);
         }
         if ($CFG->debugdeveloper) {
@@ -1986,10 +2034,11 @@ function upgrade_noncore($verbose) {
  *
  * @return bool
  */
-function core_tables_exist() {
+function core_tables_exist()
+{
     global $DB;
 
-    if (!$tables = $DB->get_tables(false) ) {    // No tables yet at all.
+    if (!$tables = $DB->get_tables(false)) {    // No tables yet at all.
         return false;
 
     } else {                                 // Check for missing main tables
@@ -2009,7 +2058,8 @@ function core_tables_exist() {
  *
  * @param string $component the plugin to upgrade, eg auth_mnet
  */
-function upgrade_plugin_mnet_functions($component) {
+function upgrade_plugin_mnet_functions($component)
+{
     global $DB, $CFG;
 
     list($type, $plugin) = core_component::normalize_component($component);
@@ -2032,9 +2082,9 @@ function upgrade_plugin_mnet_functions($component) {
     // rekey an array based on the rpc method for easy lookups later
     $publishmethodservices = array();
     $subscribemethodservices = array();
-    foreach($publishes as $servicename => $service) {
+    foreach ($publishes as $servicename => $service) {
         if (is_array($service['methods'])) {
-            foreach($service['methods'] as $methodname) {
+            foreach ($service['methods'] as $methodname) {
                 $service['servicename'] = $servicename;
                 $publishmethodservices[$methodname][] = $service;
             }
@@ -2043,7 +2093,7 @@ function upgrade_plugin_mnet_functions($component) {
 
     // Disable functions that don't exist (any more) in the source
     // Should these be deleted? What about their permissions records?
-    foreach ($DB->get_records('mnet_rpc', array('pluginname'=>$plugin, 'plugintype'=>$type), 'functionname ASC ') as $rpc) {
+    foreach ($DB->get_records('mnet_rpc', array('pluginname' => $plugin, 'plugintype' => $type), 'functionname ASC ') as $rpc) {
         if (!array_key_exists($rpc->functionname, $publishmethodservices) && $rpc->enabled) {
             $DB->set_field('mnet_rpc', 'enabled', 0, array('id' => $rpc->id));
         } else if (array_key_exists($rpc->functionname, $publishmethodservices) && !$rpc->enabled) {
@@ -2058,21 +2108,21 @@ function upgrade_plugin_mnet_functions($component) {
         $c = $data['classname'];
         foreach ($data['methods'] as $method) {
             $dataobject = new stdClass();
-            $dataobject->plugintype  = $type;
-            $dataobject->pluginname  = $plugin;
-            $dataobject->enabled     = 1;
-            $dataobject->classname   = $c;
-            $dataobject->filename    = $f;
+            $dataobject->plugintype = $type;
+            $dataobject->pluginname = $plugin;
+            $dataobject->enabled = 1;
+            $dataobject->classname = $c;
+            $dataobject->filename = $f;
 
             if (is_string($method)) {
                 $dataobject->functionname = $method;
 
             } else if (is_array($method)) { // wants to override file or class
                 $dataobject->functionname = $method['method'];
-                $dataobject->classname     = $method['classname'];
-                $dataobject->filename      = $method['filename'];
+                $dataobject->classname = $method['classname'];
+                $dataobject->filename = $method['filename'];
             }
-            $dataobject->xmlrpcpath = $type.'/'.$plugin.'/'.$dataobject->filename.'/'.$method;
+            $dataobject->xmlrpcpath = $type . '/' . $plugin . '/' . $dataobject->filename . '/' . $method;
             $dataobject->static = false;
 
             require_once($path . '/' . $dataobject->filename);
@@ -2105,11 +2155,11 @@ function upgrade_plugin_mnet_functions($component) {
                     throw new moodle_exception('installreflectionfunctionerror', 'mnet', '', (object)array('method' => $dataobject->functionname, '' => $dataobject->filename, 'error' => $e->getMessage()));
                 }
             }
-            $dataobject->profile =  serialize(admin_mnet_method_profile($functionreflect));
+            $dataobject->profile = serialize(admin_mnet_method_profile($functionreflect));
             $dataobject->help = admin_mnet_method_get_help($functionreflect);
 
-            if ($record_exists = $DB->get_record('mnet_rpc', array('xmlrpcpath'=>$dataobject->xmlrpcpath))) {
-                $dataobject->id      = $record_exists->id;
+            if ($record_exists = $DB->get_record('mnet_rpc', array('xmlrpcpath' => $dataobject->xmlrpcpath))) {
+                $dataobject->id = $record_exists->id;
                 $dataobject->enabled = $record_exists->enabled;
                 $DB->update_record('mnet_rpc', $dataobject);
             } else {
@@ -2119,19 +2169,19 @@ function upgrade_plugin_mnet_functions($component) {
             // TODO this API versioning must be reworked, here the recently processed method
             // sets the service API which may not be correct
             foreach ($publishmethodservices[$dataobject->functionname] as $service) {
-                if ($serviceobj = $DB->get_record('mnet_service', array('name'=>$service['servicename']))) {
+                if ($serviceobj = $DB->get_record('mnet_service', array('name' => $service['servicename']))) {
                     $serviceobj->apiversion = $service['apiversion'];
                     $DB->update_record('mnet_service', $serviceobj);
                 } else {
                     $serviceobj = new stdClass();
-                    $serviceobj->name        = $service['servicename'];
+                    $serviceobj->name = $service['servicename'];
                     $serviceobj->description = empty($service['description']) ? '' : $service['description'];
-                    $serviceobj->apiversion  = $service['apiversion'];
-                    $serviceobj->offer       = 1;
-                    $serviceobj->id          = $DB->insert_record('mnet_service', $serviceobj);
+                    $serviceobj->apiversion = $service['apiversion'];
+                    $serviceobj->offer = 1;
+                    $serviceobj->id = $DB->insert_record('mnet_service', $serviceobj);
                 }
                 $servicecache[$service['servicename']] = $serviceobj;
-                if (!$DB->record_exists('mnet_service2rpc', array('rpcid'=>$dataobject->id, 'serviceid'=>$serviceobj->id))) {
+                if (!$DB->record_exists('mnet_service2rpc', array('rpcid' => $dataobject->id, 'serviceid' => $serviceobj->id))) {
                     $obj = new stdClass();
                     $obj->rpcid = $dataobject->id;
                     $obj->serviceid = $serviceobj->id;
@@ -2141,9 +2191,9 @@ function upgrade_plugin_mnet_functions($component) {
         }
     }
     // finished with methods we publish, now do subscribable methods
-    foreach($subscribes as $service => $methods) {
+    foreach ($subscribes as $service => $methods) {
         if (!array_key_exists($service, $servicecache)) {
-            if (!$serviceobj = $DB->get_record('mnet_service', array('name' =>  $service))) {
+            if (!$serviceobj = $DB->get_record('mnet_service', array('name' => $service))) {
                 debugging("TODO: skipping unknown service $service - somebody needs to fix MDL-21993");
                 continue;
             }
@@ -2152,17 +2202,17 @@ function upgrade_plugin_mnet_functions($component) {
             $serviceobj = $servicecache[$service];
         }
         foreach ($methods as $method => $xmlrpcpath) {
-            if (!$rpcid = $DB->get_field('mnet_remote_rpc', 'id', array('xmlrpcpath'=>$xmlrpcpath))) {
+            if (!$rpcid = $DB->get_field('mnet_remote_rpc', 'id', array('xmlrpcpath' => $xmlrpcpath))) {
                 $remoterpc = (object)array(
                     'functionname' => $method,
                     'xmlrpcpath' => $xmlrpcpath,
                     'plugintype' => $type,
                     'pluginname' => $plugin,
-                    'enabled'    => 1,
+                    'enabled' => 1,
                 );
                 $rpcid = $remoterpc->id = $DB->insert_record('mnet_remote_rpc', $remoterpc, true);
             }
-            if (!$DB->record_exists('mnet_remote_service2rpc', array('rpcid'=>$rpcid, 'serviceid'=>$serviceobj->id))) {
+            if (!$DB->record_exists('mnet_remote_service2rpc', array('rpcid' => $rpcid, 'serviceid' => $serviceobj->id))) {
                 $obj = new stdClass();
                 $obj->rpcid = $rpcid;
                 $obj->serviceid = $serviceobj->id;
@@ -2172,7 +2222,7 @@ function upgrade_plugin_mnet_functions($component) {
         }
     }
 
-    foreach ($DB->get_records('mnet_remote_rpc', array('pluginname'=>$plugin, 'plugintype'=>$type), 'functionname ASC ') as $rpc) {
+    foreach ($DB->get_records('mnet_remote_rpc', array('pluginname' => $plugin, 'plugintype' => $type), 'functionname ASC ') as $rpc) {
         if (!array_key_exists($rpc->functionname, $subscribemethodservices) && $rpc->enabled) {
             $DB->set_field('mnet_remote_rpc', 'enabled', 0, array('id' => $rpc->id));
         } else if (array_key_exists($rpc->functionname, $subscribemethodservices) && !$rpc->enabled) {
@@ -2190,16 +2240,17 @@ function upgrade_plugin_mnet_functions($component) {
  *
  * @return array associative array with function/method information
  */
-function admin_mnet_method_profile(ReflectionFunctionAbstract $function) {
+function admin_mnet_method_profile(ReflectionFunctionAbstract $function)
+{
     $commentlines = admin_mnet_method_get_docblock($function);
-    $getkey = function($key) use ($commentlines) {
-        return array_values(array_filter($commentlines, function($line) use ($key) {
+    $getkey = function ($key) use ($commentlines) {
+        return array_values(array_filter($commentlines, function ($line) use ($key) {
             return $line[0] == $key;
         }));
     };
     $returnline = $getkey('@return');
-    return array (
-        'parameters' => array_map(function($line) {
+    return array(
+        'parameters' => array_map(function ($line) {
             return array(
                 'name' => trim($line[2], " \t\n\r\0\x0B$"),
                 'type' => $line[1],
@@ -2222,8 +2273,9 @@ function admin_mnet_method_profile(ReflectionFunctionAbstract $function) {
  *
  * @return array docblock converted in to an array
  */
-function admin_mnet_method_get_docblock(ReflectionFunctionAbstract $function) {
-    return array_map(function($line) {
+function admin_mnet_method_get_docblock(ReflectionFunctionAbstract $function)
+{
+    return array_map(function ($line) {
         $text = trim($line, " \t\n\r\0\x0B*/");
         if (strpos($text, '@param') === 0) {
             return preg_split('/\s+/', $text, 4);
@@ -2244,10 +2296,11 @@ function admin_mnet_method_get_docblock(ReflectionFunctionAbstract $function) {
  *
  * @return string docblock help text
  */
-function admin_mnet_method_get_help(ReflectionFunctionAbstract $function) {
-    $helplines = array_map(function($line) {
+function admin_mnet_method_get_help(ReflectionFunctionAbstract $function)
+{
+    $helplines = array_map(function ($line) {
         return implode(' ', $line);
-    }, array_values(array_filter(admin_mnet_method_get_docblock($function), function($line) {
+    }, array_values(array_filter(admin_mnet_method_get_docblock($function), function ($line) {
         return strpos($line[0], '@') !== 0 && !empty($line[0]);
     })));
 
@@ -2260,7 +2313,8 @@ function admin_mnet_method_get_help(ReflectionFunctionAbstract $function) {
  * @param environment_results $result object to update, if relevant
  * @return environment_results|null updated results object, or null if the storage engine is supported
  */
-function check_database_storage_engine(environment_results $result) {
+function check_database_storage_engine(environment_results $result)
+{
     global $DB;
 
     // Check if MySQL is the DB family (this will also be the same for MariaDB).
@@ -2284,7 +2338,8 @@ function check_database_storage_engine(environment_results $result) {
  * @param environment_results $result object to update, if relevant.
  * @return environment_results|null updated results or null if slasharguments is disabled.
  */
-function check_slasharguments(environment_results $result){
+function check_slasharguments(environment_results $result)
+{
     global $CFG;
 
     if (!during_initial_install() && empty($CFG->slasharguments)) {
@@ -2302,7 +2357,8 @@ function check_slasharguments(environment_results $result){
  * @param environment_results $result
  * @return environment_results|null updated results object, or null if no Antelope table has been found.
  */
-function check_database_tables_row_format(environment_results $result) {
+function check_database_tables_row_format(environment_results $result)
+{
     global $DB;
 
     if ($DB->get_dbfamily() == 'mysql') {
@@ -2334,7 +2390,8 @@ function check_database_tables_row_format(environment_results $result) {
  * @param environment_results $result
  * @return environment_results|null updated results object, or null if no Antelope table has been found.
  */
-function check_mysql_file_format(environment_results $result) {
+function check_mysql_file_format(environment_results $result)
+{
     global $DB;
 
     if ($DB->get_dbfamily() == 'mysql') {
@@ -2359,7 +2416,8 @@ function check_mysql_file_format(environment_results $result) {
  * @param environment_results $result
  * @return environment_results|null updated results object, or null if innodb_file_per_table = 1.
  */
-function check_mysql_file_per_table(environment_results $result) {
+function check_mysql_file_per_table(environment_results $result)
+{
     global $DB;
 
     if ($DB->get_dbfamily() == 'mysql') {
@@ -2384,7 +2442,8 @@ function check_mysql_file_per_table(environment_results $result) {
  * @param environment_results $result
  * @return environment_results|null updated results object, or null if innodb_large_prefix = 1.
  */
-function check_mysql_large_prefix(environment_results $result) {
+function check_mysql_large_prefix(environment_results $result)
+{
     global $DB;
 
     if ($DB->get_dbfamily() == 'mysql') {
@@ -2406,10 +2465,11 @@ function check_mysql_large_prefix(environment_results $result) {
 /**
  * This function checks the database to see if it is using incomplete unicode support.
  *
- * @param  environment_results $result $result
+ * @param environment_results $result $result
  * @return environment_results|null updated results object, or null if unicode is fully supported.
  */
-function check_mysql_incomplete_unicode_support(environment_results $result) {
+function check_mysql_incomplete_unicode_support(environment_results $result)
+{
     global $DB;
 
     if ($DB->get_dbfamily() == 'mysql') {
@@ -2432,10 +2492,11 @@ function check_mysql_incomplete_unicode_support(environment_results $result) {
  * Note this does not really perform any request neither looks for proxies or
  * other situations. Just looks to wwwroot and warn if it's not using https.
  *
- * @param  environment_results $result $result
+ * @param environment_results $result $result
  * @return environment_results|null updated results object, or null if the site is https.
  */
-function check_is_https(environment_results $result) {
+function check_is_https(environment_results $result)
+{
     global $CFG;
 
     // Only if is defined, non-empty and whatever core tell us.
@@ -2450,15 +2511,16 @@ function check_is_https(environment_results $result) {
 /**
  * Check if the site is using 64 bits PHP.
  *
- * @param  environment_results $result
+ * @param environment_results $result
  * @return environment_results|null updated results object, or null if the site is using 64 bits PHP.
  */
-function check_sixtyfour_bits(environment_results $result) {
+function check_sixtyfour_bits(environment_results $result)
+{
 
     if (PHP_INT_SIZE === 4) {
-         $result->setInfo('php not 64 bits');
-         $result->setStatus(false);
-         return $result;
+        $result->setInfo('php not 64 bits');
+        $result->setStatus(false);
+        return $result;
     }
     return null;
 }
@@ -2482,7 +2544,8 @@ function check_sixtyfour_bits(environment_results $result) {
  * @param environment_results $result object to update, if relevant.
  * @return environment_results|null updated results or null.
  */
-function check_igbinary322_version(environment_results $result) {
+function check_igbinary322_version(environment_results $result)
+{
 
     // No problem if using PHP version 7.3 and up.
     $phpversion = normalize_version(phpversion());
@@ -2522,10 +2585,11 @@ function check_igbinary322_version(environment_results $result) {
  * @param environment_results $result
  * @return environment_results|null updated results object, or null if the prefix check is passing ok.
  */
-function check_db_prefix_length(environment_results $result) {
+function check_db_prefix_length(environment_results $result)
+{
     global $CFG;
 
-    require_once($CFG->libdir.'/ddllib.php');
+    require_once($CFG->libdir . '/ddllib.php');
     $prefixlen = strlen($CFG->prefix) ?? 0;
     if ($prefixlen > xmldb_table::PREFIX_MAX_LENGTH) {
         $parameters = (object)['current' => $prefixlen, 'maximum' => xmldb_table::PREFIX_MAX_LENGTH];
@@ -2548,7 +2612,8 @@ function check_db_prefix_length(environment_results $result) {
  *
  * @param string|null $upgradekeyhash the SHA-1 of the value provided by the user
  */
-function check_upgrade_key($upgradekeyhash) {
+function check_upgrade_key($upgradekeyhash)
+{
     global $CFG, $PAGE;
 
     if (isset($CFG->config_php_settings['upgradekey'])) {
@@ -2580,7 +2645,8 @@ function check_upgrade_key($upgradekeyhash) {
  * @param moodle_url|string|null $continue URL to proceed with installation at the validation screen
  * @param moodle_url|string|null $return URL to go back on cancelling at the validation screen
  */
-function upgrade_install_plugins(array $installable, $confirmed, $heading='', $continue=null, $return=null) {
+function upgrade_install_plugins(array $installable, $confirmed, $heading = '', $continue = null, $return = null)
+{
     global $CFG, $PAGE;
 
     if (empty($return)) {
@@ -2632,13 +2698,15 @@ function upgrade_install_plugins(array $installable, $confirmed, $heading='', $c
         die();
     }
 }
+
 /**
  * Method used to check the installed unoconv version.
  *
  * @param environment_results $result object to update, if relevant.
  * @return environment_results|null updated results or null if unoconv path is not executable.
  */
-function check_unoconv_version(environment_results $result) {
+function check_unoconv_version(environment_results $result)
+{
     global $CFG;
 
     if (!during_initial_install() && !empty($CFG->pathtounoconv) && file_is_executable(trim($CFG->pathtounoconv))) {
@@ -2672,7 +2740,8 @@ function check_unoconv_version(environment_results $result) {
  * @param environment_results $result object to update, if relevant.
  * @return environment_results|null updated results or null if unoconv path is not executable.
  */
-function check_tls_libraries(environment_results $result) {
+function check_tls_libraries(environment_results $result)
+{
     global $CFG;
 
     if (!function_exists('curl_version')) {
@@ -2702,7 +2771,8 @@ function check_tls_libraries(environment_results $result) {
  * @param environment_results $result object to update, if relevant.
  * @return environment_results|null updated results or null.
  */
-function check_libcurl_version(environment_results $result) {
+function check_libcurl_version(environment_results $result)
+{
 
     if (!function_exists('curl_version')) {
         $result->setInfo('cURL PHP extension is not installed');
@@ -2737,7 +2807,8 @@ function check_libcurl_version(environment_results $result) {
  * @param environment_results $result
  * @return environment_results|null
  */
-function check_max_input_vars(environment_results $result) {
+function check_max_input_vars(environment_results $result)
+{
     $max = (int)ini_get('max_input_vars');
     if ($max < 5000) {
         $result->setInfo('max_input_vars');
@@ -2763,7 +2834,8 @@ function check_max_input_vars(environment_results $result) {
  * @param environment_results $result
  * @return null|environment_results
  */
-function check_admin_dir_usage(environment_results $result): ?environment_results {
+function check_admin_dir_usage(environment_results $result): ?environment_results
+{
     global $CFG;
 
     if (empty($CFG->admin)) {
@@ -2790,7 +2862,8 @@ function check_admin_dir_usage(environment_results $result): ?environment_result
  * @param environment_results $result
  * @return null|environment_results
  */
-function check_xmlrpc_usage(environment_results $result): ?environment_results {
+function check_xmlrpc_usage(environment_results $result): ?environment_results
+{
     global $CFG;
 
     // Checking Web Service protocols.
@@ -2812,7 +2885,8 @@ function check_xmlrpc_usage(environment_results $result): ?environment_results {
  * @param environment_results $result
  * @return environment_results|null
  */
-function check_mod_assignment(environment_results $result): ?environment_results {
+function check_mod_assignment(environment_results $result): ?environment_results
+{
     global $CFG, $DB;
 
     if (!file_exists("{$CFG->dirroot}/mod/assignment/version.php")) {
@@ -2844,7 +2918,8 @@ function check_mod_assignment(environment_results $result): ?environment_results
  *
  * @see https://tracker.moodle.org/browse/MDL-80166 for further information.
  */
-function check_oracle_usage(environment_results $result): ?environment_results {
+function check_oracle_usage(environment_results $result): ?environment_results
+{
     global $CFG;
 
     // Checking database type.
@@ -2863,7 +2938,8 @@ function check_oracle_usage(environment_results $result): ?environment_results {
  * @param environment_results $result
  * @return environment_results|null
  */
-function check_async_backup(environment_results $result): ?environment_results {
+function check_async_backup(environment_results $result): ?environment_results
+{
     global $CFG;
 
     if (!during_initial_install() && empty($CFG->enableasyncbackup)) { // Have to use $CFG as config table may not be available.
@@ -2883,7 +2959,8 @@ function check_async_backup(environment_results $result): ?environment_results {
  * @param environment_results $result The environment results object to update.
  * @return environment_results|null The updated environment results object if Aurora is detected, or null otherwise.
  */
-function check_aurora_version(environment_results $result): ?environment_results {
+function check_aurora_version(environment_results $result): ?environment_results
+{
     global $CFG;
 
     if ($CFG->dbtype === 'auroramysql') {
